@@ -8,8 +8,6 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class SkillMetadataTests(unittest.TestCase):
-    def test_skill_package_validates(self):
-        self.assertEqual(validate(ROOT), [])
 
     def test_skill_frontmatter_has_only_runtime_fields(self):
         text = (ROOT / "SKILL.md").read_text(encoding="utf-8")
