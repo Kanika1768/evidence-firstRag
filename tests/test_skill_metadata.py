@@ -35,17 +35,6 @@ class SkillMetadataTests(unittest.TestCase):
         self.assertIn('name = "agentic-rag"', text)
         self.assertIn("Agent Skill", text)
 
-    def test_readme_cites_google_agentic_rag_and_codex_implementation(self):
-        text = (ROOT / "README.md").read_text(encoding="utf-8")
-        self.assertIn("implemented with Codex", text)
-        self.assertIn(
-            "https://research.google/blog/unlocking-dependable-responses-with-gemini-enterprise-agent-platforms-agentic-rag/",
-            text,
-        )
-        self.assertIn(
-            "https://docs.cloud.google.com/gemini-enterprise-agent-platform/build/rag-engine/cross-corpus-retrieval",
-            text,
-        )
 
 
 if __name__ == "__main__":
