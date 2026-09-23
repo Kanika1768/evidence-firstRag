@@ -191,8 +191,6 @@ Official paper repository:
 This project implements the sufficient-context principle from the paper
 and extends the workflow with adaptive recovery, evidence provenance,
 grounded answering, and an interactive document interface.
-The system was implemented with Codex and adapted into the EvidenceFirst RAG project.
-
 It is **not intended to be an exact reproduction of the paper's complete
 experimental setup**.
 
@@ -206,9 +204,4 @@ Run:
 ``` bash
 python -m pytest -q
 ```
-
-## License
-
-MIT
-
 
