@@ -1,0 +1,118 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Agentic RAG</title>
+  <desc id="desc">Iterative retrieval with sufficiency checks, missing-fact feedback, and claim-level citations.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fbfcfe"/>
+      <stop offset="1" stop-color="#eef3f7"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#0f172a" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+  <style>
+    .title{font:700 54px Arial,Helvetica,sans-serif;fill:#111827}
+    .subtitle{font:400 25px Arial,Helvetica,sans-serif;fill:#334155}
+    .chip{font:700 17px Arial,Helvetica,sans-serif;fill:#0f766e}
+    .metric-value{font:700 36px Arial,Helvetica,sans-serif;fill:#111827}
+    .metric-label{font:600 15px Arial,Helvetica,sans-serif;fill:#64748b;text-transform:uppercase}
+    .pipeline-label{font:700 16px Arial,Helvetica,sans-serif;fill:#1f2937}
+    .footer{font:600 15px Arial,Helvetica,sans-serif;fill:#64748b}
+  </style>
+  <rect width="1200" height="630" rx="0" fill="url(#bg)"/>
+  <rect x="52" y="52" width="1096" height="526" rx="22" fill="#ffffff" stroke="#d8e1ea" filter="url(#shadow)"/>
+  <rect x="52" y="52" width="10" height="526" fill="#0f766e"/>
+  <g transform="translate(92 98)">
+  <text x="0" y="0" class="title">Agentic RAG</text>
+  <text x="0" y="74" class="subtitle">Iterative retrieval with sufficiency checks, missing-fact feedback, and</text>
+  <text x="0" y="106" class="subtitle">claim-level citations.</text>
+  </g>
+  <g class="teaser-chips">    <g class="chip-badge" transform="translate(92 248)">
+      <rect width="140" height="34" rx="17" fill="#0f766e" opacity="0.1"/>
+      <text x="18" y="23" class="chip">RAG</text>
+    </g>
+    <g class="chip-badge" transform="translate(242 248)">
+      <rect width="140" height="34" rx="17" fill="#0f766e" opacity="0.1"/>
+      <text x="18" y="23" class="chip">sufficiency</text>
+    </g>
+    <g class="chip-badge" transform="translate(412 248)">
+      <rect width="140" height="34" rx="17" fill="#0f766e" opacity="0.1"/>
+      <text x="18" y="23" class="chip">citations</text>
+    </g>
+    <g class="chip-badge" transform="translate(582 248)">
+      <rect width="140" height="34" rx="17" fill="#0f766e" opacity="0.1"/>
+      <text x="18" y="23" class="chip">deterministic t...</text>
+    </g></g>
+  <g class="teaser-metrics">    <g class="metric-card" transform="translate(92 308)">
+      <rect width="238" height="96" rx="14" fill="#f8fafc" stroke="#d8e1ea"/>
+      <rect width="5" height="96" rx="2.5" fill="#0f766e"/>
+      <text x="22" y="42" class="metric-value">0.5</text>
+      <text x="22" y="70" class="metric-label">One-shot fetch</text>
+    </g>
+    <g class="metric-card" transform="translate(356 308)">
+      <rect width="238" height="96" rx="14" fill="#f8fafc" stroke="#d8e1ea"/>
+      <rect width="5" height="96" rx="2.5" fill="#0f766e"/>
+      <text x="22" y="42" class="metric-value">1.0</text>
+      <text x="22" y="70" class="metric-label">Iterative fetch</text>
+    </g>
+    <g class="metric-card" transform="translate(620 308)">
+      <rect width="238" height="96" rx="14" fill="#f8fafc" stroke="#d8e1ea"/>
+      <rect width="5" height="96" rx="2.5" fill="#0f766e"/>
+      <text x="22" y="42" class="metric-value">0.5 -&gt; 1.0</text>
+      <text x="22" y="70" class="metric-label">Citation lift</text>
+    </g>
+    <g class="metric-card" transform="translate(884 308)">
+      <rect width="238" height="96" rx="14" fill="#f8fafc" stroke="#d8e1ea"/>
+      <rect width="5" height="96" rx="2.5" fill="#0f766e"/>
+      <text x="22" y="42" class="metric-value">demo</text>
+      <text x="22" y="70" class="metric-label">No API key</text>
+    </g></g>
+  <g class="teaser-pipeline" aria-label="Pipeline">    <g class="pipeline-node" transform="translate(92 446)">
+      <rect width="129" height="62" rx="13" fill="#ffffff" stroke="#0f766e" stroke-width="2"/>
+      <circle cx="18" cy="18" r="5" fill="#0f766e"/>
+      <text x="64.5" y="39" text-anchor="middle" class="pipeline-label">plan</text>
+    </g>
+    <path class="pipeline-connector" d="M 223 477 L 235 477" stroke="#0f766e" stroke-width="3" stroke-linecap="round"/>
+    <path class="pipeline-connector-arrow" d="M 228 472 L 235 477 L 228 482" fill="none" stroke="#0f766e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <g class="pipeline-node" transform="translate(239 446)">
+      <rect width="129" height="62" rx="13" fill="#ffffff" stroke="#0f766e" stroke-width="2"/>
+      <circle cx="18" cy="18" r="5" fill="#0f766e"/>
+      <text x="64.5" y="39" text-anchor="middle" class="pipeline-label">route</text>
+    </g>
+    <path class="pipeline-connector" d="M 370 477 L 382 477" stroke="#0f766e" stroke-width="3" stroke-linecap="round"/>
+    <path class="pipeline-connector-arrow" d="M 375 472 L 382 477 L 375 482" fill="none" stroke="#0f766e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <g class="pipeline-node" transform="translate(386 446)">
+      <rect width="129" height="62" rx="13" fill="#ffffff" stroke="#0f766e" stroke-width="2"/>
+      <circle cx="18" cy="18" r="5" fill="#0f766e"/>
+      <text x="64.5" y="39" text-anchor="middle" class="pipeline-label">rewrite</text>
+    </g>
+    <path class="pipeline-connector" d="M 517 477 L 529 477" stroke="#0f766e" stroke-width="3" stroke-linecap="round"/>
+    <path class="pipeline-connector-arrow" d="M 522 472 L 529 477 L 522 482" fill="none" stroke="#0f766e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <g class="pipeline-node" transform="translate(533 446)">
+      <rect width="129" height="62" rx="13" fill="#ffffff" stroke="#0f766e" stroke-width="2"/>
+      <circle cx="18" cy="18" r="5" fill="#0f766e"/>
+      <text x="64.5" y="39" text-anchor="middle" class="pipeline-label">retrieve</text>
+    </g>
+    <path class="pipeline-connector" d="M 664 477 L 676 477" stroke="#0f766e" stroke-width="3" stroke-linecap="round"/>
+    <path class="pipeline-connector-arrow" d="M 669 472 L 676 477 L 669 482" fill="none" stroke="#0f766e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <g class="pipeline-node" transform="translate(680 446)">
+      <rect width="129" height="62" rx="13" fill="#ffffff" stroke="#0f766e" stroke-width="2"/>
+      <circle cx="18" cy="18" r="5" fill="#0f766e"/>
+      <text x="64.5" y="39" text-anchor="middle" class="pipeline-label">judge</text>
+    </g>
+    <path class="pipeline-connector" d="M 811 477 L 823 477" stroke="#0f766e" stroke-width="3" stroke-linecap="round"/>
+    <path class="pipeline-connector-arrow" d="M 816 472 L 823 477 L 816 482" fill="none" stroke="#0f766e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <g class="pipeline-node" transform="translate(827 446)">
+      <rect width="129" height="62" rx="13" fill="#ffffff" stroke="#0f766e" stroke-width="2"/>
+      <circle cx="18" cy="18" r="5" fill="#0f766e"/>
+      <text x="64.5" y="39" text-anchor="middle" class="pipeline-label">iterate</text>
+    </g>
+    <path class="pipeline-connector" d="M 958 477 L 970 477" stroke="#0f766e" stroke-width="3" stroke-linecap="round"/>
+    <path class="pipeline-connector-arrow" d="M 963 472 L 970 477 L 963 482" fill="none" stroke="#0f766e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <g class="pipeline-node" transform="translate(974 446)">
+      <rect width="129" height="62" rx="13" fill="#ffffff" stroke="#0f766e" stroke-width="2"/>
+      <circle cx="18" cy="18" r="5" fill="#0f766e"/>
+      <text x="64.5" y="39" text-anchor="middle" class="pipeline-label">synthesize</text>
+    </g></g>
+  <text x="92" y="548" class="footer">Spec-backed README teaser generated by mdpr-skill</text>
+</svg>

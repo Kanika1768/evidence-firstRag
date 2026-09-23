@@ -1,0 +1,32 @@
+{
+  "schemaVersion": "mdpr-narrative-review-v1",
+  "generatedBy": "mdpr-skill",
+  "suggestions": [
+    {
+      "type": "NARRATIVE_CLAIM_TITLE_WEAK",
+      "kind": "claim-title",
+      "generatedBy": "mdpr-skill",
+      "evidence": {
+        "sourcePath": "C:\\Users\\hcslab_523\\Documents\\agentic-rag\\README.md",
+        "markdownHeading": "README Review Artifacts"
+      },
+      "suggestion": {
+        "action": "rewrite-title-as-claim",
+        "text": "Rewrite \"README Review Artifacts\" as a claim title that states the takeaway before the evidence."
+      }
+    },
+    {
+      "type": "NARRATIVE_SECTION_FLOW_GAP",
+      "kind": "section-flow",
+      "generatedBy": "mdpr-skill",
+      "evidence": {
+        "sourcePath": "C:\\Users\\hcslab_523\\Documents\\agentic-rag\\README.md",
+        "markdownHeading": "Iterative Retrieval Is Tested Against One-Shot Retrieval -> README Review Artifacts -> Deterministic Demo -> Contents -> What This Skill Provides -> Repository Layout -> How It Works -> Core Contracts -> Implementation Rules -> Documentation Map -> Install and Use -> Codex -> Claude Code -> Optional Python Scaffold -> Legacy Skill Compatibility (Merged From Agentic-RAG-Skill) -> Validate and Publish -> Citation -> Referenced Papers -> Sources -> License"
+      },
+      "suggestion": {
+        "action": "add-section-transition",
+        "text": "Add a short transition or implication section so the deck explains why the evidence leads to the recommended action."
+      }
+    }
+  ]
+}

@@ -1,0 +1,120 @@
+"""Dependency-free Agentic RAG scaffold with backward-compatible APIs."""
+
+from .contracts import (
+    AnswerStatus,
+    Claim,
+    ClaimCitation,
+    ContextAssessment,
+    ContextStatus,
+    Corpus,
+    CorpusDescriptor,
+    CoveredFact,
+    DraftAnswer,
+    FactPriority,
+    FeedbackQuery,
+    GroundedAnswer,
+    IterationState,
+    IterationTrace,
+    QueryRewriteResult,
+    RequiredFact,
+    RetrievalPlan,
+    RetrievalRoute,
+    RetrievalHit,
+    Route,
+    Snippet,
+    SubQuery,
+    Subquery,
+)
+from .components import (
+    CoverageSufficiencyJudge,
+    ExtractiveSynthesizer,
+    InMemoryDocument,
+    InMemoryKeywordRetriever,
+    KeywordPlanner,
+    TemplateQueryRewriter,
+)
+from .evaluation import (
+    EvaluationComparison,
+    EvaluationFixture,
+    EvaluationMetrics,
+    EvaluationReport,
+    ExpectedFetch,
+    compare_runs,
+    evaluate_run,
+)
+from .llm_adapters import LLMPlanner, LLMQueryRewriter, LLMSufficiencyJudge, LLMSynthesizer
+from .adapters.vertex_rag import VertexRagConfig, VertexRagCrossCorpusRetriever
+from .orchestrator import AgenticRAGOrchestrator, AgenticRAGPipeline, OrchestratorConfig
+from .sufficiency import AutoraterStyleSufficiencyJudge, apply_selective_abstention_policy
+from .structured import (
+    StructuredLLM,
+    answer_from_mapping,
+    assessment_from_mapping,
+    draft_from_mapping,
+    parse_json_object,
+    plan_from_mapping,
+    subqueries_from_mapping,
+)
+
+__all__ = [
+    # Core contracts
+    "AnswerStatus",
+    "Claim",
+    "ClaimCitation",
+    "ContextAssessment",
+    "ContextStatus",
+    "Corpus",
+    "CorpusDescriptor",
+    "CoveredFact",
+    "DraftAnswer",
+    "FactPriority",
+    "FeedbackQuery",
+    "GroundedAnswer",
+    "IterationState",
+    "IterationTrace",
+    "QueryRewriteResult",
+    "RequiredFact",
+    "RetrievalPlan",
+    "RetrievalRoute",
+    "RetrievalHit",
+    "Route",
+    "Snippet",
+    "SubQuery",
+    "Subquery",
+    # Orchestrators
+    "AgenticRAGOrchestrator",
+    "AgenticRAGPipeline",
+    "OrchestratorConfig",
+    # Default deterministic adapters
+    "CoverageSufficiencyJudge",
+    "ExtractiveSynthesizer",
+    "InMemoryDocument",
+    "InMemoryKeywordRetriever",
+    "KeywordPlanner",
+    "TemplateQueryRewriter",
+    # LLM helpers
+    "StructuredLLM",
+    "LLMPlanner",
+    "LLMQueryRewriter",
+    "LLMSufficiencyJudge",
+    "LLMSynthesizer",
+    "answer_from_mapping",
+    "assessment_from_mapping",
+    "draft_from_mapping",
+    "parse_json_object",
+    "plan_from_mapping",
+    "subqueries_from_mapping",
+    # Sufficiency + evaluation
+    "AutoraterStyleSufficiencyJudge",
+    "apply_selective_abstention_policy",
+    "EvaluationComparison",
+    "EvaluationFixture",
+    "EvaluationMetrics",
+    "EvaluationReport",
+    "ExpectedFetch",
+    "evaluate_run",
+    "compare_runs",
+    # Adapters
+    "VertexRagConfig",
+    "VertexRagCrossCorpusRetriever",
+]

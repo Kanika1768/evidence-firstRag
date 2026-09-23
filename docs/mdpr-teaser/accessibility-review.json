@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "mdpr-accessibility-content-review-v1",
+  "generatedBy": "mdpr-skill",
+  "suggestions": [
+    {
+      "type": "PLAIN_LANGUAGE_CHECK",
+      "kind": "plain-language",
+      "generatedBy": "mdpr-skill",
+      "evidence": {
+        "sourcePath": "C:\\Users\\hcslab_523\\Documents\\agentic-rag\\docs\\mdpr-teaser\\teaser.md",
+        "markdownExcerpt": "Iterative retrieval improves fetch coverage and citation completeness from 0.5 to 1.0 in the deterministic evaluation fixture, while keeping missing context explicit through suffic"
+      },
+      "suggestion": {
+        "text": "Rewrite this sentence into shorter, audience-readable language before converting it into slide content."
+      },
+      "boundary": {
+        "mdprVisualAccessibilityAuthority": true
+      }
+    },
+    {
+      "type": "ACRONYM_EXPANSION",
+      "kind": "acronym-expansion",
+      "generatedBy": "mdpr-skill",
+      "evidence": {
+        "sourcePath": "C:\\Users\\hcslab_523\\Documents\\agentic-rag\\docs\\mdpr-teaser\\teaser.md",
+        "acronym": "RAG"
+      },
+      "suggestion": {
+        "text": "Expand RAG on first use or add a short speaker note for audiences that may not know it."
+      },
+      "boundary": {
+        "mdprVisualAccessibilityAuthority": true
+      }
+    }
+  ]
+}
