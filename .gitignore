@@ -24,3 +24,6 @@ open
 .env.*
 *secrets.toml
 
+
+# Demo corpus PDFs (restore with scripts/download_corpus.py)
+data/corpus/pdfs/

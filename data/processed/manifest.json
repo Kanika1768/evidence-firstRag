@@ -1,0 +1,131 @@
+{
+  "created_utc": "2026-10-05T14:24:09Z",
+  "inputs": [
+    {
+      "path": "data/corpus/pdfs/NIST.AI.100-2e2025.pdf",
+      "sha256": "4811fb6ad73f9c9121843ab77e029b5adc6f2c86d33c2fc5b2099ef133847646"
+    },
+    {
+      "path": "data/corpus/pdfs/NIST.AI.100-3.pdf",
+      "sha256": "9a4d9b9bd3bf3727e2bd5043e35e5155d1e0ca402163cb34fde2ff745bf4828c"
+    },
+    {
+      "path": "data/corpus/pdfs/NIST.AI.100-4.pdf",
+      "sha256": "a387a4977db70d65cdbc178c8b0cb8aa5dedb85fa80d6f473c244e2767a4fd54"
+    },
+    {
+      "path": "data/corpus/pdfs/NIST.AI.100-5.pdf",
+      "sha256": "0c93bda23cc2e7d8cee8c443aa6343c4acfee5a31fb4d50e992ed4ff7e11cc15"
+    },
+    {
+      "path": "data/corpus/pdfs/NIST.AI.600-1.pdf",
+      "sha256": "6e73620ab6b64e90ef2c04bf0e0d6246185a2f4b1b13cab0df494496cff89b6a"
+    },
+    {
+      "path": "data/corpus/pdfs/NIST.AI.800-1.ipd.pdf",
+      "sha256": "30ced091493af421d454ca138a3496a39b8c6079f74223e868325318ffa767e4"
+    },
+    {
+      "path": "data/corpus/pdfs/NIST.CSWP.29.pdf",
+      "sha256": "3c31f46fee98cac0c4323453e5109291a213b4de7fef8c058af9bf67f717433c"
+    },
+    {
+      "path": "data/corpus/pdfs/NIST.IR.8286.pdf",
+      "sha256": "a4df1552e1241cfa581e5e2b4005a72591314620fc955648aae0b0a73e717265"
+    },
+    {
+      "path": "data/corpus/pdfs/NIST.IR.8312.pdf",
+      "sha256": "cbfd3f8cd92a3dd01affdab036e9c30aa878588b336c6cba0938a9892a564546"
+    },
+    {
+      "path": "data/corpus/pdfs/NIST.IR.8332-draft.pdf",
+      "sha256": "eec4ecd410785c2e353b40c5fb150b557394579a9f39891b52f1d53a341cd9c5"
+    },
+    {
+      "path": "data/corpus/pdfs/NIST.SP.1270.pdf",
+      "sha256": "334042ba11ed24d7446cc31967e6e1eb4921f50a17eec4eb14ef1bff078f1e09"
+    },
+    {
+      "path": "data/corpus/pdfs/NIST.SP.1299.pdf",
+      "sha256": "5db59917d92013f06dfefdc62604230959ee34b93db1fd22de726f83d9345f09"
+    },
+    {
+      "path": "data/corpus/pdfs/NIST.SP.1300.pdf",
+      "sha256": "1e77c1bd63d1e15c48c870b7c17b7c9a2edf6bd5103b0940e72828515c9f1881"
+    },
+    {
+      "path": "data/corpus/pdfs/NIST.SP.1301.pdf",
+      "sha256": "baf10ffc7ed7792a54e724b983a858b6c194c2ebcd21843034bee78a858f46d8"
+    },
+    {
+      "path": "data/corpus/pdfs/NIST.SP.1302.pdf",
+      "sha256": "9e10b6f32781732fa24a28d0a986564f2c3f40f6d6af5d2b98cf38ee128b67f2"
+    },
+    {
+      "path": "data/corpus/pdfs/NIST.SP.1303.pdf",
+      "sha256": "f784be147e616e13720c8bf687a31f73800d52d2a0b1bb2a02be240b9f72082a"
+    },
+    {
+      "path": "data/corpus/pdfs/NIST.SP.1305.pdf",
+      "sha256": "d81e11d9afe103a879d81556952913e45fa1022de3461014caa461579d3a6088"
+    },
+    {
+      "path": "data/corpus/pdfs/NIST.SP.1308.pdf",
+      "sha256": "9efd9fbe1411dc8d7e69c490f6404ef5eef538d8d17f80171f386a7cf958b4c3"
+    },
+    {
+      "path": "data/corpus/pdfs/NIST.SP.800-207.pdf",
+      "sha256": "0290d6ece24874287316f4bf430fef770aa4ec08a2227c8f2c1e5b2ff975e03d"
+    },
+    {
+      "path": "data/corpus/pdfs/NIST.SP.800-218.pdf",
+      "sha256": "617746e553a9e2da49bfbd4eef0dfc3094758a39b869314e4173ac36605cde22"
+    },
+    {
+      "path": "data/corpus/pdfs/NIST.SP.800-218A.pdf",
+      "sha256": "e088c8bc75716824dae7c36a987f408364638561d381ed001b5c12254a7b10d8"
+    },
+    {
+      "path": "data/corpus/pdfs/NIST.SP.800-221A.pdf",
+      "sha256": "c667cbaad712ff7140c8eb34b358c937ea546fc82e037c82ff042a5b0db4befc"
+    },
+    {
+      "path": "data/corpus/pdfs/NIST.SP.800-61r3.pdf",
+      "sha256": "e5593d6bb85daecec7e8d9549400c7b3473bcc3f06e469c82218073afa7fba2d"
+    },
+    {
+      "path": "data/corpus/pdfs/nist.ai.100-1.pdf",
+      "sha256": "7576edb531d9848825814ee88e28b1795d3a84b435b4b797d3670eafdc4a89f1"
+    }
+  ],
+  "documents": 24,
+  "pages": 910,
+  "chunks": 1299,
+  "chunk_tokens": {
+    "min": 12,
+    "median": 404,
+    "max": 550
+  },
+  "chunking": {
+    "target_tokens": 550,
+    "overlap_tokens": 80,
+    "tokenizer": "regex \\w+|[^\\w\\s]"
+  },
+  "embedding_backend": "sentence-transformers:BAAI/bge-small-en-v1.5",
+  "embedding_dim": 384,
+  "encoder_windows": {
+    "tokens": 300,
+    "overlap": 50
+  },
+  "dense_vectors": 2117,
+  "vector_index_backend": "FAISS IndexFlatIP",
+  "bm25": {
+    "k1": 1.5,
+    "b": 0.75,
+    "persisted": false,
+    "note": "rebuilt from chunks at load time"
+  },
+  "rrf_k": 60,
+  "reranker_backend": "cross-encoder:cross-encoder/ms-marco-MiniLM-L-6-v2",
+  "top_k_evidence": 6
+}

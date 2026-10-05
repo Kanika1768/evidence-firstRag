@@ -8,7 +8,7 @@ This document provides a component-by-component compliance audit of the Evidence
 
 | Dimension | Target Standard | Current Status | Verdict |
 |:---|:---|:---|:---:|
-| **Person 1 (Retrieval & Data — Avni)** | Ingestion, Chunking (~550t/~80o), Dense+BM25+RRF+Cross-Encoder, Top 6, Ablation CSV | Fully Implemented & Verified | **COMPLIANT** |
+| **Person 1 (Retrieval & Data — Avni)** | 24-PDF NIST corpus, Ingestion, Chunking (550t/80o), Dense+BM25+RRF+Cross-Encoder, Top 6, 54-question Ablation | Fully Implemented & Verified | **COMPLIANT** |
 | **Person 2 (Adaptive Recovery & Trust — Darshit)** | Adaptive Recovery (max 1 pass), Grounded Generation, Claim Entailment Verifier, Streamlit UI | Fully Implemented & Verified | **COMPLIANT** |
 | **Person 3 (Sufficiency & Evaluation — Kanika)** | Prompt v1.0, JSON Repair, 105-Item Benchmark, Human Protocol (23.8% Double, Gold `PENDING`), Selective Policy (AUACC), B0/B1/E1 | Fully Implemented & Verified | **COMPLIANT** |
 | **System Integrity & Reproducibility** | Zero-dependency pure-Python fallback, 100% test pass rate, No Git commits/pushes | Verified (84/84 tests pass) | **COMPLIANT** |
@@ -21,14 +21,15 @@ This document provides a component-by-component compliance audit of the Evidence
 
 | Requirement | Master Plan Specification | Implemented In | Verification / Measurement | Compliance |
 |:---|:---|:---|:---|:---:|
-| **Document Ingestion** | Extract PDF, TXT, MD; remove running headers, footers, page numbers; preserve provenance. | `src/evidencefirst_rag/ingestion.py` | PyMuPDF/PyPDF with pure-Python zlib PDF decompression fallback; filters font tables and extracts clean BT/ET text. | **COMPLIANT** |
-| **Targeted Chunking** | ~550 tokens per chunk with ~80 token overlap; preserve Markdown/all-caps section headings. | `src/evidencefirst_rag/chunking.py` | Generates 15 clean chunks across 4 pages; attaches `document_id`, `document_name`, `page`, `section`, `chunk_id`. | **COMPLIANT** |
-| **Dense Index** | Vector embeddings (384-dim normalized) with cosine / inner product search. | `src/evidencefirst_rag/retrieval.py` | `FAISSVectorIndex` with `DenseEmbeddingModel` (SentenceTransformer or pure-Python feature hashing); saves to `data/processed/faiss.index`. | **COMPLIANT** |
-| **Keyword Index** | Okapi BM25 keyword index ($k_1=1.5, b=0.75$) with IDF scoring. | `src/evidencefirst_rag/retrieval.py` | `BM25Index` with Robertson-Spärck Jones IDF; saves to `data/processed/bm25.pkl`. | **COMPLIANT** |
-| **Rank Fusion** | Reciprocal Rank Fusion ($k=60$) combining dense and lexical ranks. | `src/evidencefirst_rag/retrieval.py` | `reciprocal_rank_fusion` ($k=60$) fusing top candidates from dense and BM25 retrievers. | **COMPLIANT** |
-| **Reranking** | Cross-encoder reranker filtering candidates to Top 6 evidence chunks. | `src/evidencefirst_rag/retrieval.py` | `CrossEncoderReranker` returning exactly Top 6 chunks for sufficiency inspection. | **COMPLIANT** |
-| **Retrieval Ablation** | Empirical comparison: Dense vs BM25 vs RRF vs RRF+Reranker reporting Recall@5, Recall@10, MRR. | `results/retrieval_ablation.csv` | Measured results: Dense MRR=0.2738, BM25 MRR=0.3500, Hybrid RRF MRR=0.2778, Hybrid+CE MRR=0.2667. | **COMPLIANT** |
-| **Dataset Card** | Complete documentation covering domain, license, documents, and processing parameters. | `docs/DATA_CARD.md` | Covers 3 demo text documents + uploaded PDF, token distributions, and chunking parameters. | **COMPLIANT** |
+| **Corpus & Data Card** | 20–30 legal-to-use public PDFs; source, date, licence, count, domain recorded. | `data/corpus/manifest.csv`, `scripts/download_corpus.py`, `docs/DATA_CARD.md` | 24 public-domain NIST PDFs (910 pages) on AI risk & cybersecurity guidance; SHA-256-pinned manifest with URL, title, date, licence. | **COMPLIANT** |
+| **Document Ingestion** | Extract PDF text preserving file name and page number; remove repetitive headers/footers and blank text. | `src/evidencefirst_rag/ingestion.py` | PyMuPDF per-page extraction; running header/footer detection across pages (page-number aware, edge-peeling); NFKC ligature fix; font-size heading detection. | **COMPLIANT** |
+| **Chunk Provenance** | `document_id`, `document_name`, `page`, `section`, `chunk_id` on every chunk. | `src/evidencefirst_rag/chunking.py` | Per-document stable ids (`nist-ai-100-1:chunk-12`), section carried across pages, chunks never cross pages. | **COMPLIANT** |
+| **Targeted Chunking** | 550 tokens with 80-token overlap; preserve headings; unit tests for page metadata and overlap. | `src/evidencefirst_rag/chunking.py`, `tests/test_retrieval_data_layer.py` | Exactly 550-token windows sharing exactly 80 tokens (tested); 1,299 chunks. | **COMPLIANT** |
+| **Dense Index** | Sentence embeddings + FAISS. | `src/evidencefirst_rag/retrieval.py`, `data/processed/faiss.index` | `BAAI/bge-small-en-v1.5` in native FAISS `IndexFlatIP`; 300-token encoder windows avoid 512-token truncation. | **COMPLIANT** |
+| **Keyword Index** | BM25. | `src/evidencefirst_rag/retrieval.py` | Okapi BM25 ($k_1=1.5, b=0.75$) over section + text. | **COMPLIANT** |
+| **Rank Fusion** | Reciprocal Rank Fusion. | `src/evidencefirst_rag/retrieval.py` | RRF ($k=60$) over top-50 dense and BM25 candidates. | **COMPLIANT** |
+| **Reranking** | Cross-encoder over fused candidates; final top 6 chunks. | `src/evidencefirst_rag/retrieval.py` | `cross-encoder/ms-marco-MiniLM-L-6-v2` over top-30 fused; returns 6; duplicate-text and already-seen chunks excluded. | **COMPLIANT** |
+| **Retrieval Ablation** | Known evidence chunk IDs; Recall@5, Recall@10, MRR; dense vs BM25 vs hybrid vs hybrid+reranker. | `data/eval/retrieval_eval.jsonl`, `scripts/evaluate_retrieval.py`, `results/retrieval_ablation.csv` | 54 answerable questions with verbatim evidence quotes resolved to chunk ids. Hybrid R@10 = 0.870; Hybrid+CE MRR = 0.643 (best); BM25 MRR = 0.553; Dense MRR = 0.405. | **COMPLIANT** |
 
 ---
 
