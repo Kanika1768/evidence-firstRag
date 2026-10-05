@@ -226,6 +226,32 @@ class TestEvidenceFirstSufficiencyAndRecovery(unittest.TestCase):
         self.assertGreater(len(recovered_chunks), len(initial_chunks))
         self.assertTrue(trace.post_recovery_sufficiency)
 
+    def test_adaptive_recovery_respects_zero_attempt_budget(self) -> None:
+        controller = AdaptiveRecoveryController(max_recovery_attempts=0)
+        calls = {"retrieve": 0, "judge": 0}
+
+        def mock_retriever(_query: str, top_k: int) -> list[Chunk]:
+            calls["retrieve"] += 1
+            return []
+
+        def mock_judge(question: str, evidence: list[Chunk]):
+            calls["judge"] += 1
+            self.assertEqual(self.chunks[:1], evidence)
+            return self.evaluator.evaluate(question, evidence)
+
+        merged, _assessment, trace = controller.execute_recovery(
+            question="What does NovaTech develop?",
+            initial_chunks=self.chunks[:1],
+            missing_information=["NovaTech product"],
+            retriever_func=mock_retriever,
+            judge_func=mock_judge,
+        )
+
+        self.assertEqual(self.chunks[:1], merged)
+        self.assertFalse(trace.triggered)
+        self.assertEqual(0, trace.attempts)
+        self.assertEqual({"retrieve": 0, "judge": 1}, calls)
+
 
 class TestEvidenceFirstGenerationVerifierAndPipeline(unittest.TestCase):
     """Test Grounded Generation, Citation Verifier, and End-to-End Pipeline."""

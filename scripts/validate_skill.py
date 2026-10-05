@@ -76,7 +76,11 @@ def validate(root: Path) -> list[str]:
     name = fields.get("name", "")
     if not NAME_RE.match(name):
         errors.append(f"invalid skill name: {name!r}")
-    if name and name != root.name and root.name not in ("evidencefirst-demo", "Agentic-RAG-Skill"):
+    # This repository is the canonical source tree for the agentic-rag skill.
+    # Its checkout name predates the published skill name, while installed skill
+    # directories must still match the frontmatter name.
+    source_checkout_names = ("evidencefirst-demo", "evidence-firstRag", "Agentic-RAG-Skill")
+    if name and name != root.name and root.name not in source_checkout_names:
         errors.append(f"skill name {name!r} should match install directory {root.name!r}")
 
     description = fields.get("description", "")

@@ -35,6 +35,8 @@ class AdaptiveRecoveryController:
     """Controls bounded recovery retrieval when initial context is insufficient."""
 
     def __init__(self, max_recovery_attempts: int = 1) -> None:
+        if max_recovery_attempts < 0:
+            raise ValueError("max_recovery_attempts must be non-negative")
         self.max_recovery_attempts = max_recovery_attempts
 
     def reformulate_query(self, question: str, missing_information: Sequence[str]) -> str:
@@ -75,6 +77,14 @@ class AdaptiveRecoveryController:
         judge_func: Any,
     ) -> tuple[list[Chunk], Any, RecoveryTrace]:
         """Execute exactly one recovery retrieval pass and re-evaluate sufficiency."""
+        if self.max_recovery_attempts == 0:
+            trace = RecoveryTrace(
+                triggered=False,
+                original_missing_facts=list(missing_information),
+                attempts=0,
+            )
+            return list(initial_chunks), judge_func(question, list(initial_chunks)), trace
+
         trace = RecoveryTrace(
             triggered=True,
             original_missing_facts=list(missing_information),

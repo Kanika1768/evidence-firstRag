@@ -33,6 +33,7 @@ if str(SRC) not in sys.path:
 from agentic_rag.adapters.llm_client import create_llm_client
 from agentic_rag.adapters.structured_sufficiency import LLMSufficiencyAutoRater
 from evidencefirst_rag.chunking import Chunk, chunk_document_pages
+from evidencefirst_rag.generation import format_readable_citation
 from evidencefirst_rag.ingestion import load_corpus, load_document
 from evidencefirst_rag.pipeline import EvidenceFirstPipeline, PipelineTrace
 from evidencefirst_rag.retrieval import HybridRetriever
@@ -145,6 +146,19 @@ if question_input.strip():
     if trace.final_decision == "ANSWERED":
         st.success(f"### Decision: ANSWERED (Latency: {trace.latency_ms:.2f} ms)")
         st.markdown(f"**Answer:** {trace.final_answer}")
+        chunks_by_id = {chunk.chunk_id: chunk for chunk in trace.final_evidence_chunks}
+        cited_ids = [
+            chunk_id
+            for claim in (trace.answer_record.claims if trace.answer_record else ())
+            for chunk_id in claim.source_chunk_ids
+        ]
+        readable_citations = [
+            format_readable_citation(chunks_by_id[chunk_id])
+            for chunk_id in dict.fromkeys(cited_ids)
+            if chunk_id in chunks_by_id
+        ]
+        if readable_citations:
+            st.caption("Sources: " + " ".join(readable_citations))
     else:
         st.warning(f"### Decision: ABSTAINED (Latency: {trace.latency_ms:.2f} ms)")
         st.markdown(f"**System Output:** *{trace.final_answer}*")
