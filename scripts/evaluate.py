@@ -21,11 +21,11 @@ sys.path.insert(0, str(ROOT / "examples"))
 
 from evidencefirst_rag.chunking import Chunk
 from evidencefirst_rag.evaluation import BaselineEvaluator, SelectiveAnsweringPolicy
-from evidencefirst_rag.retrieval import evaluate_retrieval_ablation
 from examples.plot_accuracy_coverage import generate_accuracy_coverage_plots
 from examples.plot_confusion_matrix import generate_confusion_matrix_plots
 from examples.run_evaluation import run_evaluation_suite
 from examples.run_sufficiency_benchmark import run_benchmark
+from scripts.evaluate_retrieval import run_retrieval_ablation
 
 
 def main() -> None:
@@ -39,45 +39,10 @@ def main() -> None:
     # Step 1: Person 1 — Retrieval Ablation (Dense, BM25, RRF, Cross-Encoder)
     # -------------------------------------------------------------------------
     print("\n[STEP 1/6] Running Hybrid Retrieval Ablation (Dense vs BM25 vs RRF vs RRF+CE)...")
-    chunks_path = ROOT / "data" / "processed" / "chunks.json"
-    if chunks_path.exists():
-        with open(chunks_path, "r", encoding="utf-8") as f:
-            raw_chunks = json.load(f)
-        chunks = [Chunk.from_dict(c) for c in raw_chunks]
+    if (ROOT / "data" / "processed" / "chunks.jsonl").exists():
+        run_retrieval_ablation()
     else:
-        from evidencefirst_rag.chunking import chunk_document_pages
-        from evidencefirst_rag.ingestion import load_corpus
-        pages = load_corpus(ROOT / "data" / "demo_documents")
-        chunks = chunk_document_pages(pages, target_tokens=550, overlap_tokens=80)
-
-    from evidencefirst_rag.retrieval import HybridRetriever, RetrievalEvalCase
-
-    eval_cases = [
-        RetrievalEvalCase(
-            question="Who founded NovaTech?",
-            target_chunk_ids=[c.chunk_id for c in chunks if "priya mehta" in c.text.lower()],
-        ),
-        RetrievalEvalCase(
-            question="What is NovaTech's annual revenue?",
-            target_chunk_ids=[c.chunk_id for c in chunks if "42 million" in c.text.lower()],
-        ),
-        RetrievalEvalCase(
-            question="In what year was NovaTech founded?",
-            target_chunk_ids=[c.chunk_id for c in chunks if "2019" in c.text.lower()],
-        ),
-        RetrievalEvalCase(
-            question="What does NovaTech develop?",
-            target_chunk_ids=[c.chunk_id for c in chunks if "analytics software" in c.text.lower()],
-        ),
-    ]
-    retriever = HybridRetriever(chunks)
-    ablation_csv = ROOT / "results" / "retrieval_ablation.csv"
-    ablation_res = evaluate_retrieval_ablation(
-        eval_cases=eval_cases,
-        retriever=retriever,
-        output_csv=ablation_csv,
-    )
-    print(f"  ✓ Exported retrieval ablation results to: {ablation_csv}")
+        print("  ! data/processed not built; run scripts/download_corpus.py and scripts/ingest.py first.")
 
     # -------------------------------------------------------------------------
     # Step 2: Person 3 — 80-Instance Sufficient Context Benchmark Evaluation

@@ -29,6 +29,15 @@ classifiers = [
 ]
 dependencies = []
 
+[project.optional-dependencies]
+retrieval = [
+  "pymupdf>=1.24",
+  "faiss-cpu>=1.8",
+  "sentence-transformers>=3.0",
+  "pandas>=2.0",
+  "pyarrow>=15.0"
+]
+
 [project.urls]
 Homepage = "https://github.com/ch040602/agentic-rag"
 Repository = "https://github.com/ch040602/agentic-rag"

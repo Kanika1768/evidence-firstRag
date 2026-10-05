@@ -17,7 +17,6 @@ Implements complete auditable visualization:
 
 from __future__ import annotations
 
-import json
 import sys
 import time
 from pathlib import Path
@@ -36,7 +35,7 @@ from evidencefirst_rag.chunking import Chunk, chunk_document_pages
 from evidencefirst_rag.generation import format_readable_citation
 from evidencefirst_rag.ingestion import load_corpus, load_document
 from evidencefirst_rag.pipeline import EvidenceFirstPipeline, PipelineTrace
-from evidencefirst_rag.retrieval import HybridRetriever
+from evidencefirst_rag.retrieval import HybridRetriever, load_processed_chunks
 from evidencefirst_rag.sufficiency import ContextSufficiencyEvaluator
 
 st.set_page_config(
@@ -48,18 +47,25 @@ st.set_page_config(
 st.title("EvidenceFirst RAG: Context Sufficiency & Adaptive Recovery")
 
 
+PROCESSED_DIR = ROOT / "data" / "processed"
+
+
 @st.cache_resource
 def get_default_chunks() -> list[Chunk]:
-    """Load or generate default demo chunks from data/demo_documents."""
-    processed_json = ROOT / "data" / "processed" / "chunks.json"
-    if processed_json.exists():
-        with open(processed_json, "r", encoding="utf-8") as f:
-            raw = json.load(f)
-        return [Chunk.from_dict(c) for c in raw]
-
-    # Ingest fallback
+    """Load the prebuilt corpus index from data/processed (scripts/ingest.py) plus data/demo_documents."""
     pages = load_corpus(ROOT / "data" / "demo_documents")
-    return chunk_document_pages(pages, target_tokens=550, overlap_tokens=80)
+    demo_chunks = chunk_document_pages(pages, target_tokens=550, overlap_tokens=80)
+    if (PROCESSED_DIR / "chunks.jsonl").exists():
+        return load_processed_chunks(PROCESSED_DIR) + demo_chunks
+    return demo_chunks
+
+
+@st.cache_resource(show_spinner="Loading hybrid retrieval index...")
+def get_retriever(chunk_ids: tuple[str, ...], _chunks: list[Chunk]) -> HybridRetriever:
+    """Build the hybrid retriever once per corpus, reusing the prebuilt FAISS index when available."""
+    if (PROCESSED_DIR / "chunks.jsonl").exists():
+        return HybridRetriever.from_processed(PROCESSED_DIR, extra_chunks=_chunks)
+    return HybridRetriever(_chunks)
 
 
 chunks = get_default_chunks()
@@ -135,7 +141,8 @@ if question_input.strip():
         evaluator = ContextSufficiencyEvaluator(autorater=autorater, fallback_to_heuristic=True)
     else:
         evaluator = ContextSufficiencyEvaluator(fallback_to_heuristic=True)
-    pipeline = EvidenceFirstPipeline(chunks=chunks, evaluator=evaluator)
+    retriever = get_retriever(tuple(c.chunk_id for c in chunks), chunks)
+    pipeline = EvidenceFirstPipeline(chunks=chunks, retriever=retriever, evaluator=evaluator)
 
     with st.spinner("Executing EvidenceFirst RAG workflow..."):
         trace: PipelineTrace = pipeline.run(question_input.strip())

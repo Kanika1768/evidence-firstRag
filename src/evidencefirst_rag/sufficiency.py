@@ -7,6 +7,7 @@ Outputs validated JSON with probability score, missing facts, and rationale.
 
 from __future__ import annotations
 
+import dataclasses
 import json
 from dataclasses import dataclass
 from typing import Any, Sequence
@@ -23,6 +24,23 @@ from agentic_rag.prompts.sufficiency_v1 import (
 )
 from agentic_rag.sufficiency import AutoraterStyleSufficiencyJudge
 from evidencefirst_rag.chunking import Chunk
+
+QUESTION_FRAMING_TERMS = frozenset(
+    {
+        "mean", "means", "meaning", "define", "defined", "defines", "definition",
+        "describe", "described", "describes", "refer", "refers", "referred",
+        "specify", "specifies", "list", "lists", "listed", "make", "makes", "up",
+        "according", "say", "says", "state", "states", "explain", "explains",
+        "called", "many", "much", "kind", "kinds", "type", "types",
+    }
+)
+
+
+def _evidence_terms(terms: Sequence[str]) -> tuple[str, ...]:
+    """Drop words that frame the question ("what does X mean") rather than name a fact to find in evidence."""
+    kept = tuple(t for t in terms if len(t) > 1 and t not in QUESTION_FRAMING_TERMS)
+    return kept or tuple(terms)
+
 
 __all__ = [
     "ContextSufficiencyEvaluator",
@@ -132,6 +150,22 @@ class ContextSufficiencyEvaluator:
                 required_facts=(fact,),
                 routes=(route,),
             )
+
+        plan = dataclasses.replace(
+            plan,
+            required_facts=tuple(
+                dataclasses.replace(
+                    fact,
+                    metadata={
+                        **fact.metadata,
+                        "required_terms": _evidence_terms(
+                            fact.metadata.get("required_terms") or _meaningful_terms(fact.description)
+                        ),
+                    },
+                )
+                for fact in plan.required_facts
+            ),
+        )
 
         snippets = tuple(
             Snippet(id=c.chunk_id, corpus_id=c.document_id, document_id=c.document_id, text=c.text)

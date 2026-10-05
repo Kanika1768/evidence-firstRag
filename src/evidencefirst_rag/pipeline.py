@@ -82,7 +82,7 @@ class EvidenceFirstPipeline:
         else:
             self.evaluator = ContextSufficiencyEvaluator()
         self.recovery_controller = recovery_controller or AdaptiveRecoveryController(max_recovery_attempts=1)
-        self.generator = generator or GroundedGenerator()
+        self.generator = generator or GroundedGenerator(sentence_scorer=self.retriever.reranker.sentence_scorer)
         self.verifier = verifier or CitationVerifier()
 
     def run(self, question: str) -> PipelineTrace:
