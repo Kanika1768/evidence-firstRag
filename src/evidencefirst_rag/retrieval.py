@@ -404,6 +404,17 @@ class CrossEncoderReranker:
         scored.sort(key=lambda x: x[1], reverse=True)
         return scored[:top_k]
 
+    def score_texts(self, query: str, texts: Sequence[str]) -> list[float]:
+        """Cross-encoder relevance of each text to the query (requires the neural model)."""
+        if self._st_reranker is None:
+            raise RuntimeError("score_texts needs the cross-encoder model; it is not loaded")
+        return [float(s) for s in self._st_reranker.predict([(query, t) for t in texts], batch_size=32)]
+
+    @property
+    def sentence_scorer(self):
+        """``score_texts`` when the cross-encoder is loaded, else ``None`` (callers keep their own ranking)."""
+        return self.score_texts if self._st_reranker is not None else None
+
     @staticmethod
     def _lexical_score(query: str, text: str) -> float:
         q_tokens = set(re.findall(r"[a-z0-9]+", query.lower()))
@@ -415,16 +426,21 @@ class CrossEncoderReranker:
         return overlap_ratio * 3.0 + phrase_bonus + early_bonus
 
 
-def build_vector_index(chunks: Sequence[Chunk], embedder: DenseEmbeddingModel) -> FAISSVectorIndex:
-    """Embed every encoder window of every chunk; the index may hold several vectors per chunk id."""
+def add_chunks_to_index(index: FAISSVectorIndex, chunks: Sequence[Chunk], embedder: DenseEmbeddingModel) -> None:
+    """Embed every encoder window of every chunk into ``index`` (several vectors per chunk id)."""
     ids: list[str] = []
     texts: list[str] = []
     for chunk in chunks:
         for window in encoder_windows(chunk):
             ids.append(chunk.chunk_id)
             texts.append(window)
-    index = FAISSVectorIndex(dim=embedder.dim)
     index.add_many(ids, embedder.encode_many(texts))
+
+
+def build_vector_index(chunks: Sequence[Chunk], embedder: DenseEmbeddingModel) -> FAISSVectorIndex:
+    """Build a dense index over the encoder windows of ``chunks``."""
+    index = FAISSVectorIndex(dim=embedder.dim)
+    add_chunks_to_index(index, chunks, embedder)
     return index
 
 
@@ -461,14 +477,19 @@ class HybridRetriever:
             self.vector_index = build_vector_index(list(self.chunks_by_id.values()), self.embedding_model)
 
     @classmethod
-    def from_processed(cls, directory: Path, **kwargs) -> HybridRetriever:
+    def from_processed(cls, directory: Path, extra_chunks: Sequence[Chunk] = (), **kwargs) -> HybridRetriever:
         """Load ``chunks`` and the prebuilt FAISS index written by ``scripts/ingest.py``.
 
-        The saved index is reused only when the current embedding backend and encoder
-        window settings match ``manifest.json``; otherwise vectors are recomputed.
+        ``extra_chunks`` (e.g. demo files or uploads) are added to the index; chunks whose
+        id is already in the processed corpus are skipped. The saved index is reused only
+        when the current embedding backend and encoder window settings match
+        ``manifest.json``; otherwise vectors are recomputed.
         """
         directory = Path(directory)
-        chunks = load_processed_chunks(directory)
+        processed = load_processed_chunks(directory)
+        known = {c.chunk_id for c in processed}
+        extras = [c for c in extra_chunks if c.chunk_id not in known]
+        chunks = processed + extras
         embedder = kwargs.pop("embedding_model", None) or DenseEmbeddingModel()
         manifest_path = directory / "manifest.json"
         vector_index = None
@@ -478,6 +499,7 @@ class HybridRetriever:
             if manifest.get("embedding_backend") == embedder.backend_name and manifest.get("encoder_windows") == windows:
                 try:
                     vector_index = FAISSVectorIndex.load(directory / "faiss.index")
+                    add_chunks_to_index(vector_index, extras, embedder)
                 except RuntimeError as exc:
                     logger.warning("Rebuilding dense index: %s", exc)
         return cls(chunks, embedding_model=embedder, vector_index=vector_index, **kwargs)

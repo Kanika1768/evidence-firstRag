@@ -22,6 +22,7 @@ SUPPORTED_EXTENSIONS = {".pdf", ".txt", ".md"}
 EDGE_LINES = 6
 MIN_PAGES_FOR_REPEAT_DETECTION = 3
 REPEAT_PAGE_FRACTION = 0.5
+MIN_BOILERPLATE_CHARS = 25
 HEADING_SIZE_RATIO = 1.15
 MAX_HEADING_WORDS = 14
 
@@ -96,6 +97,10 @@ def remove_repeated_edge_lines(pages_lines: Sequence[Sequence[str]]) -> list[lis
     A line counts as running if the same text recurs, or if it differs only by a
     number that advances with the page (``Page 3`` / ``Page 4``, ``NIST AI 100-1 12``).
     Lines whose numbers vary independently of the page (``Table 4`` / ``Table 9``) are kept.
+
+    Long boilerplate lines (at least ``MIN_BOILERPLATE_CHARS`` characters) that recur
+    verbatim on as many pages are removed wherever they appear, because PDF reading
+    order sometimes places side banners and DOI notices in the middle of the page text.
     """
     pages = [[line for line in lines if line.strip()] for lines in pages_lines]
     if len(pages) < MIN_PAGES_FOR_REPEAT_DETECTION:
@@ -103,7 +108,9 @@ def remove_repeated_edge_lines(pages_lines: Sequence[Sequence[str]]) -> list[lis
 
     exact: Counter[str] = Counter()
     numbered: Counter[tuple[str, int]] = Counter()
+    anywhere: Counter[str] = Counter()
     for idx, lines in enumerate(pages):
+        anywhere.update({_normalize_edge_line(line) for line in lines})
         edges = lines[:EDGE_LINES] + lines[-EDGE_LINES:]
         exact.update({_normalize_edge_line(line) for line in edges})
         numbered.update(set().union(*(_page_number_keys(line, idx) for line in edges)) if edges else set())
@@ -111,6 +118,7 @@ def remove_repeated_edge_lines(pages_lines: Sequence[Sequence[str]]) -> list[lis
     threshold = max(MIN_PAGES_FOR_REPEAT_DETECTION, int(len(pages) * REPEAT_PAGE_FRACTION + 0.5))
     repeated_exact = {line for line, count in exact.items() if count >= threshold}
     repeated_numbered = {key for key, count in numbered.items() if count >= threshold}
+    boilerplate = {line for line, count in anywhere.items() if count >= threshold and len(line) >= MIN_BOILERPLATE_CHARS}
 
     def is_running(line: str, idx: int) -> bool:
         return _normalize_edge_line(line) in repeated_exact or bool(_page_number_keys(line, idx) & repeated_numbered)
@@ -122,7 +130,7 @@ def remove_repeated_edge_lines(pages_lines: Sequence[Sequence[str]]) -> list[lis
             start += 1
         while end > max(start, len(lines) - EDGE_LINES) and is_running(lines[end - 1], idx):
             end -= 1
-        cleaned.append(lines[start:end])
+        cleaned.append([line for line in lines[start:end] if _normalize_edge_line(line) not in boilerplate])
     return cleaned
 
 

@@ -18,7 +18,7 @@ from __future__ import annotations
 
 import re
 from dataclasses import asdict, dataclass, field
-from typing import Any, Mapping, Sequence
+from typing import Any, Callable, Mapping, Sequence
 
 from evidencefirst_rag.chunking import Chunk
 
@@ -74,8 +74,15 @@ def format_readable_citation(chunk: Chunk) -> str:
 class GroundedGenerator:
     """Generates concise, attributed answers from verified sufficient evidence chunks."""
 
-    def __init__(self, default_confidence: float = 0.90) -> None:
+    def __init__(
+        self,
+        default_confidence: float = 0.90,
+        sentence_scorer: Callable[[str, Sequence[str]], Sequence[float]] | None = None,
+        scorer_margin: float = 2.0,
+    ) -> None:
         self.default_confidence = default_confidence
+        self.sentence_scorer = sentence_scorer
+        self.scorer_margin = scorer_margin
 
     def generate(
         self,
@@ -99,7 +106,12 @@ class GroundedGenerator:
                     return w[:-len(suff)]
             return w
 
-        stopwords = {"what", "who", "when", "where", "why", "how", "does", "did", "is", "are", "the", "a", "an", "in", "on", "of", "to", "for"}
+        stopwords = {
+            "what", "who", "when", "where", "why", "how", "which", "does", "did", "do", "is", "are", "was", "were",
+            "be", "been", "the", "a", "an", "in", "on", "of", "to", "for", "and", "or", "it", "its", "this", "that",
+            "with", "by", "as", "at", "from", "about", "according", "can", "should", "mean", "define", "describe",
+            "refer", "list", "many", "much",
+        }
         q_stems = {_stem(w) for w in re.findall(r"[a-z0-9]+", question.lower()) if w not in stopwords}
 
         scored_candidates: list[tuple[int, str, str]] = []
@@ -108,8 +120,8 @@ class GroundedGenerator:
         for chunk in evidence_chunks:
             sentences = re.split(r"(?<=[.!?])\s+", chunk.text.strip())
             for s in sentences:
-                s_clean = s.strip()
-                if len(s_clean.split()) < 3 or s_clean in seen_texts:
+                s_clean = " ".join(s.split())
+                if not 3 <= len(s_clean.split()) <= 80 or s_clean in seen_texts:
                     continue
                 s_stems = {_stem(w) for w in re.findall(r"[a-z0-9]+", s_clean.lower())}
                 overlap = len(q_stems.intersection(s_stems))
@@ -117,7 +129,16 @@ class GroundedGenerator:
                     scored_candidates.append((overlap, s_clean, chunk.chunk_id))
                     seen_texts.add(s_clean)
 
-        scored_candidates.sort(key=lambda item: -item[0])
+        if self.sentence_scorer is not None and scored_candidates:
+            relevance = list(self.sentence_scorer(question, [text for _, text, _ in scored_candidates]))
+            ranked = sorted(zip(relevance, scored_candidates), key=lambda item: -item[0])
+            best = ranked[0][0]
+            scored_candidates = [cand for score, cand in ranked if score >= best - self.scorer_margin]
+        else:
+            scored_candidates.sort(key=lambda item: -item[0])
+            if scored_candidates:
+                min_overlap = max(1, (scored_candidates[0][0] + 1) // 2)
+                scored_candidates = [c for c in scored_candidates if c[0] >= min_overlap]
         selected_candidates = scored_candidates[:3]
 
         if not selected_candidates:

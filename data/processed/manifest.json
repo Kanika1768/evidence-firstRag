@@ -1,5 +1,5 @@
 {
-  "created_utc": "2026-10-05T14:24:09Z",
+  "created_utc": "2026-10-05T14:41:31Z",
   "inputs": [
     {
       "path": "data/corpus/pdfs/NIST.AI.100-2e2025.pdf",
@@ -100,7 +100,7 @@
   ],
   "documents": 24,
   "pages": 910,
-  "chunks": 1299,
+  "chunks": 1287,
   "chunk_tokens": {
     "min": 12,
     "median": 404,
@@ -117,7 +117,7 @@
     "tokens": 300,
     "overlap": 50
   },
-  "dense_vectors": 2117,
+  "dense_vectors": 2099,
   "vector_index_backend": "FAISS IndexFlatIP",
   "bm25": {
     "k1": 1.5,

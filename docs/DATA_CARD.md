@@ -63,7 +63,7 @@ PDF ─► PyMuPDF text + font sizes ─► running header/footer removal ─►
 
 **Ingestion** (`src/evidencefirst_rag/ingestion.py`)
 - Text is extracted per page with PyMuPDF (pypdf as a fallback), so every page keeps its 1-based page number and file name.
-- Running headers and footers are removed. Candidates are the first and last 6 lines of each page; a line counts as running if it recurs on at least half of the pages (and at least 3), either verbatim or with a number that advances with the page (`Page 3`, `NIST AI 100-1 … 12`). Running lines are peeled off from each edge inward, so repeated sentences inside the body are kept.
+- Running headers and footers are removed. Candidates are the first and last 6 lines of each page; a line counts as running if it recurs on at least half of the pages (and at least 3), either verbatim or with a number that advances with the page (`Page 3`, `NIST AI 100-1 … 12`). Running lines are peeled off from each edge inward, so short repeated lines inside the body are kept. Long boilerplate lines (25+ characters, such as DOI notices and side banners that PDF reading order puts mid-page) that recur verbatim on as many pages are removed wherever they appear.
 - Each page is cleaned: NFKC normalization fixes ligatures (`ﬁ` → `fi`), soft hyphens are removed, words hyphenated across lines are re-joined, and standalone page numbers, roman numerals, copyright lines, and blank lines are dropped.
 - Section headings are detected from font size (≥1.15× the document's body size, or bold at body size). Markdown `#` and short ALL-CAPS titles are detected for text files.
 - `document_id` is a stable slug of the file name (`NIST.AI.100-1.pdf` → `nist-ai-100-1`).
@@ -75,14 +75,14 @@ PDF ─► PyMuPDF text + font sizes ─► running header/footer removal ─►
 - Every chunk carries `chunk_id`, `document_id`, `document_name`, `page`, `section`, `text`, `token_count`, and `char_count`.
 - `section` is the nearest heading at or before the chunk start. It carries over from earlier pages of the same document.
 - `chunk_id = <document_id>:chunk-<n>`, numbered per document, so ids stay stable when documents are added or removed.
-- Result: 1,299 chunks; median 404 tokens, maximum 550. Short chunks are the tail ends of pages.
+- Result: 1,287 chunks; median 404 tokens, maximum 550. Short chunks are the tail ends of pages.
 
 **Retrieval** (`src/evidencefirst_rag/retrieval.py`)
 
 | Stage | Implementation |
 |:---|:---|
 | Dense | `BAAI/bge-small-en-v1.5` (384-dim, normalized, query instruction prefix) in a FAISS `IndexFlatIP` (cosine) |
-| Encoder windows | A 550-token chunk is 600–800 word pieces, longer than the 512 that bge-small and the MiniLM cross-encoder read. 43% of chunks would have their tail silently truncated. Each chunk is therefore embedded as overlapping 300-token windows (50 overlap) carrying its section heading, and the chunk's score is its best window. This gives 2,117 vectors for 1,299 chunks. |
+| Encoder windows | A 550-token chunk is 600–800 word pieces, longer than the 512 that bge-small and the MiniLM cross-encoder read. 43% of chunks would have their tail silently truncated. Each chunk is therefore embedded as overlapping 300-token windows (50 overlap) carrying its section heading, and the chunk's score is its best window. This gives 2,099 vectors for 1,287 chunks. |
 | Keyword | Okapi BM25 (k1 = 1.5, b = 0.75) over section heading + chunk text. It is rebuilt from the chunks at load time in under a second, so it is not persisted. |
 | Fusion | Reciprocal Rank Fusion, k = 60, over the top 50 dense and top 50 BM25 chunks |
 | Reranking | `cross-encoder/ms-marco-MiniLM-L-6-v2` scores the top 30 fused chunks (max over windows) and the top **6** are returned |
@@ -118,18 +118,18 @@ PDF ─► PyMuPDF text + font sizes ─► running header/footer removal ─►
 
 ### Retrieval ablation (`python scripts/evaluate_retrieval.py`)
 
-Measured on 54 answerable questions over the frozen 1,299-chunk index (MacBook Air M-series CPU; latency is the median per query and includes query encoding):
+Measured on 54 answerable questions over the frozen 1,287-chunk index (MacBook Air M-series CPU; latency is the median per query and includes query encoding):
 
 | Configuration | Recall@5 | Recall@10 | MRR | Median ms |
 |:---|---:|---:|---:|---:|
-| Dense-only (FAISS) | 0.6574 | 0.7963 | 0.4052 | 6.5 |
-| BM25-only (Okapi) | 0.7315 | 0.8519 | 0.5529 | 0.9 |
-| Hybrid (RRF Fusion) | 0.7500 | 0.8704 | 0.5113 | 7.0 |
-| Hybrid + Reranker (Cross-Encoder) | 0.7407 | 0.8611 | 0.6428 | 257.6 |
+| Dense-only (FAISS) | 0.6574 | 0.7963 | 0.4128 | 6.3 |
+| BM25-only (Okapi) | 0.7130 | 0.8333 | 0.5349 | 0.9 |
+| Hybrid (RRF Fusion) | 0.7130 | 0.8889 | 0.4899 | 7.0 |
+| Hybrid + Reranker (Cross-Encoder) | 0.7222 | 0.8426 | 0.6250 | 254.0 |
 
 **Reading the table.**
-- Hybrid fusion gives the best Recall@5 and Recall@10. RRF finds evidence that only one of dense or BM25 ranks highly.
-- The cross-encoder mainly improves **ranking**: MRR goes from 0.51 to 0.64, so the gold chunk moves up the list. Its Recall@10 is slightly lower than plain RRF because it reorders only the top 30 fused candidates.
+- Hybrid fusion gives the best Recall@10 (0.89). RRF finds evidence that only one of dense or BM25 ranks highly. Hybrid + reranker has the best Recall@5 and MRR.
+- The cross-encoder mainly improves **ranking**: MRR goes from 0.49 to 0.63, so the gold chunk moves up the list. Its Recall@10 is slightly lower than plain RRF because it reorders only the top 30 fused candidates.
 - BM25 is a strong baseline on this corpus because questions reuse NIST terminology.
 - Per-question scores and the top 5 chunk ids are in `results/retrieval_per_query.csv`.
 
@@ -137,7 +137,7 @@ Measured on 54 answerable questions over the frozen 1,299-chunk index (MacBook A
 
 **Retrieval misses** (hybrid + reranker, Recall@10 < 1):
 - Most misses are document-level "what is/does X" questions, where cover pages and front matter that repeat the document title outrank the abstract or definition (`ret-002`, `ret-041`, `ret-048`).
-- Short quick-start guides lose to related guides that share their vocabulary (`ret-028`, `ret-034`).
+- Short quick-start guides lose to related guides that share their vocabulary (`ret-028`, `ret-034`, `ret-040`).
 - One of the two multi-hop questions finds only one of its two documents (`ret-054`).
 - Possible next steps: down-weight title or front-matter pages, or add document titles as a separate field.
 
@@ -150,9 +150,9 @@ Build with `python scripts/download_corpus.py && python scripts/ingest.py`.
 | Artifact | Format | Description |
 | :--- | :--- | :--- |
 | `data/corpus/manifest.csv` | CSV | Corpus manifest: file, title, URL, licence, page count, SHA-256 |
-| `data/processed/chunks.parquet` | Parquet | 1,299 chunks with full provenance |
+| `data/processed/chunks.parquet` | Parquet | 1,287 chunks with full provenance |
 | `data/processed/chunks.jsonl` | JSON Lines | The same rows, loadable without pandas/pyarrow |
-| `data/processed/faiss.index` | FAISS binary | `IndexFlatIP` over 2,117 window embeddings (384-dim) |
+| `data/processed/faiss.index` | FAISS binary | `IndexFlatIP` over 2,099 window embeddings (384-dim) |
 | `data/processed/faiss.index.ids.json` | JSON | Chunk id for each vector row |
 | `data/processed/manifest.json` | JSON | Frozen build config: input checksums, chunk parameters, model backends |
 | `data/eval/retrieval_eval.jsonl` | JSON Lines | Retrieval evaluation questions with verbatim evidence quotes |

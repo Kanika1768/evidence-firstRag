@@ -22,11 +22,14 @@ from evidencefirst_rag.ingestion import (
     remove_repeated_edge_lines,
 )
 from evidencefirst_rag.retrieval import (
+    ENCODER_WINDOW_OVERLAP,
     ENCODER_WINDOW_TOKENS,
     RETRIEVAL_MODES,
+    DenseEmbeddingModel,
     FAISSVectorIndex,
     HybridRetriever,
     RetrievalEvalCase,
+    build_vector_index,
     encoder_windows,
     evaluate_retrieval_ablation,
     load_processed_chunks,
@@ -63,6 +66,15 @@ class TestIngestion(unittest.TestCase):
         cleaned = remove_repeated_edge_lines(pages)
         for i, (lines, topic) in enumerate(zip(cleaned, topics), start=1):
             self.assertEqual(lines, [f"Opening paragraph about {topic}.", "Shared middle text.", f"Closing on {topic}."])
+
+    def test_long_boilerplate_inside_page_text_is_removed(self) -> None:
+        notice = "This publication is available free of charge from: https://doi.org/10.6028/NIST.IR.0000"
+        pages = [[f"Opening {t}.", f"Detail {t}.", notice, "Short repeat.", f"Middle {t}.", f"More {t}.", f"Closing {t}.", f"End {t}."] for t in "abcd"]
+        cleaned = remove_repeated_edge_lines(pages)
+        for lines, t in zip(cleaned, "abcd"):
+            self.assertNotIn(notice, lines)
+            self.assertIn("Short repeat.", lines)
+            self.assertIn(f"Middle {t}.", lines)
 
     def test_numbers_that_do_not_follow_page_numbering_are_kept(self) -> None:
         pages = [[f"Table {n} summary", "Body.", "More body.", "Even more.", "Last."] for n in (4, 9, 2, 7)]
@@ -209,6 +221,31 @@ class TestRetrievalComponents(unittest.TestCase):
             loaded = FAISSVectorIndex.load(path)
         self.assertEqual(loaded.chunk_ids, ["a", "b", "a"])
         self.assertEqual([cid for cid, _ in loaded.search([0, 1, 0, 0], top_k=3)], ["b", "a", "a"])
+
+
+class TestFromProcessed(unittest.TestCase):
+    def test_reuses_saved_index_and_adds_new_extra_chunks_only(self) -> None:
+        processed = [
+            _chunk("nist:chunk-0", "Containment refers to preventing the expansion of an incident."),
+            _chunk("nist:chunk-1", "Zero trust assumes no implicit trust based on network location."),
+        ]
+        extra = [processed[0], _chunk("demo:chunk-0", "NovaTech develops cloud-based analytics software.", doc="demo")]
+        embedder = DenseEmbeddingModel()
+        with tempfile.TemporaryDirectory() as tmp:
+            directory = Path(tmp)
+            (directory / "chunks.jsonl").write_text("\n".join(json.dumps(c.to_dict()) for c in processed), encoding="utf-8")
+            build_vector_index(processed, embedder).save(directory / "faiss.index")
+            manifest = {
+                "embedding_backend": embedder.backend_name,
+                "encoder_windows": {"tokens": ENCODER_WINDOW_TOKENS, "overlap": ENCODER_WINDOW_OVERLAP},
+            }
+            (directory / "manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
+            retriever = HybridRetriever.from_processed(directory, extra_chunks=extra)
+
+        self.assertEqual(sorted(retriever.chunks_by_id), ["demo:chunk-0", "nist:chunk-0", "nist:chunk-1"])
+        self.assertEqual(sorted(set(retriever.vector_index.chunk_ids)), sorted(retriever.chunks_by_id))
+        top = retriever.retrieve("What does NovaTech develop?", top_k=1, mode="dense_only")
+        self.assertEqual(top[0].chunk_id, "demo:chunk-0")
 
 
 class _StubRetriever:

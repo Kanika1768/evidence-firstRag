@@ -1,5 +1,5 @@
 configuration,recall_at_5,recall_at_10,mrr,n_queries,median_latency_ms
-Dense-only (FAISS),0.6574,0.7963,0.4052,54,6.49
-BM25-only (Okapi),0.7315,0.8519,0.5529,54,0.91
-Hybrid (RRF Fusion),0.75,0.8704,0.5113,54,6.97
-Hybrid + Reranker (Cross-Encoder),0.7407,0.8611,0.6428,54,257.57
+Dense-only (FAISS),0.6574,0.7963,0.4128,54,6.27
+BM25-only (Okapi),0.713,0.8333,0.5349,54,0.92
+Hybrid (RRF Fusion),0.713,0.8889,0.4899,54,6.99
+Hybrid + Reranker (Cross-Encoder),0.7222,0.8426,0.625,54,254.02
