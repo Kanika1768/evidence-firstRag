@@ -6,7 +6,10 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Sequence
 
-import pymupdf as fitz
+try:
+    import pymupdf as fitz
+except ImportError:
+    fitz = None
 
 
 SUPPORTED_EXTENSIONS = {".pdf", ".txt", ".md"}
@@ -58,6 +61,12 @@ def load_documents(directory: str | Path) -> Sequence[LoadedDocument]:
 
 
 def _load_pdf(path: Path) -> Sequence[LoadedDocument]:
+    if fitz is None:
+        raise ImportError(
+            "pymupdf is required to load PDF documents. "
+            "Install it via `pip install pymupdf` or use .txt/.md documents."
+        )
+
     documents: list[LoadedDocument] = []
 
     with fitz.open(path) as pdf:

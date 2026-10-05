@@ -1,0 +1,11 @@
+metric_name,value,note
+Total Instances,80,Complete benchmark dataset
+True Positives (TP),12,Correctly predicted SUFFICIENT
+True Negatives (TN),39,Correctly predicted INSUFFICIENT
+False Positives (FP),1,Predicted SUFFICIENT but candidate was INSUFFICIENT
+False Negatives (FN),28,Predicted INSUFFICIENT but candidate was SUFFICIENT
+Accuracy,0.6375,Alignment with candidate/curated labels
+Precision,0.9231,High precision ensures minimal hallucinations
+Recall,0.3000,Conservative Diligent Reader threshold
+F1-Score,0.4528,Harmonic mean of precision and recall
+AUROC,N/A,"Judge outputs binary decisions {1.0, 0.0}; continuous scores required for AUROC calculation"

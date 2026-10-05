@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 650" width="850" height="650" style="background:#ffffff; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,sans-serif;">
+    <style>
+        .title { font-size: 20px; font-weight: bold; fill: #1a1a1a; }
+        .subtitle { font-size: 13px; fill: #666666; }
+        .header-label { font-size: 15px; font-weight: bold; fill: #333333; }
+        .axis-label { font-size: 14px; font-weight: 600; fill: #444444; }
+        .cell-count { font-size: 28px; font-weight: bold; }
+        .cell-sub { font-size: 13px; font-weight: 500; }
+        .metric-label { font-size: 13px; fill: #444444; }
+        .metric-val { font-size: 14px; font-weight: bold; fill: #111111; }
+    </style>
+
+    <!-- Header -->
+    <text x="425" y="45" text-anchor="middle" class="title">Sufficiency Judge Confusion Matrix</text>
+    <text x="425" y="68" text-anchor="middle" class="subtitle">EvidenceFirst AutoraterStyleSufficiencyJudge vs. 80 Curated Benchmark Records</text>
+
+    <!-- Axis Titles -->
+    <text x="450" y="115" text-anchor="middle" class="axis-label">PREDICTED LABEL</text>
+    <text x="55" y="320" text-anchor="middle" transform="rotate(-90, 55, 320)" class="axis-label">ACTUAL / CANDIDATE LABEL</text>
+
+    <!-- Column Headers -->
+    <text x="330" y="145" text-anchor="middle" class="header-label">SUFFICIENT</text>
+    <text x="570" y="145" text-anchor="middle" class="header-label">INSUFFICIENT</text>
+
+    <!-- Row Headers -->
+    <text x="200" y="245" text-anchor="end" class="header-label">SUFFICIENT</text>
+    <text x="200" y="265" text-anchor="end" class="subtitle">(N = 40)</text>
+
+    <text x="200" y="405" text-anchor="end" class="header-label">INSUFFICIENT</text>
+    <text x="200" y="425" text-anchor="end" class="subtitle">(N = 40)</text>
+
+    <!-- MATRIX CELLS -->
+    <!-- Cell 0,0: True Positives (Greenish) -->
+    <rect x="220" y="160" width="220" height="150" fill="#E6F4EA" stroke="#0F9D58" stroke-width="2" rx="4"/>
+    <text x="330" y="225" text-anchor="middle" class="cell-count" fill="#0D652D">12</text>
+    <text x="330" y="250" text-anchor="middle" class="cell-sub" fill="#137333">TRUE POSITIVE</text>
+    <text x="330" y="275" text-anchor="middle" class="cell-sub" fill="#3c4043">(30.0% of Suff)</text>
+
+    <!-- Cell 0,1: False Negatives (Amber/Orange - Strict Diligent Reader Filter) -->
+    <rect x="460" y="160" width="220" height="150" fill="#FEF7E0" stroke="#F4B400" stroke-width="2" rx="4"/>
+    <text x="570" y="225" text-anchor="middle" class="cell-count" fill="#B06000">28</text>
+    <text x="570" y="250" text-anchor="middle" class="cell-sub" fill="#B06000">FALSE NEGATIVE</text>
+    <text x="570" y="275" text-anchor="middle" class="cell-sub" fill="#5f6368">(70.0% - strict keyword gate)</text>
+
+    <!-- Cell 1,0: False Positives (Red - Hallucination risk) -->
+    <rect x="220" y="325" width="220" height="150" fill="#FCE8E6" stroke="#D93025" stroke-width="2" rx="4"/>
+    <text x="330" y="390" text-anchor="middle" class="cell-count" fill="#C5221F">1</text>
+    <text x="330" y="415" text-anchor="middle" class="cell-sub" fill="#C5221F">FALSE POSITIVE</text>
+    <text x="330" y="440" text-anchor="middle" class="cell-sub" fill="#5f6368">(2.5% - near-zero risk!)</text>
+
+    <!-- Cell 1,1: True Negatives (Blue/Green - Safe Abstention) -->
+    <rect x="460" y="325" width="220" height="150" fill="#E8F0FE" stroke="#1A73E8" stroke-width="2" rx="4"/>
+    <text x="570" y="390" text-anchor="middle" class="cell-count" fill="#174EA6">39</text>
+    <text x="570" y="415" text-anchor="middle" class="cell-sub" fill="#174EA6">TRUE NEGATIVE</text>
+    <text x="570" y="440" text-anchor="middle" class="cell-sub" fill="#3c4043">(97.5% of Insuff)</text>
+
+    <!-- Summary Metrics Card -->
+    <rect x="140" y="500" width="620" height="95" fill="#f8f9fa" stroke="#dadce0" stroke-width="1" rx="6"/>
+    <text x="180" y="535" class="metric-label">Alignment / Accuracy:</text>
+    <text x="330" y="535" class="metric-val">63.75% (51/80)</text>
+
+    <text x="180" y="565" class="metric-label">Precision (Sufficiency):</text>
+    <text x="330" y="565" class="metric-val">92.31% (12/13)</text>
+
+    <text x="470" y="535" class="metric-label">Recall (Coverage):</text>
+    <text x="610" y="535" class="metric-val">30.00% (12/40)</text>
+
+    <text x="470" y="565" class="metric-label">F1-Score:</text>
+    <text x="610" y="565" class="metric-val">0.4528</text>
+
+    <text x="425" y="625" text-anchor="middle" font-size="12" fill="#70757a">Key Safety Finding: Ultra-high precision (92.3%) and minimal false positives (1/80 = 1.25%) prevent hallucinations.</text>
+</svg>

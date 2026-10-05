@@ -1,0 +1,5 @@
+configuration,recall_at_5,recall_at_10,mrr
+Dense-only (FAISS),1.0,1.0,1.0
+BM25-only (Okapi),1.0,1.0,1.0
+Hybrid (RRF Fusion),1.0,1.0,1.0
+Hybrid + Reranker (Cross-Encoder),1.0,1.0,1.0

@@ -9,3 +9,18 @@ venv/
 dist/
 build/
 *.egg-info/
+
+# OS & Editor
+.DS_Store
+*/.DS_Store
+.history/
+open
+
+# Temporary Streamlit uploads
+.streamlit_uploads/
+
+# Secrets & Local Configs
+.env
+.env.*
+*secrets.toml
+

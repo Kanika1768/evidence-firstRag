@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" width="900" height="600" style="background:#ffffff; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,sans-serif;">
+    <style>
+        .grid { stroke: #e0e0e0; stroke-width: 1; stroke-dasharray: 4 4; }
+        .axis { stroke: #333333; stroke-width: 2; }
+        .title { font-size: 20px; font-weight: bold; fill: #1a1a1a; }
+        .subtitle { font-size: 13px; fill: #666666; }
+        .axis-label { font-size: 14px; font-weight: 600; fill: #333333; }
+        .tick-label { font-size: 12px; fill: #555555; }
+        .legend-text { font-size: 13px; fill: #222222; }
+    </style>
+
+    <!-- Header -->
+    <text x="450" y="45" text-anchor="middle" class="title">Accuracy vs. Coverage Curve (Selective RAG Evaluation)</text>
+    <text x="450" y="68" text-anchor="middle" class="subtitle">Trade-off between response coverage and selective answer correctness across baselines</text>
+
+    <!-- Plot Area Background -->
+    <rect x="120" y="90" width="700" height="400" fill="#fafafa" stroke="#cccccc" stroke-width="1"/>
+
+    <!-- Grid lines & Y-ticks (Accuracy 0 to 100%) -->
+    <line x1="120" y1="490" x2="820" y2="490" class="grid"/>
+    <text x="105" y="495" text-anchor="end" class="tick-label">0%</text>
+
+    <line x1="120" y1="410" x2="820" y2="410" class="grid"/>
+    <text x="105" y="415" text-anchor="end" class="tick-label">20%</text>
+
+    <line x1="120" y1="330" x2="820" y2="330" class="grid"/>
+    <text x="105" y="335" text-anchor="end" class="tick-label">40%</text>
+
+    <line x1="120" y1="250" x2="820" y2="250" class="grid"/>
+    <text x="105" y="255" text-anchor="end" class="tick-label">60%</text>
+
+    <line x1="120" y1="170" x2="820" y2="170" class="grid"/>
+    <text x="105" y="175" text-anchor="end" class="tick-label">80%</text>
+
+    <line x1="120" y1="90" x2="820" y2="90" class="grid"/>
+    <text x="105" y="95" text-anchor="end" class="tick-label">100%</text>
+
+    <!-- Grid lines & X-ticks (Coverage 0 to 100%) -->
+    <line x1="120" y1="90" x2="120" y2="490" class="axis"/>
+    <text x="120" y="515" text-anchor="middle" class="tick-label">0%</text>
+
+    <line x1="260" y1="90" x2="260" y2="490" class="grid"/>
+    <text x="260" y="515" text-anchor="middle" class="tick-label">20%</text>
+
+    <line x1="400" y1="90" x2="400" y2="490" class="grid"/>
+    <text x="400" y="515" text-anchor="middle" class="tick-label">40%</text>
+
+    <line x1="540" y1="90" x2="540" y2="490" class="grid"/>
+    <text x="540" y="515" text-anchor="middle" class="tick-label">60%</text>
+
+    <line x1="680" y1="90" x2="680" y2="490" class="grid"/>
+    <text x="680" y="515" text-anchor="middle" class="tick-label">80%</text>
+
+    <line x1="820" y1="90" x2="820" y2="490" class="axis"/>
+    <text x="820" y="515" text-anchor="middle" class="tick-label">100%</text>
+
+    <!-- Axis Labels -->
+    <text x="470" y="545" text-anchor="middle" class="axis-label">Coverage (% of Questions Attempted)</text>
+    <text x="45" y="290" text-anchor="middle" transform="rotate(-90, 45, 290)" class="axis-label">Selective Accuracy (% Correct when Answering)</text>
+
+    <!-- Curves & Points -->
+    <!-- B0 Baseline Point at (100%, 28.6%): x = 120 + 700 = 820, y = 490 - (28.6 * 4) = 375.6 -->
+    <circle cx="820" cy="375.6" r="8" fill="#DB4437" stroke="#ffffff" stroke-width="2"/>
+    <text x="805" y="370" text-anchor="end" font-size="12" font-weight="bold" fill="#DB4437">B0 (100% Cov, 28.6% Acc)</text>
+
+    <!-- B1 Sufficiency-Aware Line: (42.9%, 100%) to (100%, 28.6%) -->
+    <!-- (42.9%, 100%): x = 120 + 42.9*7 = 420.3, y = 490 - 400 = 90 -->
+    <line x1="420.3" y1="90" x2="820" y2="375.6" stroke="#F4B400" stroke-width="3" stroke-dasharray="6 3"/>
+    <circle cx="420.3" cy="90" r="8" fill="#F4B400" stroke="#ffffff" stroke-width="2"/>
+    <text x="410" y="115" text-anchor="end" font-size="12" font-weight="bold" fill="#B78103">B1 Operating Point (42.9% Cov, 100% Acc)</text>
+
+    <!-- E1 EvidenceFirst Line: (57.1%, 100%) to (100%, 28.6%) -->
+    <!-- (57.1%, 100%): x = 120 + 57.1*7 = 519.7, y = 90 -->
+    <line x1="519.7" y1="90" x2="820" y2="375.6" stroke="#0F9D58" stroke-width="4"/>
+    <circle cx="519.7" cy="90" r="9" fill="#0F9D58" stroke="#ffffff" stroke-width="2"/>
+    <text x="535" y="115" text-anchor="start" font-size="12" font-weight="bold" fill="#0F9D58">E1 Operating Point (57.1% Cov, 100% Acc)</text>
+
+    <!-- Recovery Gain Annotation -->
+    <path d="M 425 80 L 515 80" stroke="#0F9D58" stroke-width="2" marker-end="url(#arrow)"/>
+    <text x="470" y="72" text-anchor="middle" font-size="11" font-weight="bold" fill="#0F9D58">+14.2% Recovery Gain (Q7 recovered)</text>
+
+    <!-- Legend -->
+    <rect x="140" y="110" width="310" height="95" rx="6" fill="#ffffff" stroke="#dddddd" stroke-width="1" opacity="0.95"/>
+    <circle cx="160" cy="130" r="6" fill="#0F9D58"/>
+    <text x="175" y="134" class="legend-text" font-weight="bold">E1 EvidenceFirst (Iterative Recovery)</text>
+
+    <circle cx="160" cy="155" r="6" fill="#F4B400"/>
+    <text x="175" y="159" class="legend-text" font-weight="bold">B1 Sufficiency-Aware (1-Shot + Abstain)</text>
+
+    <circle cx="160" cy="180" r="6" fill="#DB4437"/>
+    <text x="175" y="184" class="legend-text" font-weight="bold">B0 Baseline (1-Shot, No Abstain)</text>
+</svg>
