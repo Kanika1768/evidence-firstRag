@@ -1,0 +1,4 @@
+system,total_queries,coverage_answered,abstention_rate,unsupported_total_rate,unsupported_answered_rate,answerable_coverage,unanswerable_abstention_accuracy,median_latency_ms
+B0_Standard_RAG,64,1.0,0.0,0.1562,0.1562,1.0,0.0,561.6
+B1_Verify_Only_RAG,64,1.0,0.0,0.1562,0.1562,1.0,0.0,508.6
+E1_EvidenceFirst_RAG,64,0.7031,0.2969,0.0,0.0,0.8333,1.0,542.9

@@ -4,6 +4,7 @@ from .in_memory import InMemoryDocument, RuleBasedSynthesizer, ScriptedPlanner, 
 from .retriever import LexicalDocument, LexicalRetriever, LEXICAL_SCORING_RULE
 from .llm import SchemaValidationError
 from .llm_client import GenericRestLLMClient, create_llm_client, get_llm_credentials
+from .local_llm_client import LocalTransformersLLMClient
 from .structured_sufficiency import LLMSufficiencyAutoRater, StructuredSufficiencyResult
 from .vertex_rag import VertexRagConfig, VertexRagCrossCorpusRetriever
 
@@ -16,6 +17,7 @@ __all__ = [
     "LLMSufficiencyAutoRater",
     "LexicalDocument",
     "LexicalRetriever",
+    "LocalTransformersLLMClient",
     "RuleBasedSynthesizer",
     "SchemaValidationError",
     "ScriptedPlanner",

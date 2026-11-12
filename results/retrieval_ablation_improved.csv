@@ -1,0 +1,7 @@
+configuration,recall_at_5,recall_at_10,mrr,n_queries,median_latency_ms
+Dense-only (FAISS),0.3704,0.5463,0.309,54,0.66
+BM25-only (Okapi),0.713,0.8333,0.5349,54,1.22
+Hybrid (RRF Fusion),0.6389,0.787,0.4454,54,1.45
+Hybrid + Reranker (Cross-Encoder),0.7315,0.8611,0.6218,54,401.2
+Adaptive Score Fusion (Dense+BM25),0.7222,0.8148,0.5124,54,1.69
+Adaptive Hybrid + Reranker (Improved),0.7407,0.8519,0.6214,54,549.23

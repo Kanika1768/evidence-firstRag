@@ -194,14 +194,31 @@ grounded answering, and an interactive document interface.
 It is **not intended to be an exact reproduction of the paper's complete
 experimental setup**.
 
+## IEEE Future-Work Extensions & Evaluation
+
+The repository implements and evaluates all five future-work extensions described in the project's IEEE paper:
+
+1. **Human Validation Infrastructure**: Blinded annotation packages (`data/evaluation/reviewer_packages/`), schema enforcement, and Cohen's $\kappa$ agreement workflow (`scripts/manage_human_validation.py`). Human gold labels remain strictly **PENDING** to preserve scientific integrity.
+2. **LLM AutoRater Evaluation & Provenance**: Zero-contamination offline evaluation comparing Qwen2.5-0.5B-Instruct against the Heuristic Judge across 80 benchmark instances (`scripts/evaluate_autorater.py`). Provenance metadata distinguishes live inference, verified cache hits, and heuristic fallbacks, strictly preventing unverified outputs from masquerading as model completions.
+3. **Difficult-Query Retrieval**: Adaptive Score Fusion combining dense semantic embeddings and BM25 lexical scores with domain abbreviation expansion (`NISTTerminologyExpander`), boosting MRR by +15.04% over RRF (`scripts/evaluate_retrieval_improvements.py`).
+4. **Multi-Step Cross-Document Recovery**: Sequential evidential chaining across documents without future-entity leakage, resolving 16.7% at $K=0$, 33.3% at $K=1$, 66.7% at $K=2$, and 83.3% at $K=3$ (`scripts/evaluate_multistep_recovery.py`).
+5. **NIST End-to-End Pipeline Evaluation**: Full 64-query evaluation (54 answerable, 10 unanswerable) comparing B0, B1, and E1 under identical hybrid reranking (`scripts/evaluate_nist_end_to_end.py`), demonstrating 83.3% answerable coverage, 100% unanswerable abstention, and complete elimination of hallucinations (0.0% unsupported rate vs 15.6% in B0).
+
+For full experimental analysis, failure breakdowns, and metric tables, see [`docs/FUTURE_WORK_EXTENSIONS.md`](docs/FUTURE_WORK_EXTENSIONS.md).
+
 ## Testing
 
-The implementation includes automated tests covering the core RAG,
-sufficiency, retrieval, orchestration, and evaluation components.
+The implementation includes automated tests covering the core RAG, sufficiency, retrieval, orchestration, and evaluation components (183 unit and regression tests: 182 passed, 1 skipped).
 
 Run:
 
 ``` bash
-python -m pytest -q
+python3 -m unittest discover -s tests -v
+```
+
+Validate skill packaging:
+
+``` bash
+python3 scripts/validate_skill.py
 ```
 

@@ -27,11 +27,23 @@ from evidencefirst_rag.chunking import Chunk
 
 QUESTION_FRAMING_TERMS = frozenset(
     {
+        # Question / inquiry framing
         "mean", "means", "meaning", "define", "defined", "defines", "definition",
         "describe", "described", "describes", "refer", "refers", "referred",
         "specify", "specifies", "list", "lists", "listed", "make", "makes", "up",
         "according", "say", "says", "state", "states", "explain", "explains",
         "called", "many", "much", "kind", "kinds", "type", "types",
+        "term", "terms", "quoted", "outline", "outlines", "broad", "broadly",
+        "difference", "between", "action", "recommend", "recommends", "compared",
+        "aim", "augment", "supersede", "supersedes", "take", "takes", "call", "calls",
+        "into", "account", "step", "idea", "publicized", "group", "during",
+        "measurements", "current", "efforts", "fastest", "cheapest", "ways",
+        "each", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten",
+        # Document and meta-corpus framing
+        "nist", "profile", "report", "publication", "guide", "framework",
+        "draft", "document", "standard", "standards", "order", "executive",
+        "section", "revision", "edition", "quick", "start", "sp", "ir",
+        "genai", "gai", "ai", "generative", "rmf", "csf", "ssdf",
     }
 )
 

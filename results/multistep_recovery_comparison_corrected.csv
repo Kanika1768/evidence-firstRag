@@ -1,0 +1,5 @@
+depth_k,test_cases,resolved_cases,success_rate,avg_hops,avg_new_chunks,avg_latency_ms,terminations,benchmark_nature
+0,6,1,0.1667,0.0,0.0,0.0,ALREADY_SUFFICIENT:1; ZERO_ATTEMPTS:5,synthetic_proof_of_concept
+1,6,2,0.3333,0.83,1.33,0.05,ALREADY_SUFFICIENT:1; SUFFICIENT_CONVERGENCE:1; MAX_DEPTH_REACHED:4,synthetic_proof_of_concept
+2,6,4,0.6667,1.5,1.83,0.05,ALREADY_SUFFICIENT:1; SUFFICIENT_CONVERGENCE:3; MAX_DEPTH_REACHED:1; NO_NEW_CHUNKS:1,synthetic_proof_of_concept
+3,6,5,0.8333,1.67,2.0,0.05,ALREADY_SUFFICIENT:1; SUFFICIENT_CONVERGENCE:4; NO_NEW_CHUNKS:1,synthetic_proof_of_concept

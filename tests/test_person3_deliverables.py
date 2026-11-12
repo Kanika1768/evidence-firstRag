@@ -282,43 +282,56 @@ class TestPerson3Deliverables(unittest.TestCase):
     # 6. CSV Export Integrity Tests
     # -----------------------------------------------------------------------
     def test_csv_exports_exist_and_contain_required_columns(self) -> None:
-        # Run evaluation suite to generate CSVs
-        run_evaluation_suite()
-
         final_csv = Path("results/final_comparison.csv")
         per_q_csv = Path("results/per_question_comparison.csv")
         suff_csv = Path("results/sufficiency_metrics.csv")
 
-        self.assertTrue(final_csv.exists())
-        self.assertTrue(per_q_csv.exists())
+        orig_final = final_csv.read_text(encoding="utf-8") if final_csv.exists() else None
+        orig_per_q = per_q_csv.read_text(encoding="utf-8") if per_q_csv.exists() else None
+        orig_suff = suff_csv.read_text(encoding="utf-8") if suff_csv.exists() else None
 
-        # Export sufficiency metrics to ensure file is current
-        export_sufficiency_metrics_csv({
-            "total": 80.0,
-            "tp": 12.0,
-            "tn": 39.0,
-            "fp": 1.0,
-            "fn": 28.0,
-            "accuracy": 0.6375,
-            "precision": 0.9231,
-            "recall": 0.3000,
-            "f1": 0.4528,
-        })
-        self.assertTrue(suff_csv.exists())
+        try:
+            # Run evaluation suite to generate CSVs
+            run_evaluation_suite()
 
-        # Check final_comparison.csv headers
-        with open(final_csv, encoding="utf-8") as f:
-            reader = csv.reader(f)
-            headers = next(reader)
-            self.assertIn("system_name", headers)
-            self.assertIn("mean_latency_ms", headers)
-            self.assertIn("median_latency_ms", headers)
-            self.assertIn("recovery_gain", headers)
+            self.assertTrue(final_csv.exists())
+            self.assertTrue(per_q_csv.exists())
 
-        # Check sufficiency_metrics.csv AUROC note
-        with open(suff_csv, encoding="utf-8") as f:
-            content = f.read()
-            self.assertIn("AUROC,N/A", content)
+            # Export sufficiency metrics to ensure file is current
+            export_sufficiency_metrics_csv({
+                "total": 80.0,
+                "tp": 12.0,
+                "tn": 39.0,
+                "fp": 1.0,
+                "fn": 28.0,
+                "accuracy": 0.6375,
+                "precision": 0.9231,
+                "recall": 0.3000,
+                "f1": 0.4528,
+            })
+            self.assertTrue(suff_csv.exists())
+
+            # Check final_comparison.csv headers
+            with open(final_csv, encoding="utf-8") as f:
+                reader = csv.reader(f)
+                headers = next(reader)
+                self.assertIn("system_name", headers)
+                self.assertIn("mean_latency_ms", headers)
+                self.assertIn("median_latency_ms", headers)
+                self.assertIn("recovery_gain", headers)
+
+            # Check sufficiency_metrics.csv AUROC note
+            with open(suff_csv, encoding="utf-8") as f:
+                content = f.read()
+                self.assertIn("AUROC,N/A", content)
+        finally:
+            # Preserve original baseline files to prevent test latency jitter from mutating repo
+            if orig_final is not None:
+                final_csv.write_text(orig_final, encoding="utf-8")
+            if orig_per_q is not None:
+                per_q_csv.write_text(orig_per_q, encoding="utf-8")
+            if orig_suff is not None:
+                suff_csv.write_text(orig_suff, encoding="utf-8")
 
     # -----------------------------------------------------------------------
     # 7. Plot Output Integrity Tests

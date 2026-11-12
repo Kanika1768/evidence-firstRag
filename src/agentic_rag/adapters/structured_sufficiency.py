@@ -30,6 +30,7 @@ class StructuredSufficiencyResult:
     missing_information: list[str] = field(default_factory=list)
     rationale: str = ""
     evaluator_mode: str = "Deterministic fallback"
+    provenance: str = ""
 
     def __post_init__(self) -> None:
         self.validate()
@@ -72,6 +73,8 @@ class StructuredSufficiencyResult:
         }
         if hasattr(self, "evaluator_mode") and self.evaluator_mode:
             d["evaluator_mode"] = self.evaluator_mode
+        if hasattr(self, "provenance") and self.provenance:
+            d["provenance"] = self.provenance
         return d
 
     def to_json(self, indent: int | None = None) -> str:
@@ -108,6 +111,7 @@ class StructuredSufficiencyResult:
         rationale_raw = data.get("rationale") or data.get("reason") or ""
         rationale = str(rationale_raw).strip()
         evaluator_mode = str(data.get("evaluator_mode", "Deterministic fallback"))
+        provenance = str(data.get("provenance", ""))
 
         return cls(
             sufficient=sufficient,
@@ -115,6 +119,7 @@ class StructuredSufficiencyResult:
             missing_information=missing_info,
             rationale=rationale,
             evaluator_mode=evaluator_mode,
+            provenance=provenance,
         )
 
     @classmethod
@@ -310,13 +315,19 @@ class LLMSufficiencyAutoRater:
             return self.llm_client.generate(prompt)
         raise TypeError(f"Unsupported llm_client type: {type(self.llm_client).__name__}")
 
-    def _invoke_fallback(self, question: str, evidence: Any) -> StructuredSufficiencyResult:
+    def _invoke_fallback(self, question: str, evidence: Any, reason: str = "LLM Error") -> StructuredSufficiencyResult:
         if self.fallback_judge is None:
             raise RuntimeError("Fallback requested but no fallback judge is configured.")
 
+        prov_tag = f"heuristic_fallback_on_{reason.lower().replace(' ', '_')}"
+        mode_tag = f"Fallback: Heuristic Judge ({reason})"
+
         if hasattr(self.fallback_judge, "evaluate"):
             chunks = self._ensure_chunks(evidence)
-            return self.fallback_judge.evaluate(question, chunks)
+            res = self.fallback_judge.evaluate(question, chunks)
+            res.evaluator_mode = mode_tag
+            res.provenance = prov_tag
+            return res
 
         if hasattr(self.fallback_judge, "assess"):
             from agentic_rag.contracts import (
@@ -368,17 +379,27 @@ class LLMSufficiencyAutoRater:
 
             assessment = self.fallback_judge.assess(question, plan, snippets, draft)
             res = StructuredSufficiencyResult.from_context_assessment(assessment)
+            res.evaluator_mode = mode_tag
+            res.provenance = prov_tag
             res.validate()
             return res
 
         if callable(self.fallback_judge):
             res = self.fallback_judge(question, evidence)
             if isinstance(res, StructuredSufficiencyResult):
+                res.evaluator_mode = mode_tag
+                res.provenance = prov_tag
                 return res
             if isinstance(res, Mapping):
-                return StructuredSufficiencyResult.from_dict(res)
+                res = StructuredSufficiencyResult.from_dict(res)
+                res.evaluator_mode = mode_tag
+                res.provenance = prov_tag
+                return res
             if isinstance(res, str):
-                return StructuredSufficiencyResult.from_json(res)
+                res = StructuredSufficiencyResult.from_json(res)
+                res.evaluator_mode = mode_tag
+                res.provenance = prov_tag
+                return res
 
         raise TypeError(f"Unsupported fallback_judge type: {type(self.fallback_judge).__name__}")
 
@@ -461,11 +482,16 @@ class LLMSufficiencyAutoRater:
             user_part = build_sufficiency_user_prompt(question, context_str, required_facts)
             full_prompt = f"{self.system_prompt.strip()}\n\n{'=' * 40}\n\n{user_part}"
 
+        provenance = "unknown"
         try:
-            raw_output = self._call_llm(full_prompt, question, context_str)
+            if hasattr(self.llm_client, "generate_with_provenance"):
+                raw_output, provenance = self.llm_client.generate_with_provenance(full_prompt)
+            else:
+                raw_output = self._call_llm(full_prompt, question, context_str)
+                provenance = getattr(self.llm_client, "last_provenance", "direct_llm_call")
         except Exception as exc:
             if self.fallback_judge is not None:
-                return self._invoke_fallback(question, evidence)
+                return self._invoke_fallback(question, evidence, reason="LLM Call Error")
             if not self.catch_exceptions:
                 raise
             return StructuredSufficiencyResult(
@@ -473,6 +499,8 @@ class LLMSufficiencyAutoRater:
                 probability=0.0,
                 missing_information=[f"LLM call failed: {str(exc)}"],
                 rationale=f"LLM invocation encountered an error: {str(exc)}",
+                evaluator_mode="LLM Call Error",
+                provenance="error_llm_call",
             )
 
         # Parse LLM response
@@ -485,15 +513,17 @@ class LLMSufficiencyAutoRater:
                 res = StructuredSufficiencyResult.from_json(raw_output)
             else:
                 raise ValueError(f"Unexpected output type from LLM: {type(raw_output).__name__}")
-            res.evaluator_mode = getattr(self, "mode_description", "LLM AutoRater")
+            res.provenance = provenance
+            res.evaluator_mode = getattr(self, "mode_description", f"LLM AutoRater ({provenance})")
             res.validate()
             return res
         except Exception:
             if self.fallback_judge is not None:
-                return self._invoke_fallback(question, evidence)
+                return self._invoke_fallback(question, evidence, reason="Parse Failure")
             if isinstance(raw_output, str):
                 repaired = StructuredSufficiencyResult.from_json(raw_output)
-                repaired.evaluator_mode = getattr(self, "mode_description", "LLM AutoRater")
+                repaired.provenance = f"repaired_{provenance}"
+                repaired.evaluator_mode = getattr(self, "mode_description", f"LLM AutoRater (Repaired: {provenance})")
                 return repaired
             raise
 

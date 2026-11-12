@@ -1,0 +1,22 @@
+# Research Integrity Note: Evaluated against candidate proxy labels. Human validation pending.
+"# Silver LLM is a pre-existing curation concordance check (100.0% agreement), not a live model."
+evaluator,benchmark_split,instances,accuracy,precision,recall,f1,tp,tn,fp,fn
+Heuristic_Judge,All_80_Instances,80,0.6375,0.9231,0.3,0.4528,12,39,1,28
+LLM_AutoRater_Qwen2.5,All_80_Instances,80,0.45,0.4737,0.9,0.6207,36,0,40,4
+
+# LLM AutoRater Dataset Breakdown
+dataset,instances,accuracy,precision,recall,f1,tp,tn,fp,fn
+EntityQuestions,20,0.5,0.5,1.0,0.6667,10,0,10,0
+FreshQA,20,0.3,0.375,0.6,0.4615,6,0,10,4
+Natural Questions,20,0.5,0.5,1.0,0.6667,10,0,10,0
+PopQA,20,0.5,0.5,1.0,0.6667,10,0,10,0
+
+# LLM AutoRater Reasoning Type Breakdown (Single-Class Aware)
+reasoning_type,instances,accuracy,slice_distribution,primary_slice_metric,tp,tn,fp,fn
+contradictory-evidence,1,0.0,S:0 / I:1,TNR (Specificity): 0.000 (0/1),0,0,1,0
+entity-relation-mismatch,11,0.0,S:0 / I:11,TNR (Specificity): 0.000 (0/11),0,0,11,0
+false-premise-detection,9,0.6667,S:9 / I:0,TPR (Sensitivity): 0.667 (6/9),6,0,0,3
+missing-intermediate-fact,19,0.0,S:0 / I:19,TNR (Specificity): 0.000 (0/19),0,0,19,0
+partial-multi-attribute,1,0.0,S:0 / I:1,TNR (Specificity): 0.000 (0/1),0,0,1,0
+single-hop-factual,31,0.9677,S:31 / I:0,TPR (Sensitivity): 0.968 (30/31),30,0,0,1
+unsubstantiated-claim,8,0.0,S:0 / I:8,TNR (Specificity): 0.000 (0/8),0,0,8,0

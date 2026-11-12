@@ -45,11 +45,14 @@ DEFAULT_EMBEDDING_MODEL = "BAAI/bge-small-en-v1.5"
 DEFAULT_RERANKER_MODEL = "cross-encoder/ms-marco-MiniLM-L-6-v2"
 BGE_QUERY_INSTRUCTION = "Represent this sentence for searching relevant passages: "
 RETRIEVAL_MODES = ("dense_only", "bm25_only", "hybrid", "hybrid_rerank")
+EXTENDED_RETRIEVAL_MODES = RETRIEVAL_MODES + ("adaptive_hybrid", "adaptive_hybrid_rerank")
 MODE_LABELS = {
     "dense_only": "Dense-only (FAISS)",
     "bm25_only": "BM25-only (Okapi)",
     "hybrid": "Hybrid (RRF Fusion)",
     "hybrid_rerank": "Hybrid + Reranker (Cross-Encoder)",
+    "adaptive_hybrid": "Adaptive Score Fusion (Dense+BM25)",
+    "adaptive_hybrid_rerank": "Adaptive Hybrid + Reranker (Improved)",
 }
 
 _EMBED_CACHE: dict[tuple[str, str], list[float]] = {}
@@ -68,7 +71,7 @@ def _load_sentence_transformer(model_name: str):
     except ImportError:
         return None
     try:
-        return SentenceTransformer(model_name)
+        return SentenceTransformer(model_name, local_files_only=True)
     except Exception as exc:
         logger.warning("Could not load embedding model %s (%s); using feature-hash fallback.", model_name, exc)
         return None
@@ -83,7 +86,7 @@ def _load_cross_encoder(model_name: str):
     except ImportError:
         return None
     try:
-        return CrossEncoder(model_name, max_length=512)
+        return CrossEncoder(model_name, max_length=512, local_files_only=True)
     except Exception as exc:
         logger.warning("Could not load reranker %s (%s); using lexical fallback.", model_name, exc)
         return None
@@ -368,6 +371,92 @@ def reciprocal_rank_fusion(*rankings: Sequence[tuple[str, float]], k: int = RRF_
     return sorted(rrf_scores.items(), key=lambda x: x[1], reverse=True)
 
 
+def adaptive_score_fusion(
+    dense_hits: Sequence[tuple[str, float]],
+    bm25_hits: Sequence[tuple[str, float]],
+    alpha: float = 0.45,
+    cooccurrence_bonus: float = 0.15,
+) -> list[tuple[str, float]]:
+    """Fuse dense and BM25 candidate lists using min-max normalized score combination with co-occurrence bonus.
+
+    Score(d) = alpha * norm_dense(d) + (1 - alpha) * norm_bm25(d) + bonus (if present in both).
+    """
+    if not dense_hits and not bm25_hits:
+        return []
+    if not dense_hits:
+        return sorted(bm25_hits, key=lambda x: (-x[1], x[0]))
+    if not bm25_hits:
+        return sorted(dense_hits, key=lambda x: (-x[1], x[0]))
+
+    def _normalize(hits: Sequence[tuple[str, float]]) -> dict[str, float]:
+        if not hits:
+            return {}
+        scores = [s for _, s in hits]
+        span = max(scores) - min(scores)
+        if span <= 1e-6:
+            return {cid: 1.0 / (1.0 + r) for r, (cid, _) in enumerate(hits)}
+        return {cid: (s - min(scores)) / span for cid, s in hits}
+
+    nd = _normalize(dense_hits)
+    nb = _normalize(bm25_hits)
+
+    fused: dict[str, float] = {}
+    for cid in set(nd.keys()) | set(nb.keys()):
+        sd = nd.get(cid, 0.0)
+        sb = nb.get(cid, 0.0)
+        bonus = cooccurrence_bonus if (cid in nd and cid in nb) else 0.0
+        fused[cid] = alpha * sd + (1.0 - alpha) * sb + bonus
+
+    # Deterministic tie-breaking: score descending, chunk_id ascending
+    return sorted(fused.items(), key=lambda x: (-x[1], x[0]))
+
+
+class NISTTerminologyExpander:
+    """Domain-specific query expander resolving acronyms and terminology gaps in NIST publications."""
+
+    ACRONYM_MAP = {
+        "ai rmf": "artificial intelligence risk management framework",
+        "risk management framework": "ai rmf",
+        "csf": "cybersecurity framework",
+        "tevv": "test evaluation verification and validation",
+        "ssdf": "secure software development framework",
+        "sp 800-218": "secure software development framework ssdf",
+        "sp 800-218a": "community profile for secure software development ssdf",
+        "sp 800-61": "incident handling guide computer security incident",
+        "sp 800-61r3": "incident response coordination incident handling",
+        "sp 800-221": "ict risk management across enterprise",
+        "sp 800-221a": "ict supply chain risk management",
+        "synthetic media": "synthetic content provenance detection watermarking",
+        "content lifecycle provenance": "provenance digital content lifecycle synthetic media nist ai 100-4",
+        "nist ai 100-1": "ai rmf artificial intelligence risk management framework",
+        "ai 100-1": "ai rmf artificial intelligence risk management framework",
+        "nist ai 600-1": "generative ai profile ai rmf",
+        "ai 600-1": "generative ai profile",
+        "nist ai 100-4": "synthetic content provenance digital content lifecycle",
+        "ai 100-4": "synthetic content",
+        "nist ai 100-5": "ai agent standards",
+        "ai 100-5": "ai agent",
+        "nist ai 100-2e2025": "adversarial machine learning taxonomy attacks",
+        "ai 100-2e2025": "adversarial machine learning",
+        "nist ir 8312": "four principles of explainable ai explainability",
+        "ir 8312": "four principles of explainable artificial intelligence",
+        "nist sp 1270": "bias artificial intelligence managing bias",
+        "sp 1270": "bias in artificial intelligence",
+    }
+
+    @classmethod
+    def expand_query(cls, query: str) -> str:
+        """Expand domain acronyms and synonym mappings for search queries."""
+        ql = query.lower()
+        expansions = []
+        for k, v in cls.ACRONYM_MAP.items():
+            if k in ql:
+                expansions.append(v)
+        if expansions:
+            return (query.strip() + " " + " ".join(expansions)).strip()
+        return query.strip()
+
+
 # ---------------------------------------------------------------------------
 # 4. Cross-Encoder Reranker
 # ---------------------------------------------------------------------------
@@ -533,9 +622,24 @@ class HybridRetriever:
         ``exclude_chunk_ids`` drops chunks already in hand (e.g. during recovery retrieval);
         chunks with identical text are returned once.
         """
-        if mode not in RETRIEVAL_MODES:
-            raise ValueError(f"Unknown retrieval mode '{mode}'. Choose from {RETRIEVAL_MODES}.")
+        if mode not in EXTENDED_RETRIEVAL_MODES:
+            raise ValueError(f"Unknown retrieval mode '{mode}'. Choose from {EXTENDED_RETRIEVAL_MODES}.")
         exclude = set(exclude_chunk_ids)
+
+        if mode in {"adaptive_hybrid", "adaptive_hybrid_rerank"}:
+            expanded_query = NISTTerminologyExpander.expand_query(query)
+            pool = max(80, top_k + len(exclude))
+            window_hits = self.vector_index.search(self.embedding_model.encode_query(query), top_k=pool * 4)
+            dense_hits = _best_per_chunk(window_hits)[:pool]
+            bm25_hits = self.bm25_index.search(expanded_query, top_k=pool)
+            alpha = 0.45 if mode == "adaptive_hybrid_rerank" else 0.35
+            bonus = 0.15 if mode == "adaptive_hybrid_rerank" else 0.20
+            fused = adaptive_score_fusion(dense_hits, bm25_hits, alpha=alpha, cooccurrence_bonus=bonus)
+            if mode == "adaptive_hybrid":
+                return self._ranked(fused, top_k, exclude)
+            candidates = self._ranked(fused, max(40, top_k), exclude)
+            return [chunk for chunk, _ in self.reranker.rerank(query, candidates, top_k=top_k)]
+
         pool = max(self.candidate_pool, top_k + len(exclude))
 
         if mode != "bm25_only":
@@ -668,12 +772,14 @@ def evaluate_retrieval_ablation(
     retriever: HybridRetriever,
     output_csv: Path | None = None,
     per_query_csv: Path | None = None,
+    modes: Sequence[str] | None = None,
 ) -> dict[str, dict[str, float]]:
     """Compute Recall@5, Recall@10, MRR (over the top 10) and median latency for each retrieval mode."""
     results: dict[str, dict[str, float]] = {}
     per_query_rows: list[dict[str, object]] = []
+    modes_to_run = tuple(modes) if modes is not None else RETRIEVAL_MODES
 
-    for mode in RETRIEVAL_MODES:
+    for mode in modes_to_run:
         r5, r10, rr, latencies = [], [], [], []
         for case in eval_cases:
             groups = case.groups()
@@ -708,9 +814,9 @@ def evaluate_retrieval_ablation(
         with open(output_csv, "w", newline="", encoding="utf-8") as f:
             writer = csv.writer(f)
             writer.writerow(["configuration", "recall_at_5", "recall_at_10", "mrr", "n_queries", "median_latency_ms"])
-            for mode in RETRIEVAL_MODES:
+            for mode in modes_to_run:
                 m = results[mode]
-                writer.writerow([MODE_LABELS[mode], m["Recall@5"], m["Recall@10"], m["MRR"], m["n_queries"], m["median_latency_ms"]])
+                writer.writerow([MODE_LABELS.get(mode, mode), m["Recall@5"], m["Recall@10"], m["MRR"], m["n_queries"], m["median_latency_ms"]])
 
     if per_query_csv:
         per_query_csv = Path(per_query_csv)

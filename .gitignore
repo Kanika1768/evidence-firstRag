@@ -27,3 +27,7 @@ open
 
 # Demo corpus PDFs (restore with scripts/download_corpus.py)
 data/corpus/pdfs/
+
+# Local LLM autorater caches (keep out of version control)
+data/evaluation/.cache_autorater/
+data/evaluation/.cache_autorater_qwen/
