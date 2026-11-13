@@ -84,11 +84,13 @@ class GenericRestLLMClient:
         api_key: str,
         model: str,
         timeout: float = 20.0,
+        response_mime_type: str | None = "application/json",
     ) -> None:
         self.provider = provider
         self.api_key = api_key
         self.model = model
         self.timeout = timeout
+        self.response_mime_type = response_mime_type
 
     def __call__(self, prompt: str) -> str:
         """Execute structured JSON completion."""
@@ -119,16 +121,19 @@ class GenericRestLLMClient:
 
     def _call_gemini(self, prompt: str) -> str:
         url = f"https://generativelanguage.googleapis.com/v1beta/models/{self.model}:generateContent?key={self.api_key}"
+        gen_config: dict[str, Any] = {
+            "temperature": 0.0,
+        }
+        if self.response_mime_type and self.response_mime_type != "text/plain":
+            gen_config["responseMimeType"] = self.response_mime_type
+
         payload = {
             "contents": [
                 {
                     "parts": [{"text": prompt}]
                 }
             ],
-            "generationConfig": {
-                "responseMimeType": "application/json",
-                "temperature": 0.0,
-            },
+            "generationConfig": gen_config,
         }
         body = json.dumps(payload).encode("utf-8")
         req = urllib.request.Request(
@@ -154,9 +159,10 @@ class GenericRestLLMClient:
             "messages": [
                 {"role": "user", "content": prompt}
             ],
-            "response_format": {"type": "json_object"},
             "temperature": 0.0,
         }
+        if self.response_mime_type == "application/json":
+            payload["response_format"] = {"type": "json_object"}
         body = json.dumps(payload).encode("utf-8")
         req = urllib.request.Request(
             url,
@@ -175,7 +181,9 @@ class GenericRestLLMClient:
         return str(choices[0].get("message", {}).get("content", ""))
 
 
-def create_llm_client() -> tuple[GenericRestLLMClient | None, str]:
+def create_llm_client(
+    response_mime_type: str | None = "application/json",
+) -> tuple[GenericRestLLMClient | None, str]:
     """Create an LLM client if credentials exist, otherwise return None and status string.
 
     Returns:
@@ -185,6 +193,11 @@ def create_llm_client() -> tuple[GenericRestLLMClient | None, str]:
     if not provider or not api_key:
         return None, "Deterministic fallback (No API key detected)"
 
-    client = GenericRestLLMClient(provider=provider, api_key=api_key, model=model or "default")
+    client = GenericRestLLMClient(
+        provider=provider,
+        api_key=api_key,
+        model=model or "default",
+        response_mime_type=response_mime_type,
+    )
     provider_name = "OpenAI" if provider == "openai" else "Gemini"
     return client, f"LLM AutoRater ({provider_name} - {model})"

@@ -1,0 +1,470 @@
+id,source_dataset,reasoning_type,candidate_label,heuristic_prediction,heuristic_score,heuristic_correct,qwen_zero_prediction,qwen_zero_score,qwen_zero_correct,qwen_oneshot_prediction,qwen_oneshot_score,qwen_oneshot_correct,gemini_prediction,gemini_score,gemini_correct,gemini_provenance,gemini_rationale,qwen_oneshot_rationale
+ef-popqa-001,PopQA,single-hop-factual,SUFFICIENT,INSUFFICIENT,0.0,False,SUFFICIENT,1.0,True,INSUFFICIENT,0.0,False,SUFFICIENT,1.0,True,gemini_live_api_gemini-3.5-flash-lite,"The provided reference explicitly states that George Rankin was an Australian politician and soldier. This directly answers the question about his occupation. Therefore, the context is sufficient to infer the answer.","The context provides information about George Rankin's political career, but it does not mention his occupation directly. To determine his occupation, we need additional information such as his birth date, place of birth, or other relevant details. Without this information, it is impossible to accurately infer George Rankin's occupation based solely on the given context."
+ef-popqa-002,PopQA,missing-intermediate-fact,INSUFFICIENT,INSUFFICIENT,0.0,True,SUFFICIENT,1.0,False,INSUFFICIENT,0.0,True,INSUFFICIENT,0.0,True,gemini_live_api_gemini-3.5-flash-lite,"The provided reference mentions where George Rankin was born and that he lived on a pastoral farm near Cohuna for most of his life, but it does not state his occupation. Therefore, the context does not contain sufficient information to infer the answer to the question.","The context provides information about George Rankin's birthplace and early life, but it does not mention anything about his occupation. Therefore, there is insufficient context to determine George Rankin's occupation based solely on the given information."
+ef-popqa-003,PopQA,single-hop-factual,SUFFICIENT,INSUFFICIENT,0.0,False,SUFFICIENT,1.0,True,INSUFFICIENT,0.0,False,SUFFICIENT,1.0,True,gemini_live_api_gemini-3.5-flash-lite,"The question asks for John Mayne's occupation. The provided reference explicitly states that ""John Mayne was an English journalist and printer"". Therefore, the context is sufficient to answer the question.","The context provides information about John Mayne's occupation as an English journalist and printer. However, it does not mention anything about his profession or job title. Therefore, there is insufficient context to determine John Mayne's occupation based solely on the given information."
+ef-popqa-004,PopQA,missing-intermediate-fact,INSUFFICIENT,INSUFFICIENT,0.0,True,SUFFICIENT,1.0,False,INSUFFICIENT,0.0,True,INSUFFICIENT,0.0,True,gemini_live_api_gemini-3.5-flash-lite,"To determine if the context is sufficient, we can ask the following step-by-step questions:
+1. What does the question ask for? The question asks for John Mayne's occupation.
+2. Does the provided reference mention John Mayne? Yes, the reference states that John Mayne was born in Dumfries, Scotland, in 1759 and spent his later years residing in London.
+3. Does the reference state or imply John Mayne's occupation? No, the reference only provides information about his birth year, birth place, and where he spent his later years. It contains no information regarding his profession or occupation.
+
+Since the context does not contain information about John Mayne's occupation, the context is not sufficient to infer the answer.","The context provides information about John Mayne's birthplace and residence, but it does not mention anything about his occupation. Therefore, there is insufficient context to determine John Mayne's occupation based solely on the given information."
+ef-popqa-005,PopQA,single-hop-factual,SUFFICIENT,INSUFFICIENT,0.0,False,SUFFICIENT,1.0,True,SUFFICIENT,1.0,True,SUFFICIENT,1.0,True,gemini_live_api_gemini-3.5-flash-lite,"Step-by-step evaluation of the question and references:
+1. What is the question asking for? The question asks for Henry Feilden's occupation.
+2. What information do the references provide about Henry Feilden? The reference states that ""Henry Feilden was a British politician who represented Blackburn in the House of Commons as a Conservative Member of Parliament.""
+3. Can the occupation be inferred from this information? Yes, being a ""politician"" and ""Member of Parliament"" directly describes his occupation. 
+4. Therefore, the context is sufficient to infer the answer to the question.","The context provides information about Henry Feilden's political career, specifically mentioning he represented Blackburn in the House of Commons as a Conservative Member of Parliament. This information directly answers the question without requiring any additional calculations or arithmetic."
+ef-popqa-006,PopQA,entity-relation-mismatch,INSUFFICIENT,INSUFFICIENT,0.0,True,SUFFICIENT,1.0,False,SUFFICIENT,1.0,False,INSUFFICIENT,0.0,True,gemini_live_api_gemini-3.5-flash-lite,"To determine if the context is sufficient to answer the question, we must ask the following step-by-step questions:
+1. What does the question ask for? The question asks for Henry Feilden's occupation.
+2. Does the provided reference mention Henry Feilden? Yes, the reference mentions where he lived and that his family owned extensive cotton manufacturing estates during the Victorian era.
+3. Does the reference explicitly state Henry Feilden's occupation? No, it only mentions his place of residence and his family's ownership of estates, but it does not specify what his job or occupation was.
+
+Therefore, the context cannot be used to infer the answer to the question.","The context provides information about Henry Feilden's occupation, stating that he ""lived in Lancashire, England."" This directly gives us the answer to the question without requiring any additional calculations or arithmetic."
+ef-popqa-007,PopQA,single-hop-factual,SUFFICIENT,INSUFFICIENT,0.0,False,SUFFICIENT,1.0,True,INSUFFICIENT,0.0,False,SUFFICIENT,1.0,True,gemini_live_api_gemini-3.5-flash-lite,"1. What does the question ask for? The question asks for Kathy Saltzman's occupation.
+2. What information does the provided reference give about Kathy Saltzman? The reference states that ""Kathy Saltzman is an American politician who served as a member of the Minnesota Senate representing District 56 from 2007 to 2011.""
+3. Can her occupation be inferred from this information? Yes, being an American politician and serving as a member of the Minnesota Senate clearly indicates her occupation is a politician.
+4. Therefore, the context is sufficient to infer the answer to the question.","The context provides information about Kathy Saltzman's political career, specifically mentioning her role as a member of the Minnesota Senate. However, there is no mention of her current occupation. Therefore, we cannot determine Kathy Saltzman's current occupation based solely on the given information."
+ef-popqa-008,PopQA,unsubstantiated-claim,INSUFFICIENT,INSUFFICIENT,0.0,True,SUFFICIENT,1.0,False,INSUFFICIENT,0.0,True,INSUFFICIENT,0.0,True,gemini_live_api_gemini-3.5-flash-lite,"- Step 1: Identify the target entity and property in the QUESTION. The target is Kathy Saltzman, and the property is her occupation.
+- Step 2: Analyze the REFERENCES to see if they mention Kathy Saltzman's occupation. The reference states that Kathy Saltzman resided in Woodbury, Minnesota, and graduated from the University of Minnesota with a bachelor's degree, but it does not state her occupation or profession.
+- Step 3: Determine if the CONTEXT is sufficient to infer the answer. Since her occupation is not mentioned anywhere in the context, the information is insufficient.","The context provides information about Kathy Saltzman's education and residence. However, it does not mention her current occupation. To determine Kathy Saltzman's occupation, we need additional information such as her employment history or recent job postings. Without this information, it is impossible to accurately infer her current occupation based solely on the given context."
+ef-popqa-009,PopQA,single-hop-factual,SUFFICIENT,INSUFFICIENT,0.0,False,SUFFICIENT,1.0,True,INSUFFICIENT,0.0,False,SUFFICIENT,1.0,True,gemini_live_api_gemini-3.5-flash-lite,"The context explicitly states that Eleanor Davis is an American cartoonist and illustrator. This directly and fully answers the question about her occupation. Therefore, the context is sufficient to infer the answer.","The context provides information about Eleanor Davis's career as a cartoonist and illustrator. However, it does not mention anything about her occupation. Therefore, there is no relevant information to determine her occupation based solely on the given context."
+ef-popqa-010,PopQA,missing-intermediate-fact,INSUFFICIENT,INSUFFICIENT,0.0,True,SUFFICIENT,1.0,False,INSUFFICIENT,0.0,True,INSUFFICIENT,0.0,True,gemini_live_api_gemini-3.5-flash-lite,"The provided reference mentions where Eleanor Davis grew up and where she went to college (Savannah College of Art and Design), but it does not state her occupation. Without external knowledge or additional context, it is impossible to determine her exact profession from the text provided. Therefore, the context is not sufficient to infer the answer to the question.","The context provides information about Eleanor Davis's education and career path. However, it does not mention her current occupation. To determine her current occupation, we need additional information such as her employment details or recent changes in her job title. Without this information, it is impossible to accurately infer her current occupation based solely on the given context."
+ef-popqa-011,PopQA,single-hop-factual,SUFFICIENT,INSUFFICIENT,0.0,False,SUFFICIENT,1.0,True,INSUFFICIENT,0.0,False,SUFFICIENT,1.0,True,gemini_live_api_gemini-3.5-flash-lite,"- Step-by-step questions:
+  1. Who is the person mentioned in the question? (Alexander Rinnooy Kan)
+  2. Does the reference mention Alexander Rinnooy Kan? (Yes)
+  3. Does the reference state his occupations? (Yes, it states he is a Dutch mathematician, economist, professor of operational research, and business executive.)
+  4. Is this information sufficient to answer the question about his occupation? (Yes)
+
+- Answering the questions:
+  1. The person is Alexander Rinnooy Kan.
+  2. The reference explicitly mentions him.
+  3. The reference lists his occupations as mathematician, economist, professor of operational research, and business executive.
+  4. The information directly answers the question.
+
+Based on these steps, the context contains sufficient information to infer the answer to the question.","The context provides information about Alexander Rinnooy Kan's academic career, specifically mentioning his position as a professor of operational research. However, there is no mention of his job title or profession. Therefore, we cannot determine the exact occupation based solely on this information."
+ef-popqa-012,PopQA,missing-intermediate-fact,INSUFFICIENT,INSUFFICIENT,0.0,True,SUFFICIENT,1.0,False,INSUFFICIENT,0.0,True,INSUFFICIENT,0.0,True,gemini_live_api_gemini-3.5-flash-lite,"Step-by-step questions to arrive at the label:
+1. What does the QUESTION ask for? The QUESTION asks for Alexander Rinnooy Kan's occupation.
+2. Does the REFERENCE mention Alexander Rinnooy Kan's birth year and doctoral dissertation year? Yes, it mentions he was born in 1949 and completed his doctoral dissertation in 1976.
+3. Does the REFERENCE state what his occupation is? No, completing a doctoral dissertation indicates he was a student or researcher at the time, but it does not state his occupation.
+4. Can his occupation be inferred from the provided context alone? No, the context lacks information regarding his profession or career.
+
+Therefore, the context is not sufficient to infer the answer to the question.","The context provides information about Alexander Rinnooy Kan's birthplace and completion of his doctoral dissertation. However, it does not mention anything about his current occupation. To determine his current occupation, we need additional information such as his employment details or recent publications. Since there is no explicit information provided, the context does not allow us to infer the answer to the question."
+ef-popqa-013,PopQA,single-hop-factual,SUFFICIENT,INSUFFICIENT,0.0,False,SUFFICIENT,1.0,True,INSUFFICIENT,0.0,False,SUFFICIENT,1.0,True,gemini_live_api_gemini-3.5-flash-lite,"The provided reference explicitly states that Scooter Braun is an American talent manager and music executive. This directly and fully answers the question regarding his occupation. Therefore, the context is sufficient to infer the answer.","The context provides information about Scooter Braun's career, specifically mentioning his role as an ""American talent manager and music executive."" However, it does not explicitly state his occupation. To determine Scooter Braun's occupation, we need additional information such as his job title or specific details about his professional activities. Without this information, we cannot accurately infer Scooter Braun's occupation based solely on the given context."
+ef-popqa-014,PopQA,entity-relation-mismatch,INSUFFICIENT,INSUFFICIENT,0.0,True,SUFFICIENT,1.0,False,INSUFFICIENT,0.0,True,INSUFFICIENT,0.0,True,gemini_live_api_gemini-3.5-flash-lite,"Step-by-step questions to evaluate the criteria:
+1. What is the question asking for? The question is asking for Scooter Braun's occupation.
+2. What information does the provided reference contain about Scooter Braun? The reference mentions where he was raised and that he attended Emory University until 2002.
+3. Does the reference mention Scooter Braun's profession, job, or occupation? No, the reference does not state what he does for a living or his occupation.
+4. Therefore, is the context sufficient to infer the answer to the question? No.","The context provides information about Scooter Braun's education and upbringing. However, it does not mention his current occupation. Therefore, we cannot determine Scooter Braun's occupation based on the given information."
+ef-popqa-015,PopQA,single-hop-factual,SUFFICIENT,INSUFFICIENT,0.0,False,SUFFICIENT,1.0,True,INSUFFICIENT,0.0,False,SUFFICIENT,1.0,True,gemini_live_api_gemini-3.5-flash-lite,"1. **Step-by-step questions to arrive at a label:**
+   - What is the question asking for? (The occupation of Leona Detiège)
+   - Does the provided reference mention Leona Detiège? (Yes)
+   - Does the reference explicitly state her occupation? (Yes, it states she is a ""Belgian politician"")
+   - Is this context sufficient to answer the question? (Yes)
+
+2. **Answering the questions:**
+   - The question asks for Leona Detiège's occupation.
+   - The reference states: ""Leona Detiège is a Belgian politician who served as Mayor of Antwerp...""
+   - Therefore, her occupation is a politician.
+   - The context provides direct and sufficient information to answer the question.","The context provides information about Leona Detiège's political career, specifically mentioning her role as Mayor of Antwerp from 1995 to 2003. However, there is no mention of her current occupation. To determine her current occupation, we need additional information beyond what is provided in the reference text."
+ef-popqa-016,PopQA,contradictory-evidence,INSUFFICIENT,INSUFFICIENT,0.0,True,SUFFICIENT,1.0,False,INSUFFICIENT,0.0,True,SUFFICIENT,1.0,False,gemini_live_api_gemini-3.5-flash-lite,"1. What is the question asking for? The question is asking for Leona Detiège's occupation.
+2. What does the provided reference say about Leona Detiège? The reference states that one municipal directory lists her as an ""elected political leader,"" while a contrasting regional trade archive records her as a ""tenured university chemist.""
+3. Does the reference contain enough information to answer the question about her occupation? Yes, the reference provides information about her occupation, specifically noting the conflicting records of her being either an elected political leader or a university chemist. Therefore, the context is sufficient to infer the answer.","The context provides information about Leona Detiège's political career, but it does not mention her occupation. Therefore, there is no relevant information to determine her occupation based on the given references."
+ef-popqa-017,PopQA,single-hop-factual,SUFFICIENT,INSUFFICIENT,0.0,False,SUFFICIENT,1.0,True,INSUFFICIENT,0.0,False,SUFFICIENT,1.0,True,gemini_live_api_gemini-3.5-flash-lite,"1. **Step-by-step questions to evaluate the criteria:**
+   - What is the question asking for? (William Murray, 1st Earl of Mansfield's occupation)
+   - Does the reference mention William Murray, 1st Earl of Mansfield? (Yes)
+   - Does the reference state his occupation(s)? (Yes)
+   - Is the context sufficient to infer the answer to the question? (Yes)
+
+2. **Answering the questions:**
+   - The question asks for the occupation of William Murray, 1st Earl of Mansfield.
+   - The reference states: ""William Murray, 1st Earl of Mansfield, was a British politician and barrister who served as Lord Chief Justice of the King's Bench.""
+   - Therefore, his occupations (politician, barrister, and Lord Chief Justice of the King's Bench) are directly provided in the text.
+
+3. **Evaluating the criteria:**
+   - Since the reference explicitly contains the information needed to answer the question, the context is sufficient.","The context provides information about William Murray, 1st Earl of Mansfield, serving as Lord Chief Justice of the King's Bench. However, it does not mention anything about his occupation. Therefore, there is no relevant information provided to determine William Murray's occupation."
+ef-popqa-018,PopQA,missing-intermediate-fact,INSUFFICIENT,INSUFFICIENT,0.0,True,SUFFICIENT,1.0,False,INSUFFICIENT,0.0,True,INSUFFICIENT,0.0,True,gemini_live_api_gemini-3.5-flash-lite,"To determine if the context is sufficient to answer the question, we can ask the following step-by-step questions:
+
+1. What is the question asking for?
+   - The question is asking for the occupation of William Murray, 1st Earl of Mansfield.
+2. Does the provided reference mention William Murray, 1st Earl of Mansfield?
+   - Yes, the reference mentions his birth place, birth year, and education (attended Christ Church, Oxford).
+3. Does the provided reference explicitly state his occupation?
+   - No, the reference mentions where he was born and where he studied, but it does not state his occupation (e.g., judge, politician, barrister).
+
+Since the reference does not provide information about his occupation, the context is not sufficient to infer the answer to the question.","The context provides information about William Murray, 1st Earl of Mansfield's birthplace and education. However, it does not mention his occupation. To determine William Murray's occupation, we need additional information such as his employment details or biographical data. Without this information, it is impossible to accurately answer the question based solely on the given context."
+ef-popqa-019,PopQA,single-hop-factual,SUFFICIENT,INSUFFICIENT,0.0,False,SUFFICIENT,1.0,True,INSUFFICIENT,0.0,False,SUFFICIENT,1.0,True,gemini_live_api_gemini-3.5-flash-lite,"- Step-by-step questions:
+  1. What is the individual's name mentioned in the question? (Þorsteinn Bachmann)
+  2. Does the reference mention Þorsteinn Bachmann? (Yes)
+  3. Does the reference state what Þorsteinn Bachmann does for a living or his profession? (Yes, it states he is an Icelandic actor)
+  4. Is the context sufficient to infer the answer to the question? (Yes)
+
+- Answers to the questions:
+  1. The individual is Þorsteinn Bachmann.
+  2. The reference explicitly mentions Þorsteinn Bachmann.
+  3. The reference explicitly states that he is an ""actor"".
+  4. Therefore, the context contains enough information to directly answer the question about his occupation.
+
+Thus, the context is sufficient to infer the answer.","The context provides information about Þorsteinn Bachmann's occupation as an Icelandic actor. However, it does not mention anything about his profession or occupation. Therefore, there is no clear reference point to determine his occupation based on the given information."
+ef-popqa-020,PopQA,unsubstantiated-claim,INSUFFICIENT,INSUFFICIENT,0.0,True,SUFFICIENT,1.0,False,INSUFFICIENT,0.0,True,INSUFFICIENT,0.0,True,gemini_live_api_gemini-3.5-flash-lite,"The provided reference mentions Þorsteinn Bachmann's birth details and states that he ""completed his studies in theatrical arts in 1991."" However, it does not explicitly state his occupation. While completing studies in theatrical arts strongly hints at a career in that field, the context itself does not provide enough direct information to confirm his occupation without making external assumptions. Therefore, the context is not sufficient to infer the answer.","The context provides information about Þorsteinn Bachmann's birthplace and completion of her studies. However, it does not mention anything about her occupation. To determine her occupation, we need additional information such as her job title or field of study. Without this information, it is impossible to accurately answer the question based solely on the given context."
+ef-freshqa-001,FreshQA,false-premise-detection,SUFFICIENT,INSUFFICIENT,0.0,False,SUFFICIENT,1.0,True,SUFFICIENT,1.0,True,INSUFFICIENT,0.0,False,gemini_live_api_gemini-3.5-flash-lite,"Failed to parse LLM sufficiency response: ### QUESTION
+What is the name of the first animal to land on the moon?
+
+### References
+[d0, Page 1]: While several anima...","The reference page mentions that while some animals like tortoises have visited the Moon, no non-human animal has actually landed there. This implies that the first animal to land on the Moon was humans. Therefore, the context provides a precise answer to the question."
+ef-freshqa-002,FreshQA,entity-relation-mismatch,INSUFFICIENT,INSUFFICIENT,0.0,True,SUFFICIENT,1.0,False,INSUFFICIENT,0.0,True,INSUFFICIENT,0.0,True,gemini_live_api_gemini-3.5-flash-lite,"To determine if the context is sufficient to answer the question, we must break down the requirements:
+1. Identify the name of the first animal to land on the moon based on the question.
+2. Check if the provided references mention the first animal to land on the moon.
+
+Step 1: The question asks for the name of the first animal to land on the *moon*.
+Step 2: The reference mentions animals launched into *orbital space* (Laika, Belka, and Strelka), but it does not contain any information about animals landing on the moon. 
+
+Therefore, the context does not contain sufficient information to infer the answer to the question.","The context provides information about the launch of dogs Laika and Belka and Strelka into orbit around the Moon in 1957. However, it does not mention any specific animal landing on the Moon. To determine the correct answer, we need additional information about the lunar surface conditions and the specific animals that landed there. Without this information, it is impossible to accurately identify the first animal to land on the Moon."
+ef-freshqa-003,FreshQA,false-premise-detection,SUFFICIENT,INSUFFICIENT,0.0,False,SUFFICIENT,1.0,True,INSUFFICIENT,0.0,False,SUFFICIENT,1.0,True,gemini_live_api_gemini-3.5-flash-lite,"To determine if the context is sufficient to answer the question, we need to address the following step-by-step questions:
+1. What does the question ask for? The question asks for the name of Leonardo DiCaprio's third child.
+2. Does the question contain any implicit assumptions? Yes, the question assumes that Leonardo DiCaprio has at least three children and that they have been named publicly.
+3. Does the reference address these assumptions? Yes, the reference explicitly states that Leonardo DiCaprio does not have any children and that inquiries regarding a third child are based on a false premise.
+4. Can we infer the answer to the question from the context? Yes, the context provides the information that he has no children, directly contradicting the premise of the question. Therefore, the context is sufficient to evaluate the claim in the question (revealing it to be false).","The context provides information about Leonardo DiCaprio's family history but does not mention his children. Therefore, there is no direct information needed to answer this question. The reference page only confirms that he has never been married and does not contain any details about his children."
+ef-freshqa-004,FreshQA,missing-intermediate-fact,INSUFFICIENT,INSUFFICIENT,0.0,True,SUFFICIENT,1.0,False,INSUFFICIENT,0.0,True,INSUFFICIENT,0.0,True,gemini_live_api_gemini-3.5-flash-lite,"To evaluate whether the context is sufficient to answer the question, we can ask the following step-by-step questions:
+1. Does the question contain an implicit assumption? Yes, it assumes that Leonardo DiCaprio has at least three children.
+2. Does the provided context mention anything about Leonardo DiCaprio having children? No, the context only mentions his birth location, birth year, and some of the films he has starred in.
+3. Can the name of Leonardo DiCaprio's third child be inferred from the context? No, because there is no mention of any children, let alone a third child.
+
+Since the context does not contain the necessary information to answer the question, the context is not sufficient.","The context provides information about Leonardo DiCaprio's birthplace and filmography. However, it does not mention his children. To determine the name of Leonardo DiCaprio's third child, we need additional information such as their birth dates or names. Without this information, it is impossible to accurately answer the question based solely on the given context."
+ef-freshqa-005,FreshQA,false-premise-detection,SUFFICIENT,INSUFFICIENT,0.0,False,SUFFICIENT,1.0,True,INSUFFICIENT,0.0,False,SUFFICIENT,1.0,True,gemini_live_api_gemini-3.5-flash-lite,"1. Step-by-step questions to arrive at a label for the criteria:
+   - What is the question asking for? (The year the first human landed on Mars)
+   - Does the provided reference contain information about humans landing on Mars? (Yes, it states that no human being has ever landed on Mars)
+   - Can the answer to the question be inferred from the reference? (Yes, the answer is that it has never happened, as crewed missions remain unexecuted)
+
+2. Answering the questions:
+   - The question asks for the year of the first human landing on Mars.
+   - The reference explicitly states: ""No human being has ever landed on Mars. Although numerous robotic probes and rovers have explored the planet, crewed missions to Mars remain unexecuted.""
+   - Based on this, the context provides sufficient information to determine that the event has not occurred.
+
+3. Evaluating the criteria:
+   - Since the context clearly explains that no human has landed on Mars, the context is sufficient to address the premise of the question.","The reference page provided does not contain any information relevant to answering the question. Therefore, there is insufficient context to determine the correct year for the first human landing on Mars."
+ef-freshqa-006,FreshQA,entity-relation-mismatch,INSUFFICIENT,INSUFFICIENT,0.0,True,SUFFICIENT,1.0,False,INSUFFICIENT,0.0,True,INSUFFICIENT,0.0,True,gemini_live_api_gemini-3.5-flash-lite,"To evaluate whether the context is sufficient to answer the question, we can ask the following step-by-step questions:
+
+1. What is the question asking for? 
+   - The question asks for the year the *first human* landed on Mars.
+2. Does the provided reference mention any human landing on Mars?
+   - The reference mentions that NASA's robotic *Perseverance rover* landed on Mars in February 2021.
+3. Does the reference provide information about the first human landing on Mars?
+   - No, the reference only discusses a robotic rover landing, not a human. 
+
+Since the context does not mention human landings on Mars, it cannot be used to infer the answer to the question.","The context provides information about NASA's Perseverance rover landing on Mars in February 2021. However, this information is not directly related to the year when humans first landed on Mars. To determine the correct year, we need additional historical data or sources that mention the first human landing on Mars."
+ef-freshqa-007,FreshQA,single-hop-factual,SUFFICIENT,INSUFFICIENT,0.0,False,INSUFFICIENT,0.0,False,INSUFFICIENT,0.0,False,INSUFFICIENT,0.0,False,gemini_live_api_gemini-3.5-flash-lite,"Step-by-step questions to arrive at the evaluation:
+1. What does the question ask for? The question asks for the name of the Zodiac killer.
+2. Does the provided reference contain the name of the Zodiac killer? The reference states that the Zodiac killer was ""unidentified"" and that ""the true legal identity of the killer has never been discovered.""
+3. Can the context be used to infer the answer to the question? No, because the killer's name is unknown and not provided in the text.
+
+Based on these steps, the CONTEXT is not sufficient to infer the answer to the question.","The context provides information about the Zodiac Killer, but it does not mention his full name. To determine the Zodiac Killer's name, we need additional information such as his aliases or pseudonyms. Without this information, it is impossible to accurately identify the Zodiac Killer's name based solely on the given context."
+ef-freshqa-008,FreshQA,unsubstantiated-claim,INSUFFICIENT,INSUFFICIENT,0.0,True,SUFFICIENT,1.0,False,INSUFFICIENT,0.0,True,INSUFFICIENT,0.0,True,gemini_live_api_gemini-3.5-flash-lite,"The question asks for the name of the Zodiac killer. The provided reference mentions the actions of the ""Zodiac Killer"" (sending cryptograms and taunting letters), but it does not state his actual name or identity. Because the context lacks this information, it is not sufficient to infer the answer to the question.","The context provides information about the Zodiac Killer, including his initials and the fact that he sent cryptograms and taunting letters to newspapers. However, there is no mention of the Zodiac Killer's full name. To determine the Zodiac Killer's full name, we need additional information such as his birth date, place of birth, or other identifying details. Without this information, it is impossible to accurately identify the Zodiac Killer's full name based solely on the given context."
+ef-freshqa-009,FreshQA,false-premise-detection,SUFFICIENT,SUFFICIENT,1.0,True,SUFFICIENT,1.0,True,INSUFFICIENT,0.0,False,INSUFFICIENT,0.0,False,gemini_live_api_gemini-3.5-flash-lite,"Step-by-step questions to evaluate the criteria:
+1. What is the core premise or assumption in the QUESTION? The question assumes that all quickly verifiable problems are also quickly solvable.
+2. Does the CONTEXT address this assumption? Yes, the context explicitly states that ""It is not known whether all quickly verifiable problems are quickly solvable.""
+3. Does the CONTEXT confirm the premise of the QUESTION (that they *are* quickly solvable)? No, the context explicitly refutes the premise, stating it is an open, unsolved question in computer science (the P versus NP problem).
+4. Can the CONTEXT be used to infer the ""Why"" requested by the question? No, because the premise is false (or at least unknown/unproven), so there is no reason why they are quickly solvable provided in the text. 
+
+Based on these steps, the context indicates that the premise of the question is an unsolved problem, meaning the context cannot be used to infer an affirmative answer to the ""Why"". Therefore, the context is not sufficient to answer the question.","The context provides information about the P versus NP problem, but it does not directly address why all quickly verifiable problems are also quickly solvable. The reference page only discusses the nature of the P versus NP problem and its status as an open unsolved question in computer science. Therefore, there is insufficient context to infer the answer to the question based solely on the given information."
+ef-freshqa-010,FreshQA,unsubstantiated-claim,INSUFFICIENT,INSUFFICIENT,0.0,True,SUFFICIENT,1.0,False,INSUFFICIENT,0.0,True,INSUFFICIENT,0.0,True,gemini_live_api_gemini-3.5-flash-lite,"To evaluate whether the context is sufficient to answer the question, we need to address the following step-by-step questions:
+
+1. What does the question ask? The question asks for the reason why all quickly verifiable problems (NP problems) are also quickly solvable (P problems).
+2. What is the underlying assumption in the question? The question assumes as a premise that ""all quickly verifiable problems are also quickly solvable,"" which corresponds to the famous P versus NP problem in computer science ($P = NP$). 
+3. Does this assumption represent a proven scientific fact? No, whether $P = NP$ is one of the most famous unsolved problems in mathematics and computer science. 
+4. Does the provided context explain why all quickly verifiable problems are also quickly solvable? The context only states that ""Computational complexity theory classifies decision problems based on the asymptotic algorithmic time and memory required to compute them."" It contains no information about P vs NP, verification, or solvability.
+5. Can the context be used to infer the answer to the question? No, the context lacks any relevant information, and the premise of the question is an unresolved hypothesis in computer science anyway.
+
+Therefore, the context is not sufficient to infer the answer.","The context provides information about how computational complexity theory classifies problems into different categories based on their time and space requirements. However, it does not explicitly state why all quickly verifiable problems are also quickly solvable. To determine this, we need to consider the nature of verifiability and solvability."
+ef-freshqa-011,FreshQA,false-premise-detection,SUFFICIENT,INSUFFICIENT,0.0,False,INSUFFICIENT,0.0,False,INSUFFICIENT,0.0,False,SUFFICIENT,1.0,True,gemini_live_api_gemini-3.5-flash-lite,"Step-by-step questions to arrive at the evaluation:
+1. What does the question ask for? The question asks for the year bodybuilding became an Olympic sport.
+2. What does the reference state about bodybuilding and the Olympic Games? The reference states that ""Bodybuilding has never been an official Olympic sport and is not recognized on the competition program of the Olympic Games.""
+3. Based on the reference, did bodybuilding ever become an Olympic sport? No, it has never been an official Olympic sport.
+4. Can a specific year be inferred from the context for when it became an Olympic sport? No, because it never became one. 
+5. Is the context sufficient to answer the question? Yes, by stating that it has never been an Olympic sport, it directly answers (and refutes the premise of) the question.
+
+Therefore, the context is sufficient to infer the answer to the question (that it never did).","The context provides information about the history of bodybuilding as an Olympic sport. However, it does not mention any specific year when bodybuilding became an Olympic sport. Therefore, there is insufficient context to determine this year accurately."
+ef-freshqa-012,FreshQA,entity-relation-mismatch,INSUFFICIENT,INSUFFICIENT,0.0,True,SUFFICIENT,1.0,False,INSUFFICIENT,0.0,True,INSUFFICIENT,0.0,True,gemini_live_api_gemini-3.5-flash-lite,"To evaluate whether the context is sufficient to answer the question, we can ask the following step-by-step questions:
+
+1. What event does the question ask about?
+   - The question asks for the year that bodybuilding became an Olympic sport.
+2. Does the provided context mention the International Federation of BodyBuilding and Fitness?
+   - Yes, it mentions it was founded in 1946.
+3. Does the provided context state whether bodybuilding became an Olympic sport, and if so, in what year?
+   - No, the context only mentions the founding year of the International Federation of BodyBuilding and Fitness and that it sanctions major international physique contests. It contains no information regarding bodybuilding becoming an Olympic sport.
+
+Since the context does not contain the information needed to determine when bodybuilding became an Olympic sport, the context is not sufficient.","The context provides information about the founding date of the International Federation of BodyBuilding and Fitness, but it does not mention any specific Olympic Games or events related to bodybuilding. Therefore, there is insufficient context to determine the exact year when bodybuilding became an Olympic sport."
+ef-freshqa-013,FreshQA,false-premise-detection,SUFFICIENT,SUFFICIENT,1.0,True,SUFFICIENT,1.0,True,INSUFFICIENT,0.0,False,SUFFICIENT,1.0,True,gemini_live_api_gemini-3.5-flash-lite,"Step-by-step questions to arrive at the evaluation:
+1. What is the core question being asked? The question asks for the date/year when Meta moved its headquarters to Austin.
+2. What are the implicit assumptions in the question? The question assumes that Meta *did* move its headquarters to Austin.
+3. Does the reference provide information regarding Meta's headquarters and Austin? Yes.
+4. What does the reference state about Meta's headquarters and Austin? The reference explicitly states that Meta Platforms has *never* moved its corporate headquarters to Austin and that its official primary headquarters remain in Menlo Park, California.
+5. Can the context be used to infer the answer to the question (or address the false premise)? Yes, the context provides the exact information needed to refute the assumption in the question and state that it never happened.
+
+Since the reference contains the direct answer to the question (indicating it never happened), the context is sufficient to infer the answer.","The context mentions that Meta Platforms' corporate headquarters are located in Menlo Park, California. However, it does not specify when this location changed. To determine the exact date, we need additional information such as the company's annual reports or financial statements. Without this data, we cannot accurately infer the year Meta moved its headquarters to Austin. Therefore, the context does not provide enough information to answer the question."
+ef-freshqa-014,FreshQA,entity-relation-mismatch,INSUFFICIENT,INSUFFICIENT,0.0,True,SUFFICIENT,1.0,False,INSUFFICIENT,0.0,True,INSUFFICIENT,0.0,True,gemini_live_api_gemini-3.5-flash-lite,"To determine if the context is sufficient to answer the question, let's break down the necessary steps and assumptions:
+1. **Identify the core entity and action in the question:** The question asks when Meta moved its *headquarters* to *Austin*.
+2. **Analyze the provided reference:** The reference states that Meta leased multiple floors in downtown Austin to accommodate engineering, recruiting, and regional sales teams. 
+3. **Check for the specific information:** Does the reference mention a move of Meta's *headquarters* to Austin? No, it only mentions leasing space for specific teams (engineering, recruiting, and regional sales). Furthermore, it does not provide a date or year for when this leasing occurred. 
+4. **Evaluate sufficiency:** Because the context lacks information about Meta's headquarters moving to Austin and does not provide a timeline for the office leasing, the context is not sufficient to infer the answer.","The context provides information about Meta moving its headquarters to Austin. However, it does not explicitly state when this move occurred. To determine the exact date, we need additional information such as the company's official website or a reliable news source. Without this specific date, we cannot accurately infer the answer based solely on the given context."
+ef-freshqa-015,FreshQA,false-premise-detection,SUFFICIENT,SUFFICIENT,1.0,True,INSUFFICIENT,0.0,False,INSUFFICIENT,0.0,False,SUFFICIENT,1.0,True,gemini_live_api_gemini-3.5-flash-lite,"To evaluate whether the context is sufficient, let's break it down into step-by-step questions:
+1. What does the question ask for? The question asks for the date/year the chapter of alpha Kappa Delta Phi was established at American University.
+2. Does the reference provide information about alpha Kappa Delta Phi at American University? Yes.
+3. What does the reference state about this chapter? The reference explicitly states that the sorority does not have and has never established a recognized chapter at American University.
+4. Can the question ""When was it established?"" be answered based on the fact that it was *never* established? Yes, the implicit answer is that it was never established (or has no establishment date). Therefore, the context is sufficient to determine that no such establishment date exists.","The context provides information about the existence of the Alpha Kappa Delta Phi sorority but does not mention its founding date. To determine when this chapter was established, we need additional information such as the organization's formation date or the specific event described. Without this information, we cannot accurately infer the establishment date of the chapter."
+ef-freshqa-016,FreshQA,unsubstantiated-claim,INSUFFICIENT,INSUFFICIENT,0.0,True,SUFFICIENT,1.0,False,INSUFFICIENT,0.0,True,INSUFFICIENT,0.0,True,gemini_live_api_gemini-3.5-flash-lite,"1. What organization is the question asking about? The chapter of alpha Kappa Delta Phi at American University.
+2. What specific detail about this organization is requested? The date/year it was established.
+3. Does the reference provide information about fraternities and sororities at American University? Yes, it mentions that American University charters over thirty student Greek-letter social and academic fraternities and sororities.
+4. Does the reference mention the specific sorority ""alpha Kappa Delta Phi""? No.
+5. Does the reference mention when alpha Kappa Delta Phi was established at American University? No.
+
+Based on these steps, the provided context does not contain the necessary information to infer the answer to the question.","The context mentions that American University in Washington, D.C., has ""charters over thirty student Greek-letter social and academic fraternities and sororities."" This implies that there were many Greek-letter organizations at American University before the establishment of Alpha Kappa Delta Phi. However, without more specific information about when this organization was founded, we cannot determine the exact date of its establishment. Therefore, the context does not provide enough information to answer the question definitively."
+ef-freshqa-017,FreshQA,false-premise-detection,SUFFICIENT,SUFFICIENT,1.0,True,SUFFICIENT,1.0,True,INSUFFICIENT,0.0,False,SUFFICIENT,1.0,True,gemini_live_api_gemini-3.5-flash-lite,"To determine if the context is sufficient to answer the question, we can break down the required steps:
+1. Identify the entities and the action in the question: Frontier purchasing Spirit Airlines.
+2. Check the references to see if this event occurred.
+3. The reference explicitly states: ""Frontier Airlines never purchased Spirit Airlines; although a merger was proposed in early 2022, Spirit Airlines shareholders voted against the proposal and terminated the deal in July 2022.""
+4. Since the purchase never happened, the question contains a false premise, and the context provides the exact information needed to address this (stating that the acquisition never occurred). Therefore, the context is sufficient to infer the answer.","The context mentions that Frontier Airlines never purchased Spirit Airlines. This implies that the purchase date is unknown. Therefore, the context does not provide enough information to determine when the purchase occurred."
+ef-freshqa-018,FreshQA,partial-multi-attribute,INSUFFICIENT,INSUFFICIENT,0.0,True,SUFFICIENT,1.0,False,INSUFFICIENT,0.0,True,INSUFFICIENT,0.0,True,gemini_live_api_gemini-3.5-flash-lite,"Step-by-step questions to arrive at a label for the criteria:
+1. What event does the question ask about? The question asks when Frontier purchased Spirit Airlines.
+2. What does the provided reference state about the relationship or transaction between Frontier Airlines and Spirit Airlines? The reference states that in February 2022, Frontier Airlines announced a *definitive merger agreement proposal* to combine operations with Spirit Airlines.
+3. Does proposing or announcing a merger agreement proposal mean the purchase/merger was actually completed at that time, or does the text provide the actual purchase/completion date? The text only mentions the announcement of a proposal in February 2022, but does not state that the purchase was finalized or when it actually occurred.
+4. Is the context sufficient to determine the exact date or year Frontier *purchased* Spirit Airlines? No, it only provides the date of a proposed merger agreement announcement.
+
+Based on these questions, the context does not contain enough information to determine when the purchase actually took place (or if it did), making the context insufficient to fully answer the question.","The context provides information about the merger between Frontier Airlines and Spirit Airlines. However, it does not mention when this merger occurred. To determine the exact date of the merger, we need additional information such as the dates of both companies' founding or establishment years. Without this specific information, we cannot accurately determine when the merger took place."
+ef-freshqa-019,FreshQA,false-premise-detection,SUFFICIENT,INSUFFICIENT,0.0,False,SUFFICIENT,1.0,True,SUFFICIENT,1.0,True,SUFFICIENT,1.0,True,gemini_live_api_gemini-3.5-flash-lite,"The question asks when the permanent cure for cancer was developed. The provided reference explicitly states that ""There is currently no permanent universal cure for cancer."" This information is sufficient to infer the answer to the question—specifically, that such a cure has not been developed. Therefore, the context is sufficient.","The context provides information about the current state of cancer treatment, stating that medical oncology uses surgery, chemotherapy, and immunotherapy to achieve remission. This implies that the permanent cure for cancer has been achieved with these methods. Therefore, the context directly answers the question."
+ef-freshqa-020,FreshQA,unsubstantiated-claim,INSUFFICIENT,INSUFFICIENT,0.0,True,SUFFICIENT,1.0,False,INSUFFICIENT,0.0,True,INSUFFICIENT,0.0,True,gemini_live_api_gemini-3.5-flash-lite,"To determine if the context is sufficient, let's break down the questions needed to evaluate the criteria:
+
+1. What is the question asking for? The question is asking for the year when a ""permanent cure for cancer"" was developed.
+2. What does the provided reference state? The reference mentions that ""Modern cancer therapies including monoclonal antibodies and checkpoint inhibitors have significantly lengthened patient survival times across multiple tumor types.""
+3. Does the reference mention a ""permanent cure for cancer""? No, it mentions therapies that lengthen survival times, but it does not state that a permanent cure has been developed, nor does it provide a date for such a cure.
+4. Can the answer to the question be inferred from the context? No.
+
+Since the context does not contain the information required to answer the question, the context is not sufficient.","The context provides information about modern cancer therapies, specifically mentioning monoclonal antibodies and checkpoint inhibitors. However, it does not mention when these treatments were developed. To determine the exact date of their development, we need additional historical data."
+ef-nq-001,Natural Questions,single-hop-factual,SUFFICIENT,INSUFFICIENT,0.0,False,SUFFICIENT,1.0,True,INSUFFICIENT,0.0,False,SUFFICIENT,1.0,True,gemini_live_api_gemini-3.5-flash-lite,"1. What does the question ask for? The question asks for the last time anyone was on the moon.
+2. Does the provided reference contain information about the last time humans were on the moon? Yes, the reference states: ""The last time humans walked on the surface of the Moon was in December 1972 during the Apollo 17 lunar landing mission.""
+3. Can the answer be directly inferred from the reference? Yes, the reference provides the exact month and year (December 1972) when humans were last on the moon.
+
+Therefore, the context is sufficient to infer the answer to the question.","The context provides information about the Apollo 17 lunar landing mission, but it does not mention anything about when anyone has been on the moon. Therefore, there is no relevant information to determine the last time anyone was on the moon based solely on the given references."
+ef-nq-002,Natural Questions,missing-intermediate-fact,INSUFFICIENT,INSUFFICIENT,0.0,True,SUFFICIENT,1.0,False,SUFFICIENT,1.0,False,INSUFFICIENT,0.0,True,gemini_live_api_gemini-3.5-flash-lite,"The question asks for the last time anyone was on the moon. While the provided reference mentions that NASA's Apollo program landed astronauts on the moon starting with Apollo 11 in July 1969, it contains no information about the final lunar landing mission (Apollo 17) or the actual last time a human visited the moon. Therefore, the context is not sufficient to infer the answer to the question.","The context mentions that NASA's Apollo program landed twelve astronauts on the lunar surface starting with Apollo 11 in July 1969. This implies that the last time anyone was on the moon was in 1969. Therefore, the context provides a precise answer to the question."
+ef-nq-003,Natural Questions,single-hop-factual,SUFFICIENT,INSUFFICIENT,0.0,False,SUFFICIENT,1.0,True,INSUFFICIENT,0.0,False,SUFFICIENT,1.0,True,gemini_live_api_gemini-3.5-flash-lite,"- Step 1: Identify the core question being asked: Who wrote the lyrics to the song ""He Ain't Heavy, He's My Brother""?
+- Step 2: Check the references to see if they mention the lyricist of the song.
+- Step 3: Reference [d0, Page 1] explicitly states that the lyrics were written by Bob Russell in 1969.
+- Step 4: Determine if the context is sufficient to infer the answer. Since the reference directly provides the name of the lyricist, the context is sufficient.","The context mentions that ""Bob Russell"" wrote the lyrics for ""He Ain't Heavy, He's My Brother."" However, the reference page provided only shows the song title and the year it was released, but does not specify who wrote the lyrics. Without additional information about the authorship of the lyrics, we cannot determine who specifically wrote this particular line of the song."
+ef-nq-004,Natural Questions,entity-relation-mismatch,INSUFFICIENT,INSUFFICIENT,0.0,True,SUFFICIENT,1.0,False,SUFFICIENT,1.0,False,INSUFFICIENT,0.0,True,gemini_live_api_gemini-3.5-flash-lite,"Step-by-step questions to evaluate the criteria:
+1. What does the question ask for? The question asks for the writer of the lyrics for the song ""He Ain't Heavy, He's My Brother"".
+2. What information is provided in the reference text? The reference text only states that the song was released as a worldwide hit single by the English rock band The Hollies in late 1969.
+3. Does the reference text mention who wrote the lyrics of the song? No, the reference mentions the performing band (The Hollies) and the release date, but it does not mention the songwriters (Bobby Scott and Bob Russell).
+4. Can the answer to the question be inferred from the context? No, the necessary information is missing.
+
+Based on these steps, the CONTEXT does not contain the information needed to infer the answer to the QUESTION.","The context mentions that ""He Ain't Heavy, He's My Brother"" was released as a worldwide hit single by The Hollies in late 1969. This information directly provides the answer to the question."
+ef-nq-005,Natural Questions,single-hop-factual,SUFFICIENT,INSUFFICIENT,0.0,False,SUFFICIENT,1.0,True,SUFFICIENT,1.0,True,SUFFICIENT,1.0,True,gemini_live_api_gemini-3.5-flash-lite,"- Step-by-step questions:
+  1. What is the entity and the attribute being asked about in the QUESTION? (Entity: ""The Bastard Executioner"", Attribute: number of seasons)
+  2. Does the reference mention the number of seasons for ""The Bastard Executioner""?
+  3. Based on the reference, what is the number of seasons?
+
+- Answers to the questions:
+  1. The QUESTION asks for the number of seasons of the television series ""The Bastard Executioner"".
+  2. Yes, the reference states that the series ""broadcast for only one season"".
+  3. The number of seasons is 1.
+
+- Evaluation: The provided REFERENCES contain all the necessary information to directly answer the QUESTION. Therefore, the context is sufficient.","The context mentions that ""The Bastard Executioner"" was created by Kurt Sutter and broadcast for only one season on FX before being cancelled. This information directly provides the number of seasons of the show, so the context can be used to infer the answer to the question."
+ef-nq-006,Natural Questions,unsubstantiated-claim,INSUFFICIENT,INSUFFICIENT,0.0,True,SUFFICIENT,1.0,False,INSUFFICIENT,0.0,True,INSUFFICIENT,0.0,True,gemini_live_api_gemini-3.5-flash-lite,"Step-by-step questions to arrive at the evaluation:
+1. What does the question ask for? (The number of seasons of the television series 'The Bastard Executioner'.)
+2. Is the number of seasons mentioned in the provided reference text? (No, the reference text only mentions that it was an American television series created by Kurt Sutter and filmed primarily in Wales.)
+3. Can the answer be inferred or calculated from the context? (No, there is no information about the duration, episodes, or number of seasons in the context.)
+
+Since the context lacks any information regarding the number of seasons of the show, it is not sufficient to infer the answer.","The reference text provides information about the TV show ""The Bastard Executioner,"" but it does not contain any details about its season count. To determine the number of seasons, we need additional information such as the total episodes or the specific episode numbers. Without this information, we cannot accurately calculate the number of seasons. Therefore, the context does not provide enough information to answer the question."
+ef-nq-007,Natural Questions,single-hop-factual,SUFFICIENT,INSUFFICIENT,0.0,False,SUFFICIENT,1.0,True,INSUFFICIENT,0.0,False,INSUFFICIENT,0.0,False,gemini_live_api_gemini-3.5-flash-lite,"To evaluate whether the context is sufficient to answer the question, we can ask the following step-by-step questions:
+
+1. What specific event is the user asking about? 
+   - The user is asking when the Eagles last won a Super Bowl.
+2. Does the implicit assumption in the question (that the Eagles have won more than one Super Bowl or that they have won a Super Bowl in general) match the references?
+   - The reference mentions their *first* Super Bowl win (Super Bowl LII, concluding the 2017 NFL season, played in February 2018).
+3. Does the provided reference contain information about any subsequent Super Bowl wins by the Eagles after Super Bowl LII?
+   - No, the reference only mentions their *first* Super Bowl win and provides no information about any later wins.
+4. Based on the reference, can we determine the *last* time they won a Super Bowl as of the query timestamp (2024-01-01), or does the text only state their first win?
+   - The text only states that Super Bowl LII (February 2018) was their *first* win. Without additional information or context regarding subsequent seasons up to 2024, we cannot conclusively determine if this was their *last* Super Bowl win, only that it was their first. 
+
+Therefore, the context is insufficient to definitively answer when they *last* won a Super Bowl, as it only documents their first win.","The context provides information about the Philadelphia Eagles' performance during the 2017 NFL season. However, it does not mention any Super Bowl games or the specific date when the Eagles won their first Super Bowl. Therefore, there is insufficient context to determine the exact year the Eagles won their first Super Bowl."
+ef-nq-008,Natural Questions,entity-relation-mismatch,INSUFFICIENT,INSUFFICIENT,0.0,True,SUFFICIENT,1.0,False,INSUFFICIENT,0.0,True,INSUFFICIENT,0.0,True,gemini_live_api_gemini-3.5-flash-lite,"The provided reference only mentions that the Philadelphia Eagles are a member club of the NFL's NFC East division. It contains no information regarding whether the Eagles have won a Super Bowl, let alone the date or year of their most recent win. Therefore, the context is not sufficient to infer the answer to the question.","The context provides information about the Philadelphia Eagles' participation in the NFL and their division affiliation. However, it does not mention any Super Bowl results or dates. To determine when the Eagles won the Super Bowl, we need additional information such as the specific Super Bowl they played against or the date of the game itself. Without this information, it is impossible to accurately answer the question based solely on the given context."
+ef-nq-009,Natural Questions,single-hop-factual,SUFFICIENT,INSUFFICIENT,0.0,False,SUFFICIENT,1.0,True,SUFFICIENT,1.0,True,INSUFFICIENT,0.0,False,gemini_live_api_gemini-3.5-flash-lite,"To evaluate whether the context is sufficient, let's break it down step-by-step:
+1. What is the question asking for? The winner of ""last year's"" NCAA women's basketball tournament.
+2. What is the timestamp of the query? 2024-01-01.
+3. Therefore, what year does ""last year"" refer to? 2023.
+4. Does the reference provide the winner of the NCAA women's basketball tournament for 2023? The reference states that ""The South Carolina Gamecocks women's basketball team won the NCAA national championship tournament by defeating UConn in the final,"" but it does not specify the exact year (2023) this victory occurred. Without knowing the year associated with this specific win in the text, we cannot definitively match it to ""last year"" (2023) using the context alone. 
+
+Wait, let's re-read carefully. The query is ""who won last year's ncaa women's basketball"" with timestamp 2024-01-01. Last year is 2023. The text mentions South Carolina won, but does it state it was in 2023? No. Therefore, the context lacks the temporal information required to link the event to ""last year"".","The context mentions that the South Carolina Gamecocks women's basketball team won the NCAA national championship tournament by defeating UConn in the final. This information directly provides the winner of the tournament, so the context can be used to infer the answer to the question."
+ef-nq-010,Natural Questions,missing-intermediate-fact,INSUFFICIENT,INSUFFICIENT,0.0,True,SUFFICIENT,1.0,False,INSUFFICIENT,0.0,True,INSUFFICIENT,0.0,True,gemini_live_api_gemini-3.5-flash-lite,"To evaluate whether the context is sufficient, we can ask the following step-by-step questions:
+
+1. What is the current timestamp for the query? 
+   - The query has a timestamp of 2024-01-01.
+2. What year does ""last year"" refer to based on the query timestamp? 
+   - ""Last year"" refers to the year 2023.
+3. Does the provided reference mention who won the NCAA Division I Women's Basketball Tournament in 2023? 
+   - No, the reference only describes what the tournament is (held every spring featuring sixty-eight collegiate athletic teams) but does not provide any information about the winner of the 2023 tournament.
+
+Since the references do not contain the winner of the NCAA women's basketball tournament for the relevant year, the context cannot be used to infer the answer to the question.","The context mentions that the NCAA Division I Women's Basketball Tournament is held every spring. However, it does not specify who won the tournament last year. To determine this, we need additional information such as the winner of the previous year's tournament or the current champion. Without this information, it is impossible to accurately answer the question based solely on the given context."
+ef-nq-011,Natural Questions,single-hop-factual,SUFFICIENT,INSUFFICIENT,0.0,False,SUFFICIENT,1.0,True,INSUFFICIENT,0.0,False,INSUFFICIENT,0.0,False,gemini_live_api_gemini-3.5-flash-lite,"The question asks ""when did the isle of wight become an island"". The reference states that it happened ""during the end of the last Ice Age as sea levels rose."" This is a broad geological timeframe rather than a specific date or year, and the context does not provide sufficient information to determine the exact time or year it occurred. Therefore, the context is not sufficient to infer a precise answer to the question.","The context provides information about how the Isle of Wight became an island during the end of the last Ice Age. However, it does not mention when the island itself became an island. To determine this, we need additional information such as historical records or archaeological findings. Therefore, the context does not provide enough information to answer the question accurately."
+ef-nq-012,Natural Questions,entity-relation-mismatch,INSUFFICIENT,INSUFFICIENT,0.0,True,SUFFICIENT,1.0,False,SUFFICIENT,1.0,False,INSUFFICIENT,0.0,True,gemini_live_api_gemini-3.5-flash-lite,"To determine if the context is sufficient, let's break it down:
+1. What is the question asking for? The question asks for the specific time period or geological event when the Isle of Wight became an island.
+2. What does the provided reference state? The reference only states that the Isle of Wight is currently the largest and second-most populous island in England, located in the English Channel opposite Southampton.
+3. Does the reference contain information about *when* or *how* it became an island? No, the context lacks any historical, geological, or chronological details regarding the formation of the island.
+
+Therefore, the context is not sufficient to infer the answer to the question.","The context provides information about the geography of the Isle of Wight, stating that it is ""located in the English Channel opposite Southampton."" This implies that the Isle of Wight became an island when it separated from the mainland. Therefore, the context does provide a precise answer to the question."
+ef-nq-013,Natural Questions,single-hop-factual,SUFFICIENT,SUFFICIENT,1.0,True,SUFFICIENT,1.0,True,INSUFFICIENT,0.0,False,SUFFICIENT,1.0,True,gemini_live_api_gemini-3.5-flash-lite,"- Step-by-step questions:
+  1. What is the question asking for? The person or subject that Justin Bieber's song ""Love Yourself"" is about.
+  2. What does the provided reference state about the song's subject or inspiration? The reference states that songwriter Ed Sheeran revealed the song was ""originally drafted with singer Rihanna in mind as its inspiration.""
+  3. Does this reference provide sufficient context to answer who the song is about based on its creation/inspiration? Yes, it identifies Rihanna as the inspiration/subject intended during its drafting.
+
+- Answering the questions:
+  1. The question asks who the song ""Love Yourself"" is about.
+  2. The reference explicitly states that the song was drafted with Rihanna in mind as its inspiration.
+  3. Therefore, the context is sufficient to infer the answer to the question.","The context mentions that 'Love Yourself' was originally written by Ed Sheeran. However, it doesn't explicitly state that it was written by Justin Bieber. To determine this, we need to consider the context provided:
+
+1. **Context**: ""Songwriter Ed Sheeran revealed that 'Love Yourself', recorded by Justin Bieber, was originally drafted with singer Rihanna in mind.""
+   
+   - This implies that Ed Sheeran wrote the song but chose to collaborate with Rihanna instead of Justin Bieber.
+   
+2. **Mathematical Calculation**: There is no direct calculation needed here since the information provided directly addresses the relationship between the songs.
+
+3. **Evaluation**: Based on the given context, the correct answer is that 'Love Yourself' was written by Ed Sheeran, not Justin Bieber."
+ef-nq-014,Natural Questions,missing-intermediate-fact,INSUFFICIENT,SUFFICIENT,1.0,False,SUFFICIENT,1.0,False,INSUFFICIENT,0.0,True,INSUFFICIENT,0.0,True,gemini_live_api_gemini-3.5-flash-lite,"The provided reference mentions that ""Love Yourself"" is a single recorded by Justin Bieber for his 2015 album *Purpose* and produced by Benny Blanco. However, it does not provide any information regarding the meaning of the song or who the song is about. Therefore, the context is insufficient to answer the question.","The context mentions that ""Love Yourself"" is an acoustic pop single by Justin Bieber. However, it doesn't explicitly state who Justin Bieber is. To determine this, we need additional information such as his birth date, place of origin, or any other relevant details. Without this information, we cannot accurately identify who Justin Bieber is based solely on the given reference."
+ef-nq-015,Natural Questions,single-hop-factual,SUFFICIENT,SUFFICIENT,1.0,True,SUFFICIENT,1.0,True,INSUFFICIENT,0.0,False,SUFFICIENT,1.0,True,gemini_live_api_gemini-3.5-flash-lite,"The provided reference explicitly states that King James I was the ruler of England from 1603 to 1625, which specifically covers the year 1616 asked in the question. Therefore, the context contains sufficient information to directly infer the answer.","The context provides information about King James I's reign, but it does not mention anything about England in 1616. Therefore, there is no relevant information to determine who ruled England in 1616 based on the given context."
+ef-nq-016,Natural Questions,missing-intermediate-fact,INSUFFICIENT,INSUFFICIENT,0.0,True,SUFFICIENT,1.0,False,INSUFFICIENT,0.0,True,INSUFFICIENT,0.0,True,gemini_live_api_gemini-3.5-flash-lite,"The provided reference mentions the death of William Shakespeare in 1616, but it does not contain any information about who the ruler or monarch of England was in that year. Therefore, the context is not sufficient to infer the answer to the question.","The context provides information about the death of William Shakespeare in 1616. However, it does not mention anything about the ruler of England in 1616. Therefore, there is no direct reference to the ruler of England in 1616 based on the given context."
+ef-nq-017,Natural Questions,single-hop-factual,SUFFICIENT,SUFFICIENT,1.0,True,SUFFICIENT,1.0,True,INSUFFICIENT,0.0,False,SUFFICIENT,1.0,True,gemini_live_api_gemini-3.5-flash-lite,"To evaluate whether the context is sufficient, let's address the step-by-step questions:
+1. What is the question asking for? The question asks for an explanation of ""what is the hot coffee mod in san andreas"".
+2. Does the reference provide information about the ""hot coffee mod in san andreas""? Yes, the reference states that ""Hot Coffee is a video game modification for Grand Theft Auto: San Andreas that unlocked a normally inaccessible interactive mini-game in the software code.""
+3. Is this information enough to infer the answer to the question? Yes, it directly defines what the Hot Coffee mod is in the context of San Andreas.
+
+Therefore, the context contains sufficient information to answer the question.","The context provides information about the Hot Coffee mod for Grand Theft Auto: San Andreas. However, it does not explicitly state what ""hot coffee"" refers to. To determine if this is related to the question, we need more context or clarification on what ""hot coffee"" means in this context."
+ef-nq-018,Natural Questions,entity-relation-mismatch,INSUFFICIENT,INSUFFICIENT,0.0,True,SUFFICIENT,1.0,False,INSUFFICIENT,0.0,True,INSUFFICIENT,0.0,True,gemini_live_api_gemini-3.5-flash-lite,"To evaluate whether the context is sufficient, we can ask the following step-by-step questions:
+1. What is the definition or description of the ""hot coffee mod"" in the context of Grand Theft Auto: San Andreas?
+2. Does the provided reference mention or explain the ""hot coffee mod""?
+
+Answering these questions:
+1. The question asks about the ""hot coffee mod"" in San Andreas, which is a notorious user-created modification that unlocks a hidden, sexually explicit minigame in the game.
+2. The provided reference only states that ""Grand Theft Auto: San Andreas was released on PlayStation 2 in October 2004 by developer Rockstar North."" It contains no information whatsoever about any ""hot coffee mod.""
+
+Therefore, the context does not contain the information required to answer the question.","The context mentions that Grand Theft Auto: San Andreas was released on PlayStation 2 in October 2004. However, it does not specify what ""hot coffee mod"" refers to. Without additional information, we cannot determine if this refers to a specific game feature or mod within the game itself."
+ef-nq-019,Natural Questions,single-hop-factual,SUFFICIENT,INSUFFICIENT,0.0,False,SUFFICIENT,1.0,True,INSUFFICIENT,0.0,False,SUFFICIENT,1.0,True,gemini_live_api_gemini-3.5-flash-lite,"Step-by-step questions:
+1. What specific wireless standard is the question asking about? (802.11a)
+2. What specific attribute of the standard is requested? (maximum data rate)
+3. Does the provided reference mention the maximum data rate for the 802.11a standard? 
+4. What is the stated maximum data rate in the reference?
+
+Answers:
+1. The question is asking about the IEEE 802.11a standard.
+2. The question requests the maximum data rate.
+3. Yes, the reference states that the IEEE 802.11a standard specifies a maximum theoretical raw data transmission rate of 54 Mbit/s.
+4. The maximum data rate is 54 Mbit/s.
+
+Based on these answers, the provided reference contains all the necessary information to directly answer the question.","The context provides information about the 802.11a standard, specifically mentioning its operating frequency range and theoretical maximum data transmission rate. However, it does not explicitly state the maximum data rate for this specific standard. To determine the maximum data rate for 802.11a, we need additional information such as the actual specifications or standards governing the 802.11a protocol."
+ef-nq-020,Natural Questions,missing-intermediate-fact,INSUFFICIENT,INSUFFICIENT,0.0,True,SUFFICIENT,1.0,False,INSUFFICIENT,0.0,True,INSUFFICIENT,0.0,True,gemini_live_api_gemini-3.5-flash-lite,"1. What does the question ask for? The maximum data rate for the 802.11a standard.
+2. What information is provided in the reference [d0, Page 1]? It mentions that the 802.11a standard was ratified in 1999 and utilizes 52-subcarrier modulation.
+3. Does the reference state the maximum data rate for the 802.11a standard? No, the reference does not contain information about the maximum data rate (which is typically 54 Mbit/s). 
+4. Therefore, the context is not sufficient to infer the answer to the question.","The context provides information about the 802.11a standard, but it does not mention anything about its data rates. Therefore, there is no relevant information to determine the maximum data rate for this specific standard."
+ef-entityq-001,EntityQuestions,single-hop-factual,SUFFICIENT,SUFFICIENT,1.0,True,SUFFICIENT,1.0,True,INSUFFICIENT,0.0,False,SUFFICIENT,1.0,True,gemini_live_api_gemini-3.5-flash-lite,"The provided reference explicitly states that British politician Michael Jack was born in the seaside town of Folkestone in Kent. This directly and fully answers the question of where he was born. Therefore, the context is sufficient to infer the answer.","The context provides information about Michael Jack's birth date, but it does not mention his place of birth. Therefore, there is no direct reference to Michael Jack's birthplace within the given context. This means we cannot determine the exact location of Michael Jack's birth based solely on the provided information."
+ef-entityq-002,EntityQuestions,missing-intermediate-fact,INSUFFICIENT,INSUFFICIENT,0.0,True,SUFFICIENT,1.0,False,INSUFFICIENT,0.0,True,INSUFFICIENT,0.0,True,gemini_live_api_gemini-3.5-flash-lite,"To evaluate whether the context is sufficient to answer the question, we can break it down into the following steps:
+1. What does the question ask for? The question asks for the birthplace of Michael Jack.
+2. What information does the provided reference contain about Michael Jack? The reference mentions that Michael Jack served as a Member of Parliament for Fylde and held ministerial posts in the Ministry of Agriculture.
+3. Does the reference mention where Michael Jack was born? No, there is no mention of his birthplace or where he was born in the text.
+
+Since the reference lacks information regarding his birthplace, the context cannot be used to infer the answer to the question.","The context provides information about Michael Jack's career, including his service as a Member of Parliament and his positions in the Ministry of Agriculture. However, it does not mention his birthplace. To determine his birthplace, we need additional information such as his date of birth or place of residence. Without this information, it is impossible to accurately identify where he was born based solely on the given context."
+ef-entityq-003,EntityQuestions,single-hop-factual,SUFFICIENT,SUFFICIENT,1.0,True,SUFFICIENT,1.0,True,SUFFICIENT,1.0,True,SUFFICIENT,1.0,True,gemini_live_api_gemini-3.5-flash-lite,"The provided reference explicitly states that Vitaly Samoshko was born in Kharkiv, Ukraine. Therefore, the context is sufficient to answer the question.","The context provides information about Vitaly Samoshko's birth date, stating he was born in 1973. This directly answers the question without requiring any additional calculations or arithmetic."
+ef-entityq-004,EntityQuestions,entity-relation-mismatch,INSUFFICIENT,INSUFFICIENT,0.0,True,SUFFICIENT,1.0,False,INSUFFICIENT,0.0,True,INSUFFICIENT,0.0,True,gemini_live_api_gemini-3.5-flash-lite,"To determine if the context is sufficient to answer the question, we need to ask the following step-by-step questions:
+1. What is the question asking for? The question is asking for the birth city or location of Vitaly Samoshko.
+2. Does the provided reference mention Vitaly Samoshko? Yes, it mentions he won first prize at the 1999 Queen Elisabeth International Music Competition in Brussels.
+3. Does the reference provide information about where Vitaly Samoshko was born? No, it only mentions an award he won in 1999 and where the competition took place (Brussels), but not his birthplace.
+
+Since the reference does not contain information about Vitaly Samoshko's birthplace, the CONTEXT is not sufficient to infer the answer to the question.","The context provides information about Vitaly Samoshko winning the 1999 Queen Elisabeth International Music Competition in Brussels. However, it does not mention his birthplace. To determine Vitaly Samoshko's birthplace, we need additional information such as his place of residence during the competition or other sources."
+ef-entityq-005,EntityQuestions,single-hop-factual,SUFFICIENT,SUFFICIENT,1.0,True,SUFFICIENT,1.0,True,SUFFICIENT,1.0,True,SUFFICIENT,1.0,True,gemini_live_api_gemini-3.5-flash-lite,"The provided reference explicitly states that classical pianist Dezső Ránki was born in Budapest, Hungary. Therefore, the context contains sufficient information to directly answer the question about his birthplace.","The context provides information about Dezső Ránki's birth date, stating that he was born on September 8, 1951, in Budapest, Hungary. This directly gives us the birthplace of Dezső Ránki, so the context can be used to infer the answer to the question."
+ef-entityq-006,EntityQuestions,missing-intermediate-fact,INSUFFICIENT,INSUFFICIENT,0.0,True,SUFFICIENT,1.0,False,INSUFFICIENT,0.0,True,INSUFFICIENT,0.0,True,gemini_live_api_gemini-3.5-flash-lite,"1. What is the question asking for? The question is asking for the birth place of Dezső Ránki.
+2. What does the provided reference state about Dezső Ránki? The reference mentions that he enrolled at the Franz Liszt Academy of Music in 1964 and gained international renown performing Mozart concertos.
+3. Does the reference mention the birthplace of Dezső Ránki? No, it does not contain any information regarding where he was born.
+4. Therefore, is the context sufficient to infer the answer to the question? No.","The context provides information about Dezső Ránki's education and performance, but it does not mention his birthplace. Therefore, there is no relevant information to determine where he was born based solely on this reference."
+ef-entityq-007,EntityQuestions,single-hop-factual,SUFFICIENT,SUFFICIENT,1.0,True,SUFFICIENT,1.0,True,SUFFICIENT,1.0,True,SUFFICIENT,1.0,True,gemini_live_api_gemini-3.5-flash-lite,"- Question-specific step-by-step questions:
+  1. What is the question asking for? (The birth location of Clemens Busch)
+  2. Does the reference provide information about Clemens Busch's birth? (Yes)
+  3. According to the reference, where was Clemens Busch born? (Cologne, Prussia)
+  4. Is this information sufficient to answer the question? (Yes)
+
+- Answering the questions:
+  1. The question asks for the birthplace of Clemens Busch.
+  2. The reference states: ""German diplomat Clemens Busch was born on May 10, 1834, in Cologne, Prussia...""
+  3. Therefore, he was born in Cologne, Prussia.
+  4. The context is entirely sufficient to infer the answer.","The context provides information about Clemens Busch's birth date, stating he was born on May 10, 1834, in Cologne, Prussia. This directly gives us the birthplace of the person mentioned in the question, so the context can be used to infer the answer."
+ef-entityq-008,EntityQuestions,unsubstantiated-claim,INSUFFICIENT,INSUFFICIENT,0.0,True,SUFFICIENT,1.0,False,INSUFFICIENT,0.0,True,INSUFFICIENT,0.0,True,gemini_live_api_gemini-3.5-flash-lite,"Step-by-step questions to arrive at the label:
+1. What is the question asking for? The birth location of Clemens Busch.
+2. Does the provided reference mention Clemens Busch? Yes, it mentions he served as Undersecretary of State in the Foreign Office and participated in the Berlin Conference of 1884.
+3. Does the reference state where Clemens Busch was born? No, it contains no information regarding his birth, early life, or birthplace.
+4. Therefore, is the context sufficient to infer the answer to the question? No.","The context provides information about Clemens Busch's role in the Berlin Conference of 1884. However, it does not mention his birthplace. To determine his birthplace, we need additional information such as his date of birth or place of residence. Without this information, we cannot accurately answer the question based solely on the given context."
+ef-entityq-009,EntityQuestions,single-hop-factual,SUFFICIENT,SUFFICIENT,1.0,True,SUFFICIENT,1.0,True,INSUFFICIENT,0.0,False,SUFFICIENT,1.0,True,gemini_live_api_gemini-3.5-flash-lite,"1. **List of step-by-step questions**:
+   - Who is the subject of the question? (Emil Fackenheim)
+   - What specific information is requested about the subject? (Where he was born)
+   - Does the provided reference mention the birth place of Emil Fackenheim?
+   - What is the exact location stated in the reference?
+
+2. **Answering the questions step-by-step**:
+   - The subject is Emil Fackenheim.
+   - The question asks for his birthplace.
+   - Yes, the reference explicitly states: ""Jewish philosopher and rabbi Emil Fackenheim was born on June 22, 1916, in Halle (Saale), Germany.""
+   - The exact location is Halle (Saale), Germany.
+
+3. **Evaluating the criteria**:
+   - The CONTEXT provides direct and sufficient information to infer the answer to the question. Therefore, the Sufficient Context label is 1.","The context provides information about Emil Fackenheim's birth date, but it does not mention his place of birth. To determine Emil Fackenheim's birthplace, we need additional information such as his passport number or other identifying documents. Without this information, it is impossible to accurately identify Emil Fackenheim's birthplace based solely on the given context."
+ef-entityq-010,EntityQuestions,missing-intermediate-fact,INSUFFICIENT,INSUFFICIENT,0.0,True,SUFFICIENT,1.0,False,SUFFICIENT,1.0,False,INSUFFICIENT,0.0,True,gemini_live_api_gemini-3.5-flash-lite,"Step-by-step questions to arrive at a label for the criteria:
+1. What is the specific question being asked? The question asks for the birthplace of Emil Fackenheim.
+2. Does the provided reference mention Emil Fackenheim's profession and his time at the University of Toronto? Yes.
+3. Does the provided reference contain any information about where Emil Fackenheim was born? No.
+4. Can the answer to the question be inferred from the provided context? No, because the birthplace is never mentioned.
+
+Based on these answers, the CONTEXT is not sufficient to infer the answer to the question.","The context provides information about Emil Fackenheim's academic career, specifically mentioning that he was a professor of philosophy at the University of Toronto from 1948 until his retirement in 1984. This information allows us to determine his birthplace based on his educational background."
+ef-entityq-011,EntityQuestions,single-hop-factual,SUFFICIENT,INSUFFICIENT,0.0,False,SUFFICIENT,1.0,True,INSUFFICIENT,0.0,False,SUFFICIENT,1.0,True,gemini_live_api_gemini-3.5-flash-lite,"The reference explicitly states that Çandarlı Ibrahim Pasha was an Ottoman statesman who worked as a qadi (Islamic judge), a military judge, and later as Grand Vizier. This directly answers the question about the kind of work he did. Therefore, the context is sufficient.","The context provides information about Çandarlı Ibrahim Pasha working as a qadi and military judge. However, it does not explicitly state what type of work he does. To determine this, we need to consider the nature of his role and the context provided."
+ef-entityq-012,EntityQuestions,missing-intermediate-fact,INSUFFICIENT,INSUFFICIENT,0.0,True,SUFFICIENT,1.0,False,INSUFFICIENT,0.0,True,INSUFFICIENT,0.0,True,gemini_live_api_gemini-3.5-flash-lite,"To evaluate whether the context is sufficient to answer the question, let's break it down into step-by-step questions:
+
+1. What is the question asking for? The question asks for the kind of work (profession, occupation, or role) that Çandarlı Ibrahim Pasha does.
+2. Does the provided reference mention Çandarlı Ibrahim Pasha? Yes, the text states he was a ""prominent member of the Çandarlı family and died in Edirne in August 1429.""
+3. Does the reference state his profession, occupation, or what kind of work he did? No, the context only mentions that he was a prominent family member and provides his death date and location, but it contains no information regarding his profession or the work he did.
+
+Since the context does not contain information to infer the answer to the question, the context is not sufficient.","The context provides information about Çandarlı Ibrahim Pasha's role as a member of the Çandarlı family. However, it does not explicitly state what type of work he did. To determine his profession, we need additional information such as his educational background, professional achievements, or specific roles within the family. Without this information, we cannot accurately infer his work type based solely on the given references."
+ef-entityq-013,EntityQuestions,single-hop-factual,SUFFICIENT,INSUFFICIENT,0.0,False,SUFFICIENT,1.0,True,INSUFFICIENT,0.0,False,SUFFICIENT,1.0,True,gemini_live_api_gemini-3.5-flash-lite,"- Step-by-step questions:
+  1. What is the profession or occupation of Pon. Muthuramalingam mentioned in the text?
+  2. Does the provided reference explicitly state the kind of work Pon. Muthuramalingam does?
+
+- Answers to the questions:
+  1. The text states that Pon. Muthuramalingam is an ""Indian politician"".
+  2. Yes, being a politician describes his line of work/profession.
+
+- Evaluation of criteria:
+  The context explicitly identifies Pon. Muthuramalingam as an Indian politician, which directly answers what kind of work he does. Therefore, the context is sufficient.","The context provides information about Pon. Muthuramalingam's political career, but it does not mention his profession or work. Therefore, there is insufficient context to determine what kind of work he does."
+ef-entityq-014,EntityQuestions,missing-intermediate-fact,INSUFFICIENT,INSUFFICIENT,0.0,True,SUFFICIENT,1.0,False,INSUFFICIENT,0.0,True,INSUFFICIENT,0.0,True,gemini_live_api_gemini-3.5-flash-lite,"The question asks about the kind of work Pon. Muthuramalingam does. The provided reference only mentions where he was born (Tamil Nadu, India) and where he completed his collegiate education (Madurai region). It contains no information regarding his profession, occupation, or the work he does. Therefore, the context is not sufficient to infer the answer.","The context provides information about Pon. Muthuramalingam's birthplace and educational background. However, it does not explicitly state what type of work he does. To determine this, we need additional information such as his professional activities or publications. Since no specific details are provided, we cannot accurately infer the type of work he does based solely on the given information."
+ef-entityq-015,EntityQuestions,single-hop-factual,SUFFICIENT,INSUFFICIENT,0.0,False,SUFFICIENT,1.0,True,INSUFFICIENT,0.0,False,SUFFICIENT,1.0,True,gemini_live_api_gemini-3.5-flash-lite,"To evaluate whether the context is sufficient, we can ask the following step-by-step questions:
+1. What is the subject of the question? (Josef Julius Wecksell)
+2. Does the reference mention Josef Julius Wecksell? (Yes, the reference states: ""Josef Julius Wecksell was a Finnish-Swedish playwright and poet..."")
+3. Does the reference state the kind of work he does/did? (Yes, it identifies him as a playwright and poet.)
+4. Is this information sufficient to answer the question? (Yes.)
+
+Since the reference explicitly provides the occupation of Josef Julius Wecksell (playwright and poet), the context is sufficient to infer the answer.","The context provides information about Josef Julius Wecksell's works, specifically mentioning his role as a playwright and poet. However, it does not explicitly state what type of work he does. To determine this, we need additional information such as his biography or specific details about his career. Without this information, we cannot accurately infer the type of work he does based solely on the given references."
+ef-entityq-016,EntityQuestions,missing-intermediate-fact,INSUFFICIENT,INSUFFICIENT,0.0,True,SUFFICIENT,1.0,False,INSUFFICIENT,0.0,True,INSUFFICIENT,0.0,True,gemini_live_api_gemini-3.5-flash-lite,"To determine if the context is sufficient to answer the question, let's break down the necessary questions and assumptions:
+
+1. **What is the core entity and property being asked about in the QUESTION?**
+   - The question asks about the profession or kind of work done by ""Josef Julius Wecksell"".
+2. **Does the provided REFERENCE mention Josef Julius Wecksell?**
+   - Yes, the reference states that ""Josef Julius Wecksell was born in Turku, Finland, in 1838 and matriculated at the Imperial Alexander University in Helsinki.""
+3. **Does the provided REFERENCE state what kind of work Josef Julius Wecksell does?**
+   - No, the text only mentions his birth place, birth year, and that he matriculated at a university. It contains no information regarding his occupation, profession, or the kind of work he did.
+
+Since the context lacks any information about Josef Julius Wecksell's work, the context cannot be used to infer the answer to the question.","The context provides information about Josef Julius Wecksell's birthplace and education, but it does not mention his profession or work. Therefore, there is insufficient context to determine what kind of work Josef Julius Wecksell does."
+ef-entityq-017,EntityQuestions,single-hop-factual,SUFFICIENT,INSUFFICIENT,0.0,False,SUFFICIENT,1.0,True,INSUFFICIENT,0.0,False,SUFFICIENT,1.0,True,gemini_live_api_gemini-3.5-flash-lite,"To evaluate whether the context is sufficient to answer the question, let's break down the necessary questions:
+1. What is the question asking for? (The kind of work James P. Blair does)
+2. Does the provided reference mention James P. Blair? (Yes)
+3. Does the reference state what kind of work he did? (Yes, it states he worked as a staff photographer for National Geographic Magazine, shooting photo essays worldwide.)
+
+Based on these steps, the reference clearly and directly provides the answer to the question about the kind of work James P. Blair does.","The context provides information about James P. Blair's career, mentioning he worked as a staff photographer for National Geographic Magazine. However, it does not specify what type of work he does. To determine the type of work, we need more specific details such as his job title, responsibilities, or any notable achievements. Without this additional information, we cannot accurately infer the type of work James P. Blair does based solely on the given context."
+ef-entityq-018,EntityQuestions,missing-intermediate-fact,INSUFFICIENT,INSUFFICIENT,0.0,True,SUFFICIENT,1.0,False,INSUFFICIENT,0.0,True,INSUFFICIENT,0.0,True,gemini_live_api_gemini-3.5-flash-lite,"Failed to parse LLM sufficiency response: ### EXPLANATION
+To determine if the context is sufficient to answer the question, we can ask the following step-by-step ...","The context provides information about James P. Blair's birthplace and education, but it does not explicitly state what type of work he does. To determine his profession, we need additional information such as his job title or specific details about his career path. Without this information, we cannot accurately infer the type of work he does based solely on the given references."
+ef-entityq-019,EntityQuestions,single-hop-factual,SUFFICIENT,INSUFFICIENT,0.0,False,SUFFICIENT,1.0,True,SUFFICIENT,1.0,True,SUFFICIENT,1.0,True,gemini_live_api_gemini-3.5-flash-lite,"The provided reference clearly states that Giulia Boverio is an Italian actress. This directly answers the question regarding the kind of work she does. Therefore, the context is sufficient to infer the answer.","The context provides information about Giulia Boverio's acting career, specifically mentioning her role as Valentina in the Disney Channel television sitcom Quelli dell'intervallo. This information directly relates to her profession and type of work she performs, so the context can be used to infer the answer to the question."
+ef-entityq-020,EntityQuestions,missing-intermediate-fact,INSUFFICIENT,INSUFFICIENT,0.0,True,SUFFICIENT,1.0,False,INSUFFICIENT,0.0,True,INSUFFICIENT,0.0,True,gemini_live_api_gemini-3.5-flash-lite,"To determine if the context is sufficient, let's ask step-by-step questions:
+1. What does the question ask for? The question asks for the profession or kind of work Giulia Boverio does.
+2. What information does the provided reference contain? The reference only mentions Giulia Boverio's birth date (December 10, 1990) and birthplace (Cavaria con Premezzo in the Province of Varese in northern Italy).
+3. Does the reference mention her profession, career, or the kind of work she does? No, there is no mention of her occupation or work in the reference.
+
+Since the context does not contain any information regarding the kind of work Giulia Boverio does, the context is not sufficient to answer the question.","The context provides information about Giulia Boverio's birth date and place. However, it does not explicitly state what type of work she does. To determine her profession, we need additional information such as her educational background, job title, or specific skills. Without this information, we cannot accurately infer her work type based solely on the given references."

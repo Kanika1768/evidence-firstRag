@@ -84,9 +84,21 @@ class StructuredSufficiencyResult:
     @classmethod
     def from_dict(cls, data: Mapping[str, Any]) -> StructuredSufficiencyResult:
         """Construct and validate from dictionary."""
-        sufficient_val = data.get("sufficient")
+        # Support both legacy "sufficient" key and ICLR 2025 "Sufficient Context" key
+        sufficient_val = (
+            data.get("Sufficient Context")
+            if "Sufficient Context" in data
+            else data.get("sufficient_context")
+            if "sufficient_context" in data
+            else data.get("sufficient")
+            if "sufficient" in data
+            else data.get("judgment")
+        )
+
         if isinstance(sufficient_val, str):
             sufficient = sufficient_val.strip().lower() in ("true", "1", "yes", "sufficient")
+        elif isinstance(sufficient_val, (int, float)):
+            sufficient = bool(sufficient_val >= 0.5)
         else:
             sufficient = bool(sufficient_val)
 
@@ -108,7 +120,12 @@ class StructuredSufficiencyResult:
         else:
             missing_info = []
 
-        rationale_raw = data.get("rationale") or data.get("reason") or ""
+        rationale_raw = (
+            data.get("rationale")
+            or data.get("explanation")
+            or data.get("reason")
+            or ""
+        )
         rationale = str(rationale_raw).strip()
         evaluator_mode = str(data.get("evaluator_mode", "Deterministic fallback"))
         provenance = str(data.get("provenance", ""))
@@ -135,21 +152,47 @@ class StructuredSufficiencyResult:
 
         text = raw_text.strip()
 
+        # Extract explanation text if formatted with ### EXPLANATION or preceding ### JSON / ### EVALUATION
+        extracted_explanation = ""
+        expl_match = re.search(
+            r"###\s*EXPLANATION\s*\n+([\s\S]*?)(?=###\s*(?:JSON|EVALUATION)|\Z)",
+            text,
+            re.IGNORECASE,
+        )
+        if expl_match:
+            extracted_explanation = expl_match.group(1).strip()
+        elif re.search(r"###\s*(?:JSON|EVALUATION)", text, re.IGNORECASE):
+            pre_json = re.split(r"###\s*(?:JSON|EVALUATION)", text, maxsplit=1, flags=re.IGNORECASE)[0].strip()
+            # Clean off any stray prompt fragments
+            pre_json = re.sub(r"^###\s*EXPLANATION\s*", "", pre_json, flags=re.IGNORECASE).strip()
+            if pre_json:
+                extracted_explanation = pre_json
+
         # Step 1: Strip markdown code block wrappers
         markdown_match = re.search(r"```(?:json)?\s*([\s\S]*?)\s*```", text, re.IGNORECASE)
-        if markdown_match:
-            text = markdown_match.group(1).strip()
+        candidate_json_text = markdown_match.group(1).strip() if markdown_match else text
+
+        # Helper to inject extracted explanation if rationale is missing from JSON
+        def _apply_explanation(parsed_dict: dict[str, Any]) -> dict[str, Any]:
+            if extracted_explanation and not any(k in parsed_dict for k in ("rationale", "explanation", "reason")):
+                out = dict(parsed_dict)
+                out["rationale"] = extracted_explanation
+                return out
+            return parsed_dict
 
         # Step 2: Try direct standard JSON parse
         try:
-            parsed = json.loads(text)
+            parsed = json.loads(candidate_json_text)
             if isinstance(parsed, dict):
-                return cls.from_dict(parsed)
+                return cls.from_dict(_apply_explanation(parsed))
         except json.JSONDecodeError:
             pass
 
         # Step 3: Extract outer JSON object substring { ... }
-        brace_match = re.search(r"(\{[\s\S]*\})", text)
+        brace_match = re.search(r"(\{[\s\S]*\})", candidate_json_text)
+        if not brace_match and markdown_match:
+            brace_match = re.search(r"(\{[\s\S]*\})", text)
+
         if brace_match:
             candidate = brace_match.group(1)
             # Remove trailing commas before } or ]
@@ -157,7 +200,7 @@ class StructuredSufficiencyResult:
             try:
                 parsed = json.loads(cleaned)
                 if isinstance(parsed, dict):
-                    return cls.from_dict(parsed)
+                    return cls.from_dict(_apply_explanation(parsed))
             except json.JSONDecodeError:
                 pass
 
@@ -166,12 +209,29 @@ class StructuredSufficiencyResult:
                 sq_cleaned = re.sub(r"'([^']*)'", r'"\1"', cleaned)
                 parsed = json.loads(sq_cleaned)
                 if isinstance(parsed, dict):
-                    return cls.from_dict(parsed)
+                    return cls.from_dict(_apply_explanation(parsed))
             except json.JSONDecodeError:
                 pass
 
         # Step 4: Regex-based field extraction heuristic fallback
-        suff_match = re.search(r'"?sufficient"?\s*:\s*(true|false)', text, re.IGNORECASE)
+        # Check for ICLR 2025 "Sufficient Context": 0|1
+        iclr_match = re.search(
+            r"['\"]?Sufficient\s+Context['\"]?\s*:\s*(1|0|true|false)",
+            text,
+            re.IGNORECASE,
+        )
+        if iclr_match:
+            val_str = iclr_match.group(1).lower()
+            sufficient = val_str in ("1", "true")
+            rationale = extracted_explanation or ("Context is sufficient." if sufficient else "Context lacks necessary facts.")
+            return cls(
+                sufficient=sufficient,
+                probability=1.0 if sufficient else 0.0,
+                missing_information=[] if sufficient else ["Unspecified missing facts"],
+                rationale=rationale,
+            )
+
+        suff_match = re.search(r"['\"]?sufficient['\"]?\s*:\s*(true|false)", text, re.IGNORECASE)
         if suff_match:
             try:
                 sufficient = suff_match.group(1).lower() == "true"
@@ -181,7 +241,7 @@ class StructuredSufficiencyResult:
                 probability = max(0.0, min(1.0, probability))
 
                 rationale_match = re.search(r'"?rationale"?\s*:\s*"([^"]+)"', text, re.IGNORECASE)
-                rationale = rationale_match.group(1) if rationale_match else "Extracted via regex fallback."
+                rationale = rationale_match.group(1) if rationale_match else (extracted_explanation or "Extracted via regex fallback.")
 
                 missing_info: list[str] = []
                 missing_match = re.search(r'"?missing_information"?\s*:\s*\[([\s\S]*?)\]', text, re.IGNORECASE)
@@ -472,15 +532,20 @@ class LLMSufficiencyAutoRater:
                 rationale="No LLM client provided and no fallback judge configured.",
             )
 
-        from agentic_rag.prompts.sufficiency_v1 import (
-            build_sufficiency_prompt,
-            build_sufficiency_user_prompt,
-        )
+        if self.prompt_version == "iclr2025_oneshot":
+            from agentic_rag.prompts.sufficiency_iclr2025 import build_iclr2025_prompt
 
-        full_prompt = build_sufficiency_prompt(question, context_str, required_facts)
-        if self.system_prompt:
-            user_part = build_sufficiency_user_prompt(question, context_str, required_facts)
-            full_prompt = f"{self.system_prompt.strip()}\n\n{'=' * 40}\n\n{user_part}"
+            full_prompt = build_iclr2025_prompt(question, context_str)
+        else:
+            from agentic_rag.prompts.sufficiency_v1 import (
+                build_sufficiency_prompt,
+                build_sufficiency_user_prompt,
+            )
+
+            full_prompt = build_sufficiency_prompt(question, context_str, required_facts)
+            if self.system_prompt:
+                user_part = build_sufficiency_user_prompt(question, context_str, required_facts)
+                full_prompt = f"{self.system_prompt.strip()}\n\n{'=' * 40}\n\n{user_part}"
 
         provenance = "unknown"
         try:

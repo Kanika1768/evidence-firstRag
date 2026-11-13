@@ -73,6 +73,29 @@ class SelectiveAnsweringModel:
             self.w2 -= lr * (gw2 / n)
             self.b -= lr * (gb / n)
 
+    def fit_confidence_only(
+        self,
+        confidences: Sequence[float],
+        labels: Sequence[int],
+        epochs: int = 250,
+        lr: float = 0.1,
+    ) -> None:
+        """Fit confidence-only logistic head: P(correct | conf) = sigma(w2 * conf + b), fixing w1 = 0.0."""
+        self.w1 = 0.0
+        if not confidences or len(confidences) != len(labels):
+            return
+
+        n = len(confidences)
+        for _ in range(epochs):
+            gw2, gb = 0.0, 0.0
+            for c, y in zip(confidences, labels):
+                p_hat = self.predict_proba(0.0, c)
+                err = p_hat - y
+                gw2 += err * c
+                gb += err
+            self.w2 -= lr * (gw2 / n)
+            self.b -= lr * (gb / n)
+
 
 @dataclass
 class AccuracyCoveragePoint:
@@ -121,6 +144,49 @@ class SelectiveAnsweringPolicy:
         """Decide whether the model should attempt an answer at threshold tau."""
         prob = self.model.predict_proba(p_suff, conf)
         return prob >= tau
+
+    def evaluate_selective_metrics(
+        self,
+        records: Sequence[tuple[float, float, bool, bool]],  # (p_suff, conf, is_correct, is_unsupported)
+        tau: float = 0.5,
+    ) -> dict[str, float]:
+        """Compute the 5 core selective generation metrics specified in Joren et al. (ICLR 2025):
+        1. Answered-question accuracy
+        2. Coverage
+        3. Selective accuracy at matched coverage
+        4. Unsupported answer rate
+        5. Abstention accuracy
+        """
+        if not records:
+            return {
+                "coverage": 0.0,
+                "answered_accuracy": 0.0,
+                "unsupported_answer_rate": 0.0,
+                "abstention_accuracy": 0.0,
+            }
+
+        total_n = len(records)
+        attempted = [r for r in records if self.model.predict_proba(r[0], r[1]) >= tau]
+        abstained = [r for r in records if self.model.predict_proba(r[0], r[1]) < tau]
+
+        coverage = len(attempted) / total_n
+        answered_acc = sum(1 for r in attempted if r[2]) / len(attempted) if attempted else 0.0
+        unsupported_rate = sum(1 for r in attempted if r[3]) / len(attempted) if attempted else 0.0
+
+        unanswerable = [r for r in records if not r[2]]
+        abstention_acc = (
+            sum(1 for r in abstained if not r[2]) / len(unanswerable)
+            if unanswerable
+            else 1.0
+        )
+
+        return {
+            "threshold": round(tau, 4),
+            "coverage": round(coverage, 4),
+            "answered_accuracy": round(answered_acc, 4),
+            "unsupported_answer_rate": round(unsupported_rate, 4),
+            "abstention_accuracy": round(abstention_acc, 4),
+        }
 
     def evaluate_curve(
         self,

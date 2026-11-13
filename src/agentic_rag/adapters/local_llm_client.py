@@ -149,6 +149,22 @@ class LocalTransformersLLMClient:
                 delimiter = "\n\n" + "=" * 40 + "\n\n"
                 if delimiter in prompt:
                     system_text, user_text = prompt.split(delimiter, 1)
+                    messages = [
+                        {"role": "system", "content": system_text.strip()},
+                        {"role": "user", "content": user_text.strip()},
+                    ]
+                elif "You are an expert LLM evaluator" in prompt:
+                    # ICLR 2025 paper-aligned prompt: pass complete prompt without injecting conflicting schema instructions
+                    if "EXAMPLE:" in prompt:
+                        sys_part, user_part = prompt.split("EXAMPLE:", 1)
+                        messages = [
+                            {"role": "system", "content": sys_part.strip()},
+                            {"role": "user", "content": f"EXAMPLE:{user_part.strip()}"},
+                        ]
+                    else:
+                        messages = [
+                            {"role": "user", "content": prompt.strip()},
+                        ]
                 else:
                     system_text = (
                         "You are a strict context sufficiency judge. Determine whether the provided context contains all "
@@ -156,11 +172,10 @@ class LocalTransformersLLMClient:
                         'matching: {"sufficient": bool, "probability": float, "missing_information": [str], "rationale": str}.'
                     )
                     user_text = prompt
-
-                messages = [
-                    {"role": "system", "content": system_text.strip()},
-                    {"role": "user", "content": user_text.strip()},
-                ]
+                    messages = [
+                        {"role": "system", "content": system_text.strip()},
+                        {"role": "user", "content": user_text.strip()},
+                    ]
                 text = self._tokenizer.apply_chat_template(
                     messages, tokenize=False, add_generation_prompt=True
                 )

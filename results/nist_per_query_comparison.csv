@@ -1,0 +1,65 @@
+qid,question,answerable,b0_decision,b0_unsupported,b0_latency_ms,b1_decision,b1_unsupported,b1_latency_ms,e1_decision,e1_unsupported,e1_recovery_triggered,e1_recovery_success,e1_latency_ms
+ret-001,How does the AI Risk Management Framework define an AI system?,True,ANSWERED,False,1301.56,ANSWERED,False,99.97,ANSWERED,False,False,False,775.71
+ret-002,"In AI RMF 1.0, what does the term risk refer to?",True,ANSWERED,False,113.01,ANSWERED,False,84.83,ANSWERED,False,False,False,899.71
+ret-003,What characteristics of trustworthy AI systems does the AI RMF list?,True,ANSWERED,False,127.06,ANSWERED,False,123.72,ANSWERED,False,False,False,457.92
+ret-004,Which four functions make up the AI RMF Core?,True,ANSWERED,False,90.05,ANSWERED,False,73.57,ANSWERED,False,False,False,916.95
+ret-005,What is confabulation in generative AI according to NIST's Generative AI Profile?,True,ANSWERED,False,76.18,ANSWERED,False,69.79,ABSTAINED,False,True,False,631.21
+ret-006,What does the term algorithmic monoculture mean in the GenAI profile?,True,ANSWERED,False,206.27,ANSWERED,False,58.49,ABSTAINED,False,True,False,755.53
+ret-007,How is synthetic content defined in NIST's report on reducing risks from synthetic content?,True,ANSWERED,False,195.62,ANSWERED,False,76.81,ABSTAINED,False,True,False,737.85
+ret-008,What is digital content transparency?,True,ANSWERED,False,246.35,ANSWERED,False,237.79,ANSWERED,False,False,False,446.99
+ret-009,What does digital watermarking involve?,True,ANSWERED,False,106.95,ANSWERED,False,103.87,ANSWERED,False,False,False,425.74
+ret-010,What does synthetic content detection refer to?,True,ANSWERED,False,347.68,ANSWERED,False,58.84,ANSWERED,False,False,False,561.19
+ret-011,"How does Executive Order 14110 describe red-teaming, as quoted in the synthetic content report?",True,ANSWERED,False,764.32,ANSWERED,False,122.81,ABSTAINED,False,True,False,793.43
+ret-012,Prompt injection attacks can result in violations across which categories of attacker goals?,True,ANSWERED,False,120.31,ANSWERED,False,111.8,ANSWERED,False,False,False,858.75
+ret-013,How are poisoning attacks broadly defined in NIST's adversarial machine learning taxonomy?,True,ANSWERED,False,105.21,ANSWERED,False,102.55,ABSTAINED,False,True,False,649.58
+ret-014,What do evasion attacks against machine learning models require?,True,ANSWERED,False,231.42,ANSWERED,False,103.93,ANSWERED,False,False,False,470.94
+ret-015,What is adversarial training as described in the adversarial ML taxonomy?,True,ANSWERED,False,98.8,ANSWERED,False,89.2,ANSWERED,False,False,False,447.5
+ret-016,"How many tiers of topics does the plan for global engagement on AI standards define, and on what basis?",True,ANSWERED,False,145.79,ANSWERED,False,136.9,ANSWERED,False,False,False,477.04
+ret-017,Under which section of Executive Order 14110 was the plan for global engagement on AI standards developed?,True,ANSWERED,False,137.62,ANSWERED,False,128.37,ABSTAINED,False,True,False,754.09
+ret-018,How many objectives does NIST AI 800-1 outline for managing the misuse risk of foundation models?,True,ANSWERED,False,82.98,ANSWERED,False,75.5,ABSTAINED,False,True,False,606.18
+ret-019,"Under the Executive Order definition, how many parameters does a dual-use foundation model contain?",True,ANSWERED,False,99.25,ANSWERED,False,98.15,ANSWERED,False,False,False,609.33
+ret-020,What are NIST's four principles of explainable artificial intelligence?,True,ANSWERED,False,408.2,ANSWERED,False,96.02,ANSWERED,False,False,False,328.36
+ret-021,What does the Knowledge Limits principle of explainable AI state?,True,ANSWERED,False,55.08,ANSWERED,False,48.87,ANSWERED,False,False,False,336.91
+ret-022,How does NIST's Trust and Artificial Intelligence draft describe the dynamic between an AI user and an AI system?,True,ANSWERED,False,139.3,ANSWERED,False,118.41,ABSTAINED,False,True,False,589.21
+ret-023,"Through which measurements do many current efforts assess AI system trustworthiness, according to the Trust and AI draft?",True,ANSWERED,False,132.85,ANSWERED,False,122.9,ABSTAINED,False,True,False,654.93
+ret-024,What three categories of AI bias does NIST SP 1270 identify?,True,ANSWERED,False,89.67,ANSWERED,False,85.67,ANSWERED,False,False,False,402.48
+ret-025,What are the three broad challenges for mitigating AI bias described in SP 1270?,True,ANSWERED,False,99.32,ANSWERED,False,93.2,ABSTAINED,False,True,False,687.37
+ret-026,What perspective is NIST's work on AI bias based on?,True,ANSWERED,False,290.48,ANSWERED,False,101.87,ANSWERED,False,False,False,464.46
+ret-027,What are the six Functions of the NIST Cybersecurity Framework 2.0?,True,ANSWERED,False,236.06,ANSWERED,False,112.3,ANSWERED,False,False,False,428.03
+ret-028,What does the GOVERN Function of CSF 2.0 cover?,True,ANSWERED,False,106.55,ANSWERED,False,101.22,ANSWERED,False,False,False,373.39
+ret-029,What are the four CSF Tiers?,True,ANSWERED,False,108.04,ANSWERED,False,105.49,ANSWERED,False,False,False,398.34
+ret-030,What is cybersecurity supply chain risk management (C-SCRM)?,True,ANSWERED,False,87.16,ANSWERED,False,81.17,ANSWERED,False,False,False,405.09
+ret-031,What does a CSF Current Profile specify?,True,ANSWERED,False,88.69,ANSWERED,False,79.5,ANSWERED,False,False,False,667.61
+ret-032,What anticipated changes does a CSF Target Profile take into account?,True,ANSWERED,False,110.83,ANSWERED,False,102.59,ABSTAINED,False,True,False,623.81
+ret-033,"Which action does the CSF small business quick-start guide call one of the fastest, cheapest ways to protect your data?",True,ANSWERED,False,103.13,ANSWERED,False,93.17,ABSTAINED,False,True,False,709.38
+ret-034,What does the small business quick-start guide recommend about backups?,True,ANSWERED,False,48.47,ANSWERED,False,40.73,ABSTAINED,False,True,False,568.39
+ret-035,What are the most granular elements of the NICE Framework?,True,ANSWERED,False,44.04,ANSWERED,False,40.24,ANSWERED,False,False,False,389.66
+ret-036,What does the NICE Framework focus on?,True,ANSWERED,False,30.26,ANSWERED,False,27.49,ANSWERED,False,False,False,393.63
+ret-037,"Where does enterprise risk management sit in the organizational hierarchy, and which risk considerations does it span?",True,ANSWERED,False,129.57,ANSWERED,False,113.97,ANSWERED,False,False,False,473.45
+ret-038,What does an ERM program allow enterprises to do with risks from across the enterprise?,True,ANSWERED,False,123.1,ANSWERED,False,121.3,ANSWERED,False,False,False,476.65
+ret-039,"In Step 3 of the risk management life cycle in NIST IR 8286, how is each risk in the cybersecurity risk register analyzed?",True,ANSWERED,False,129.79,ANSWERED,False,123.53,ABSTAINED,False,True,False,723.9
+ret-040,How does NIST IR 8286 define an organization?,True,ANSWERED,False,39.52,ANSWERED,False,36.45,ANSWERED,False,False,False,388.28
+ret-041,What does NIST SP 800-221A provide?,True,ANSWERED,False,42.39,ANSWERED,False,38.95,ANSWERED,False,False,False,284.51
+ret-042,What is zero trust?,True,ANSWERED,False,74.44,ANSWERED,False,70.85,ANSWERED,False,False,False,407.35
+ret-043,What does zero trust assume about trust based on physical or network location?,True,ANSWERED,False,96.41,ANSWERED,False,96.87,ANSWERED,False,False,False,462.08
+ret-044,Into which two logical components is the policy decision point divided in a zero trust architecture?,True,ANSWERED,False,119.29,ANSWERED,False,94.85,ANSWERED,False,False,False,427.21
+ret-045,"Which group publicized the idea of deperimeterization, and in what year?",True,ANSWERED,False,26.47,ANSWERED,False,22.79,ABSTAINED,False,True,False,648.9
+ret-046,What is the aim of the Protect the Software (PS) practice group in the SSDF?,True,ANSWERED,False,406.95,ANSWERED,False,127.42,ABSTAINED,False,True,False,753.66
+ret-047,What does the SSDF Respond to Vulnerabilities (RV) group ask organizations to do?,True,ANSWERED,False,115.26,ANSWERED,False,105.38,ANSWERED,False,False,False,492.05
+ret-048,What does NIST SP 800-218A augment?,True,ANSWERED,False,55.93,ANSWERED,False,53.09,ABSTAINED,False,True,False,506.52
+ret-049,Which earlier publication does NIST SP 800-61 Revision 3 supersede?,True,ANSWERED,False,302.49,ANSWERED,False,78.35,ABSTAINED,False,True,False,554.25
+ret-050,What does containment mean in cybersecurity incident response?,True,ANSWERED,False,107.5,ANSWERED,False,97.97,ANSWERED,False,False,False,441.89
+ret-051,What is the difference between escalation and elevation during incident response?,True,ANSWERED,False,83.09,ANSWERED,False,76.37,ABSTAINED,False,True,False,615.42
+ret-052,What is NIST AI 100-3 a guide and record of?,True,ANSWERED,False,23.44,ANSWERED,False,20.59,ABSTAINED,False,True,False,453.65
+ret-053,How many functions are in the AI RMF Core compared with the NIST CSF 2.0?,True,ANSWERED,False,91.81,ANSWERED,False,85.52,ABSTAINED,False,True,False,669.8
+ret-054,"How many tiers does the CSF 2.0 define, and how many topic tiers does the global AI standards engagement plan define?",True,ANSWERED,False,157.79,ANSWERED,False,142.64,ABSTAINED,False,True,False,713.29
+ret-055,What was the annual budget of the U.S. AI Safety Institute in fiscal year 2025?,False,ANSWERED,True,279.11,ANSWERED,True,83.66,ABSTAINED,False,True,False,676.01
+ret-056,How many organizations had formally adopted the AI RMF by the end of 2025?,False,ANSWERED,True,104.02,ANSWERED,True,95.59,ABSTAINED,False,True,False,764.8
+ret-057,What minimum password length does the CSF 2.0 Small Business Quick-Start Guide require?,False,ANSWERED,True,84.42,ANSWERED,True,83.15,ABSTAINED,False,True,False,677.67
+ret-058,What fine does a federal agency pay for failing to implement a zero trust architecture under SP 800-207?,False,ANSWERED,True,102.85,ANSWERED,True,93.55,ABSTAINED,False,True,False,608.3
+ret-059,What detection accuracy did NIST measure for its own synthetic image detector in AI 100-4?,False,ANSWERED,True,108.5,ANSWERED,True,102.27,ABSTAINED,False,True,False,683.35
+ret-060,"On what date was NIST AI 800-1 published as a final, non-draft document?",False,ANSWERED,True,45.87,ANSWERED,True,41.44,ABSTAINED,False,True,False,632.72
+ret-061,Which company shipped the first commercial zero trust product?,False,ANSWERED,True,80.03,ANSWERED,True,75.7,ABSTAINED,False,True,False,644.84
+ret-062,How many cybersecurity incidents did NIST itself respond to in 2024?,False,ANSWERED,True,113.58,ANSWERED,True,104.08,ABSTAINED,False,True,False,616.07
+ret-063,What is the salary range for a NICE Framework Work Role in the federal government?,False,ANSWERED,True,56.06,ANSWERED,True,52.81,ABSTAINED,False,True,False,687.56
+ret-064,Which programming language does the SSDF mandate for producing well-secured software?,False,ANSWERED,True,172.37,ANSWERED,True,149.48,ABSTAINED,False,True,False,715.14

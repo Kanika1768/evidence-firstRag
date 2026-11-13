@@ -1,0 +1,5 @@
+depth_k,test_cases,resolved_cases,success_rate,avg_hops,avg_new_chunks,avg_latency_ms,terminations
+0,5,0,0.0,0.0,0.0,0.01,ZERO_ATTEMPTS:5
+1,5,4,0.8,1.0,2.0,0.06,SUFFICIENT_CONVERGENCE:4; MAX_DEPTH_REACHED:1
+2,5,4,0.8,1.2,2.2,0.03,SUFFICIENT_CONVERGENCE:4; MAX_DEPTH_REACHED:1
+3,5,4,0.8,1.4,2.2,0.03,SUFFICIENT_CONVERGENCE:4; CYCLE_DETECTED:1
